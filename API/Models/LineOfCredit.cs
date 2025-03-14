@@ -17,5 +17,5 @@ public class LineOfCredit
             _Balance = value;
         }
     }
-    // TODO: use encapsulation to manipulate the balance of the line of credit 
+
 }
