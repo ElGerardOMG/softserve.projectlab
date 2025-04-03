@@ -9,7 +9,7 @@
         public string DBName { get; set; }
         public int Port { get; set; }
 
-        public void Connect();
+        public Task Connect();
         public void Close();
 
 

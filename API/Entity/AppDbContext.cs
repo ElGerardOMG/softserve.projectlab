@@ -15,8 +15,13 @@ namespace API.Entity
             modelBuilder.Entity<Product>()
                 .ToTable("product") // Especifica el nombre exacto de la tabla en la BD
                 .HasKey(u => u.Id); // Define la clave primaria
+
+            modelBuilder.Entity<User>()
+                .ToTable("user")
+                .HasKey(u => u.Id);
         }
 
+        public DbSet<User> Users { get; set; }
         public DbSet<Category> OurCategory { get; set; }
         public DbSet<Product> Products {  get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }

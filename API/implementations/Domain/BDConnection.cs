@@ -20,7 +20,7 @@ namespace API.implementations.Domain
         {
 
         }
-        public BDConnection(string ip, string pass, string user, string dbname, int port )
+        public BDConnection(string ip, string pass, string user, string dbname, int port)
         {
             IP = ip;
             Pass = pass;
@@ -34,24 +34,24 @@ namespace API.implementations.Domain
             Connection.Close();
         }
 
-        public async void Connect()
+        public async Task Connect()
         {
             var builder = new SqlConnectionStringBuilder
             {
-                DataSource = $"{IP}:{Port}",
+                DataSource = $"{IP},{Port}",
                 UserID = User,
                 Password = Pass,
-                InitialCatalog = DBName
+                InitialCatalog = DBName,
+                Encrypt = false,  // <-- Desactiva SSL
+                TrustServerCertificate = true  // <-- Acepta certificados no confiables
             };
 
             string connectionString = builder.ConnectionString;
 
             try
             {
-                await using var connection = new SqlConnection(connectionString);
-                Connection = connection;
-
-                await connection.OpenAsync();
+                Connection = new SqlConnection(connectionString);
+                await Connection.OpenAsync();
             }
             catch (SqlException e)
             {
@@ -62,5 +62,8 @@ namespace API.implementations.Domain
                 Console.WriteLine(e.ToString());
             }
         }
+
+
+
     }
 }
