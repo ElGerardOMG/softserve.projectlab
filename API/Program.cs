@@ -1,13 +1,33 @@
 using API.Data;
-using API.Entity;
 using API.implementations.Domain;
+using API.implementations.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 var conectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
 
-builder.Services.AddTransient<IProductProcessor, ProductProcessor>();
+builder.Services.AddTransient<IProductDomain, ProductDomain>();
+builder.Services.AddTransient<IAttributeDomain, AttributeDomain>();
+builder.Services.AddTransient<IAttributeCategoryDomain, AttributeCategoryDomain>();
+builder.Services.AddTransient<IProductCategoryDomain, ProductCategoryDomain>();
+builder.Services.AddTransient<IProductVariantDomain, ProductVariantDomain>();
 
 builder.Services.AddDbContext<ProjectlabContext>(
     db => db.UseSqlServer(conectionString));
@@ -25,7 +45,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAll");
+
 app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseAuthorization();
 

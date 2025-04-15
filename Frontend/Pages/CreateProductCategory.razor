@@ -1,0 +1,30 @@
+﻿@page "/create-product-category"
+@inject HttpClient Http
+
+<h3>Enviar Nombre</h3>
+
+<input @bind="nombre" placeholder="Escribe tu nombre" />
+<button @onclick="EnviarNombre">Enviar</button>
+
+<p>@respuesta</p>
+
+@code {
+    private string nombre;
+    private string respuesta;
+
+    private async Task EnviarNombre()
+    {
+        var data = new { name = nombre };
+        var response = await Http.PostAsJsonAsync("/api/AddCategory", data);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+            respuesta = result["message"];
+        }
+        else
+        {
+            respuesta = "Error al enviar el nombre.";
+        }
+    }
+}
