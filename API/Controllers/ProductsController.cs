@@ -1,5 +1,6 @@
-﻿using API.implementations.Domain;
-using API.Data.Models;
+﻿using API.implementations.Interfaces;
+using API.Models;
+using API.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,61 +13,46 @@ namespace API.Controllers
     {
         // PRODUCT CONTROLLER
 
-        private readonly IProductProcessor _productProcessor;
-        public ProductsController(IProductProcessor productProcessor)
+        private readonly IProductDomain _productProcessor;
+        public ProductsController(IProductDomain productProcessor)
         {
             _productProcessor = productProcessor;
         }
+        // PRODUCTS
 
-        [HttpPost("Get/{type}")]
-        public List<Product> GetProduct(string type, [FromBody] string? value)
+        [HttpPost("GetFiltered/{type}")]
+        public PaginatedResponseDTO<Product> GetProduct(
+            [FromBody] FilterDTO? filters,
+            string type,
+            int page = 1, 
+            int pageSize = 10,
+            bool onlyIsActive = true)
         {
-            return _productProcessor.GetAllProducts(true);
+            return _productProcessor.GetAllProducts(onlyIsActive, filters, type, page, pageSize);
         }
 
-        [HttpGet("{id}")]
-        public Product? GetProduct(int id)
+        [HttpGet("GetById/{id}")]
+        public async Task<Product>? GetProduct(int id)
         {
-            return _productProcessor.GetProductByID(id);
+            return await _productProcessor.GetProductByID(id);
         }
 
-        [HttpPost("{type}")]
-        public bool AddProduct(string type, [FromBody] Product obj)
+        [HttpPost("Create")]
+        public bool AddProduct([FromBody] ProductDTO obj)
         {
-            return _productProcessor.AddProduct(type, obj);
+            return _productProcessor.AddProduct(obj);
         }
 
-        [HttpPut("{id}")]
-        public bool UpdateProduct(int id, [FromBody] Product value)
+        [HttpPut("Update/{id}")]
+        public bool UpdateProduct(int id, [FromBody] ProductDTO value)
         {
             return _productProcessor.UpdateProduct(id, value);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete/{id}")]
         public bool DeleteProduct(int id)
         {
             return _productProcessor.DeleteProduct(id);
         }
-
-        // PRODUCT ATTRIBUTE CONTROLLER
-
-        [HttpPost("{id_product}")]
-        public bool RegisterAttribute(int id_product, [FromBody] API.Data.Models.Attribute value)
-        {
-            return _productProcessor.AddAttribute(id_product, value);
-        }
-
-        [HttpPatch("{id_attribute}")]
-        public bool UpdateAttribute(int id_attribute, [FromBody] API.Data.Models.Attribute value)
-        {
-            return _productProcessor.UpdateAttribute(id_attribute, value);
-        }
-
-        [HttpDelete("{id_attribute}")]
-        public bool DeleteAttribute(int id_attribute)
-        {
-            return _productProcessor.DeleteAttribute(id_attribute);
-        }
-
     }
 }
