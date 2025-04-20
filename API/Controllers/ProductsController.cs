@@ -1,7 +1,9 @@
 ﻿using API.implementations.Interfaces;
 using API.Models;
 using API.DTOs;
+using API.Utils;
 using Microsoft.AspNetCore.Mvc;
+using API.Utils.Implementations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,38 +23,84 @@ namespace API.Controllers
         // PRODUCTS
 
         [HttpPost("GetFiltered/{type}")]
-        public PaginatedResponseDTO<Product> GetProduct(
+        public IActionResult GetProduct(
             [FromBody] FilterDTO? filters,
             string type,
             int page = 1, 
             int pageSize = 10,
             bool onlyIsActive = true)
         {
-            return _productProcessor.GetAllProducts(onlyIsActive, filters, type, page, pageSize);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _productProcessor.GetAllProducts(onlyIsActive, filters, type, page, pageSize)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
+
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<Product>? GetProduct(int id)
+        public async Task<IActionResult> GetProduct(int id)
         {
-            return await _productProcessor.GetProductByID(id);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _productProcessor.GetProductByID(id)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpPost("Create")]
-        public bool AddProduct([FromBody] ProductDTO obj)
+        public IActionResult AddProduct([FromBody] ProductDTO obj)
         {
-            return _productProcessor.AddProduct(obj);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _productProcessor.AddProduct(obj)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpPut("Update/{id}")]
-        public bool UpdateProduct(int id, [FromBody] ProductDTO value)
+        public IActionResult UpdateProduct(int id, [FromBody] ProductDTO value)
         {
-            return _productProcessor.UpdateProduct(id, value);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _productProcessor.UpdateProduct(id, value)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpDelete("Delete/{id}")]
-        public bool DeleteProduct(int id)
+        public IActionResult DeleteProduct(int id)
         {
-            return _productProcessor.DeleteProduct(id);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _productProcessor.DeleteProduct(id)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
     }
 }

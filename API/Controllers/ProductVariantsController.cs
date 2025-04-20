@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.implementations.Interfaces;
 using API.Models;
+using API.Utils.Implementations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -19,27 +20,63 @@ namespace API.Controllers
         // PRODUCT VARIANTS
 
         [HttpPost("GetById/{id}")]
-        public ProductVariant? GetProductVariantById(int id)
+        public async Task<IActionResult> GetProductVariantById(int id)
         {
-            return _productProcessor.GetProductVariantById(id);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _productProcessor.GetProductVariantById(id)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpPost("Create")]
-        public bool AddProductVariant([FromBody] ProductVariantDTO obj)
+        public IActionResult AddProductVariant([FromBody] ProductVariantDTO obj)
         {
-            return _productProcessor.AddProductVariant(obj);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _productProcessor.AddProductVariant(obj)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpPut("Update/{id}")]
-        public bool UpdateProductVariant(int id, [FromBody] ProductVariantDTO obj)
+        public IActionResult UpdateProductVariant(int id, [FromBody] ProductVariantDTO obj)
         {
-            return _productProcessor.UpdateProductVariant(id, obj);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _productProcessor.UpdateProductVariant(id, obj)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpDelete("Delete/{id}")]
-        public bool DeleteProductVariant(int id)
+        public IActionResult DeleteProductVariant(int id)
         {
-            return _productProcessor.DeleteProductVariant(id);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _productProcessor.DeleteProductVariant(id)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
     }
 }

@@ -58,7 +58,7 @@ namespace API.Utils.Implementations
 
             return new PaginatedResponseDTO<Product>
             {
-                Response = query.ToList(),
+                Data = query.ToList(),
                 PaginationData = new PaginationDataDTO
                 {
                     TotalPages = (int)Math.Ceiling((double)query.Count() / pageSize),

@@ -3,6 +3,7 @@ using API.DTOs;
 using API.implementations.Interfaces;
 using API.Models;
 using API.Utils.Implementations;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.implementations.Domain
 {
@@ -16,28 +17,52 @@ namespace API.implementations.Domain
 
         // PRODUCT VARIANTS
 
-        public ProductVariant? GetProductVariantById(int id)
+        public ResultDTO GetProductVariantById(int id)
         {
-            return _db.ProductVariants.FirstOrDefault(p => p.Id == id);
+            return new ResultDTO
+            {
+                statusCode = 201,
+                description = "Product variant detail",
+                data = _db.ProductVariants.Include(ProductVariant => ProductVariant.Attributes).FirstOrDefault(p => p.Id == id),
+                error = null
+            };
         }
 
-        public bool AddProductVariant(ProductVariantDTO obj)
+        public ResultDTO AddProductVariant(ProductVariantDTO obj)
         {
             if (obj == null)
             {
-                throw new ArgumentNullException(nameof(obj));
+                return new ResultDTO
+                {
+                    statusCode = 201,
+                    description = "Invalid product variant object",
+                    data = null,
+                    error = null
+                };
             }
             _db.ProductVariants.Add(DtoMapper.Mapper<ProductVariantDTO, ProductVariant>(obj));
             _db.SaveChanges();
-            return true;
+            return new ResultDTO
+            {
+                statusCode = 201,
+                description = "Product variant created successfully",
+                data = null,
+                error = null
+            };
         }
 
-        public bool UpdateProductVariant(int id, ProductVariantDTO obj)
+        public ResultDTO UpdateProductVariant(int id, ProductVariantDTO obj)
         {
             var existingProductVariant = _db.ProductVariants.FirstOrDefault(p => p.Id == id);
             if (existingProductVariant == null)
             {
-                return false;
+                return new ResultDTO
+                {
+                    statusCode = 201,
+                    description = "Product not found",
+                    data = null,
+                    error = null
+                };
             }
             existingProductVariant.SubName = obj.SubName;
             existingProductVariant.SubFamily = obj.SubFamily;
@@ -45,19 +70,39 @@ namespace API.implementations.Domain
             existingProductVariant.Sku = obj.Sku;
             _db.ProductVariants.Update(existingProductVariant);
             _db.SaveChanges();
-            return true;
+            return new ResultDTO
+            {
+                statusCode = 201,
+                description = "Product variant updated successfully",
+                data = null,
+                error = null
+            };
         }
 
-        public bool DeleteProductVariant(int id)
+        public ResultDTO DeleteProductVariant(int id)
         {
             var productVariant = _db.ProductVariants.FirstOrDefault(p => p.Id == id);
             if (productVariant == null)
             {
-                return false;
+                return new ResultDTO
+                {
+                    statusCode = 201,
+                    description = "Product not found",
+                    data = null,
+                    error = null
+                };
             }
-            _db.ProductVariants.Remove(productVariant);
+            productVariant.IsActive = false;
+            productVariant.DeletedAt = DateTime.Now;
+            _db.ProductVariants.Update(productVariant);
             _db.SaveChanges();
-            return true;
+            return new ResultDTO
+            {
+                statusCode = 201,
+                description = "Product variant deleted successfully",
+                data = null,
+                error = null
+            };
         }
     }
 }

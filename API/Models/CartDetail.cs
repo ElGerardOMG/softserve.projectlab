@@ -5,6 +5,8 @@ namespace API.Models;
 
 public partial class CartDetail
 {
+    public int Id { get; set; }
+
     public int? IdCart { get; set; }
 
     public int? IdProduct { get; set; }

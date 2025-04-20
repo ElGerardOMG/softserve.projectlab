@@ -20,9 +20,9 @@ public partial class ProjectlabContext : DbContext
 
     public virtual DbSet<AttributeCategory> AttributeCategories { get; set; }
 
-    public virtual DbSet<Cart> Carts { get; set; }
+    public virtual DbSet<Cart> Cart { get; set; }
 
-    public virtual DbSet<CartDetail> CartDetails { get; set; }
+    public virtual DbSet<CartDetail> CartDetail { get; set; }
 
     public virtual DbSet<Discount> Discounts { get; set; }
 
@@ -145,20 +145,20 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<CartDetail>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("cart_detail", "dbo");
+            entity.HasKey(e => e.Id).HasName("PK__cart_det__3214EC0797681B72");
+
+            entity.ToTable("cart_detail", "dbo");
 
             entity.Property(e => e.IdCart).HasColumnName("Id_cart");
             entity.Property(e => e.IdProduct).HasColumnName("Id_product");
 
-            entity.HasOne(d => d.IdCartNavigation).WithMany()
+            entity.HasOne(d => d.IdCartNavigation).WithMany(p => p.CartDetails)
                 .HasForeignKey(d => d.IdCart)
-                .HasConstraintName("FK__cart_deta__Id_ca__6383C8BA");
+                .HasConstraintName("FK__cart_deta__Id_ca__0D7A0286");
 
-            entity.HasOne(d => d.IdProductNavigation).WithMany()
+            entity.HasOne(d => d.IdProductNavigation).WithMany(p => p.CartDetails)
                 .HasForeignKey(d => d.IdProduct)
-                .HasConstraintName("FK__cart_deta__Id_pr__6477ECF3");
+                .HasConstraintName("FK__cart_deta__Id_pr__0E6E26BF");
         });
 
         modelBuilder.Entity<Discount>(entity =>

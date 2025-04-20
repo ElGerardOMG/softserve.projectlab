@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace API.Models;
 
-public partial class Product : BaseClass
+public partial class Product : IDisposable
 {
     public int Id { get; set; }
 
@@ -17,9 +17,39 @@ public partial class Product : BaseClass
 
     public string? Family { get; set; }
 
+    public DateTime? CreatedAt { get; set; }
+
+    public DateTime? UpdateAt { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
+
+    public bool? IsActive { get; set; }
+
     public virtual ICollection<Attribute> Attributes { get; set; } = new List<Attribute>();
+
+    public virtual ICollection<CartDetail> CartDetails { get; set; } = new List<CartDetail>();
 
     public virtual ProductCategory? ProductCategoryNavigation { get; set; }
 
     public virtual ICollection<ProductVariant> ProductVariants { get; set; } = new List<ProductVariant>();
+
+    bool disposed;
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposed)
+        {
+            if (disposing)
+            {
+                //dispose managed resources
+            }
+        }
+        //dispose unmanaged resources
+        disposed = true;
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 }
