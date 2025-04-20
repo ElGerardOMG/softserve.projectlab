@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.implementations.Interfaces;
 using API.Models;
+using API.Utils.Implementations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -16,33 +17,78 @@ namespace API.Controllers
         }
 
         [HttpPost("GetFiltered/{isActive}")]
-        public List<AttributeCategory> GetAllCategories(bool? isActive)
+        public IActionResult GetAllCategories(bool? isActive)
         {
-            return _attributeCategoryProcessor.GetAllCategories(isActive);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _attributeCategoryProcessor.GetAllCategories(isActive)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<AttributeCategory>? GetAttributeCategoryById(int id)
+        public async Task<IActionResult> GetAttributeCategoryById(int id)
         {
-            return await _attributeCategoryProcessor.GetAttributeCategoryById(id);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _attributeCategoryProcessor.GetAttributeCategoryById(id)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpPost("Create")]
-        public bool AddAttributeCategory([FromBody] AttributeCategoryDTO obj)
+        public IActionResult AddAttributeCategory([FromBody] AttributeCategoryDTO obj)
         {
-            return _attributeCategoryProcessor.AddAttributeCategory(obj);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _attributeCategoryProcessor.AddAttributeCategory(obj)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpPut("Update/{id}")]
-        public bool UpdateAttributeCategory(int id, [FromBody] AttributeCategoryDTO value)
+        public IActionResult UpdateAttributeCategory(int id, [FromBody] AttributeCategoryDTO value)
         {
-            return _attributeCategoryProcessor.UpdateAttributeCategory(id, value);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _attributeCategoryProcessor.UpdateAttributeCategory(id, value)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpDelete("Delete/{id}")]
-        public bool DeleteAttributeCategory(int id)
+        public IActionResult DeleteAttributeCategory(int id)
         {
-            return _attributeCategoryProcessor.DeleteAttributeCategory(id);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _attributeCategoryProcessor.DeleteAttributeCategory(id)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
     }
 }

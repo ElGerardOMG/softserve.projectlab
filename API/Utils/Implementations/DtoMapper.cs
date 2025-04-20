@@ -7,7 +7,7 @@ namespace API.Utils.Implementations
     public class DtoMapper
     {
 
-        public static U Mapper<T, U>(T source) where U : IBaseClass where T : new()
+        public static U Mapper<T, U>(T source, bool? ignoreDateFields = false) where T : new()
         {
             U destination = (U)Activator.CreateInstance(typeof(U));
             if (source == null)
@@ -26,10 +26,18 @@ namespace API.Utils.Implementations
                     destinationProperty.SetValue(destination, sourceProperty.GetValue(source));
                 }
             }
-            destinationProperty = destinationType.BaseType.GetProperty("CreatedAt");
-            destinationProperty.SetValue(destination, DateTime.Now);
-            destinationProperty = destinationType.BaseType.GetProperty("IsActive");
-            destinationProperty.SetValue(destination, true);
+            if(sourceType.BaseType.GetProperty("Id") != null)
+            {
+                destinationProperty = destinationType.BaseType.GetProperty("Id");
+                destinationProperty.SetValue(destination, sourceType.BaseType.GetProperty("Id").GetValue(source));
+            }
+            if(ignoreDateFields == false)
+            {
+                destinationProperty = destinationType.GetProperty("CreatedAt");
+                destinationProperty.SetValue(destination, DateTime.Now);
+                destinationProperty = destinationType.GetProperty("IsActive");
+                destinationProperty.SetValue(destination, true);
+            }
             return destination;
         }
 

@@ -1,6 +1,9 @@
 ﻿using API.implementations.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using API.Models;
+using API.DTOs;
+using API.Utils.Implementations;
 
 namespace API.Controllers
 {
@@ -16,22 +19,49 @@ namespace API.Controllers
             _attributeProcessor = attributeProcessor;
         }
 
-        [HttpPost("Create/{id_product}")]
-        public bool RegisterAttribute(int id_product, [FromBody] Models.Attribute value)
+        [HttpPost("Create")]
+        public IActionResult RegisterAttribute([FromBody] AttributeDTO value)
         {
-            return _attributeProcessor.AddAttribute(id_product, value);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _attributeProcessor.AddAttribute(value)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpPatch("Update/{id_attribute}")]
-        public bool UpdateAttribute(int id_attribute, [FromBody] Models.Attribute value)
+        public IActionResult UpdateAttribute(int id_attribute, string field, string value)
         {
-            return _attributeProcessor.UpdateAttribute(id_attribute, value);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _attributeProcessor.UpdateAttribute(id_attribute, field, value)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpDelete("Delete/{id_attribute}")]
-        public bool DeleteAttribute(int id_attribute)
+        public IActionResult DeleteAttribute(int id_attribute)
         {
-            return _attributeProcessor.DeleteAttribute(id_attribute);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _attributeProcessor.DeleteAttribute(id_attribute)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
     }
 }

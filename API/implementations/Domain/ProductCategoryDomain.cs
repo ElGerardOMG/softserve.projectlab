@@ -15,52 +15,102 @@ namespace API.implementations.Domain
         }
         // PRODUCT CATEGORIES
 
-        public List<ProductCategory> GetAllProductCategories(bool? isActive)
+        public ResultDTO GetAllProductCategories(bool? isActive)
         {
             List<ProductCategory> productCategories = new List<ProductCategory>();
             productCategories = _db.ProductCategories.ToList();
-            return productCategories;
+            return new ResultDTO
+            {
+                statusCode = 200,
+                description = "Product category list",
+                data = productCategories,
+                error = null
+            };
         }
 
-        public ProductCategory? GetProductCategoryByID(int id)
+        public ResultDTO GetProductCategoryByID(int id)
         {
-            return _db.ProductCategories.FirstOrDefault(p => p.Id == id);
+            return new ResultDTO
+            {
+                statusCode = 200,
+                description = "Product category detail",
+                data = _db.ProductCategories.FirstOrDefault(p => p.Id == id),
+                error = null
+            };
         }
 
-        public bool AddProductCategory(ProductCategoryDTO obj)
+        public ResultDTO AddProductCategory(ProductCategoryDTO obj)
         {
             if (obj == null)
             {
-                throw new ArgumentNullException(nameof(obj));
+                return new ResultDTO
+                {
+                    statusCode = 500,
+                    description = "Invalid product category object",
+                    data = null,
+                    error = null
+                };
             }
             _db.ProductCategories.Add(DtoMapper.Mapper<ProductCategoryDTO, ProductCategory>(obj));
             _db.SaveChanges();
-            return true;
+            return new ResultDTO
+            {
+                statusCode = 201,
+                description = "Product category succesfully created",
+                data = null,
+                error = null
+            };
         }
 
-        public bool UpdateProductCategory(int id, ProductCategoryDTO obj)
+        public ResultDTO UpdateProductCategory(int id, ProductCategoryDTO obj)
         {
             var existingProductCategory = _db.ProductCategories.FirstOrDefault(p => p.Id == id);
             if (existingProductCategory == null)
             {
-                return false;
+                return new ResultDTO
+                {
+                    statusCode = 500,
+                    description = "Product category not found",
+                    data = null,
+                    error = null
+                };
             }
             existingProductCategory.Name = obj.Name;
             _db.ProductCategories.Update(existingProductCategory);
             _db.SaveChanges();
-            return true;
+            return new ResultDTO
+            {
+                statusCode = 200,
+                description = "Product category updated succesfully",
+                data = null,
+                error = null
+            };
         }
 
-        public bool DeleteProductCategory(int id)
+        public ResultDTO DeleteProductCategory(int id)
         {
             var productCategory = _db.ProductCategories.FirstOrDefault(p => p.Id == id);
             if (productCategory == null)
             {
-                return false;
+                return new ResultDTO
+                {
+                    statusCode = 500,
+                    description = "Product category not found",
+                    data = null,
+                    error = null
+                };
             }
-            _db.ProductCategories.Remove(productCategory);
+            productCategory.IsActive = false;
+            productCategory.DeletedAt = DateTime.Now;
+            _db.ProductCategories.Update(productCategory);
             _db.SaveChanges();
-            return true;
+            return new ResultDTO
+            {
+                statusCode = 200,
+                description = "Product category deleted succesfully",
+                data = null,
+                error = null
+            };
         }
     }
 }

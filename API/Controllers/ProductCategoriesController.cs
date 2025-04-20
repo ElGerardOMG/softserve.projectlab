@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.implementations.Interfaces;
 using API.Models;
+using API.Utils.Implementations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -20,33 +21,78 @@ namespace API.Controllers
         // PRODUCT CATEGORIES
 
         [HttpPost("GetFiltered/{isActive}")]
-        public List<ProductCategory> GetCategories([FromBody] string? value, bool isActive)
+        public IActionResult GetCategories([FromBody] string? value, bool isActive)
         {
-            return _productProcessor.GetAllProductCategories(isActive);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _productProcessor.GetAllProductCategories(isActive)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpGet("GetById/{id}")]
-        public ProductCategory? GetCategory(int id)
+        public async Task<IActionResult> GetCategory(int id)
         {
-            return _productProcessor.GetProductCategoryByID(id);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _productProcessor.GetProductCategoryByID(id)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpPost("Create")]
-        public bool AddCategory([FromBody] ProductCategoryDTO obj)
+        public IActionResult AddCategory([FromBody] ProductCategoryDTO obj)
         {
-            return _productProcessor.AddProductCategory(obj);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _productProcessor.AddProductCategory(obj)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpPut("Update/{id}")]
-        public bool UpdateCategory(int id, [FromBody] ProductCategoryDTO obj)
+        public IActionResult UpdateCategory(int id, [FromBody] ProductCategoryDTO obj)
         {
-            return _productProcessor.UpdateProductCategory(id, obj);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _productProcessor.UpdateProductCategory(id, obj)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
 
         [HttpDelete("Delete/{id}")]
-        public bool DeleteCategory(int id)
+        public IActionResult DeleteCategory(int id)
         {
-            return _productProcessor.DeleteProductCategory(id);
+            try
+            {
+                return ResponseHelper.ResponseProcessor(
+                    result: _productProcessor.DeleteProductCategory(id)
+                );
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.ErrorProcessor(ex.Message, 500);
+            }
         }
     }
 }

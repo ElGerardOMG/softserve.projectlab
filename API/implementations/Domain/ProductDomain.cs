@@ -18,68 +18,96 @@ namespace API.implementations.Domain
         }
 
         // PRODUCTS
-        public PaginatedResponseDTO<Product> GetAllProducts(bool isActive, FilterDTO filters, string type, int page, int pageSize)
+        public ResultDTO GetAllProducts(bool isActive, FilterDTO filters, string type, int page, int pageSize)
         {
-            return Filter.ProductQueryProcessor(_db.Products, _db, filters, type, isActive, page, pageSize);
+            return new ResultDTO
+            {
+                statusCode = 200,
+                description = "Product list",
+                data = Filter.ProductQueryProcessor(_db.Products, _db, filters, type, isActive, page, pageSize),
+                error = null
+            };
         }
 
-        public async Task<Product>? GetProductByID(int id)
+        public ResultDTO GetProductByID(int id)
         {
-            return _db.Products.Include(Product => Product.ProductVariants).FirstOrDefault(p => p.Id == id);
+            return new ResultDTO
+            {
+                statusCode = 200,
+                description = "Product detail",
+                data = _db.Products.Include(Product => Product.ProductVariants).FirstOrDefault(p => p.Id == id),
+                error = null
+            };
         }
 
-        public bool AddProduct(ProductDTO obj)
+        public ResultDTO AddProduct(ProductDTO obj)
         {
             if (obj == null)
             {
-                throw new ArgumentNullException(nameof(obj));
+                return new ResultDTO
+                {
+                    statusCode = 500,
+                    description = "Invalid object",
+                    data = null,
+                    error = null
+                };
             }
-            // EXTRAER LISTA DE VARIANTES DEL PRODUCTO
+            // EXTRACT LIST OF PRODUCT VARIANTS
             ICollection<ProductVariantDTO> productVariants = DtoMapper.ExtractCollection<ProductDTO, ProductVariantDTO>(obj);
-            // CASTEAR EL DTO A UN OBJETO DE PRODUCTO
-            using (Product newProduct = DtoMapper.Mapper<ProductDTO, Product>(obj)) 
+            // CAST THE DTO TO A PRODUCT OBJECT
+            using (Product newProduct = DtoMapper.Mapper<ProductDTO, Product>(obj))
             {
-                // REGISTRAR EL PRODUCTO
+                // REGISTER THE PRODUCT
                 _db.Products.Add(newProduct);
-                // GUARDARLO PARA OBTENER SU ID
-                _db.SaveChanges(); 
-                // ITERAR LAS VARIANTES DE PRODUCTO
+                // SAVE TO GET ITS ID
+                _db.SaveChanges();
+                // ITERATE THROUGH THE PRODUCT VARIANTS
                 foreach (var variant in productVariants)
                 {
-                    // CASTEAR EL DTO A UN OBJETO DE PRODUCT VARIANT
-                    ProductVariant newProductVariant = DtoMapper.Mapper<ProductVariantDTO, ProductVariant>(variant); 
-                    // EXTRAER LISTA DE ATRIBUTOS DE LA VARIANTE
+                    // CAST THE DTO TO A PRODUCT VARIANT OBJECT
+                    ProductVariant newProductVariant = DtoMapper.Mapper<ProductVariantDTO, ProductVariant>(variant);
+                    // EXTRACT LIST OF ATTRIBUTES FROM THE VARIANT
                     ICollection<AttributeDTO> productAttributes = DtoMapper.ExtractCollection<ProductVariantDTO, AttributeDTO>(variant);
-                    // ASIGNARLE LA ID DEL PRODUCTO BASE A LA VARIANTE
+                    // ASSIGN THE BASE PRODUCT ID TO THE VARIANT
                     newProductVariant.IdProduct = newProduct.Id;
-                    // REGISTRAR LA VARIANTE
+                    // REGISTER THE VARIANT
                     newProduct.ProductVariants.Add(newProductVariant);
-                    // GUARDARLA PARA OBTENER SU ID
+                    // SAVE TO GET ITS ID
                     _db.SaveChanges();
-                    // ITERAR LOS ATRIBUTOS DE LA VARIANTE
+                    // ITERATE THROUGH THE VARIANT'S ATTRIBUTES
                     foreach (var attribute in productAttributes)
                     {
-                        // CASTEAR EL DTO A UN OBJETO DE ATRIBUTO
+                        // CAST THE DTO TO AN ATTRIBUTE OBJECT
                         Models.Attribute newProductAttribute = DtoMapper.Mapper<AttributeDTO, Models.Attribute>(attribute);
-                        // ASIGNARLE LA ID DEL PRODUCTO BASE Y DE LA VARIANTE
+                        // ASSIGN THE BASE PRODUCT ID AND VARIANT ID TO THE ATTRIBUTE
                         newProductAttribute.IdProduct = newProduct.Id;
                         newProductAttribute.IdProductVariant = newProductVariant.Id;
-                        // REGISTRAR EL ATRIBUTO
+                        // REGISTER THE ATTRIBUTE
                         _db.Attributes.Add(newProductAttribute);
-                        // GUARDARLO EL ATRIBUTO
+                        // SAVE THE ATTRIBUTE
                         _db.SaveChanges();
                     }
                 }
             }
+
             _db.SaveChanges();
-            return true;
+            return new ResultDTO {
+                statusCode = 201,
+                description = "Product created successfully",
+                data = null,
+                error = null
+            };
         }
-        public bool UpdateProduct(int id, ProductDTO obj)
+        public ResultDTO UpdateProduct(int id, ProductDTO obj)
         {
             var existingProduct = _db.Products.FirstOrDefault(p => p.Id == id);
             if (existingProduct == null)
             {
-                return false;
+                return new ResultDTO
+                {
+                    statusCode = 500,
+                    error = "Error while updating the product"
+                };
             }
 
             existingProduct.ProductType = obj.ProductType;
@@ -90,21 +118,38 @@ namespace API.implementations.Domain
 
             _db.Products.Update(existingProduct);
             _db.SaveChanges();
-            return true;
+            return new ResultDTO
+            {
+                statusCode = 200,
+                description = "Product updated successfully",
+            };
         }
-        public bool DeleteProduct(int id)
+        public ResultDTO DeleteProduct(int id)
         {
             var existingProduct = _db.Products.FirstOrDefault(p => p.Id == id);
             if (existingProduct == null)
             {
-                return false;
+                return new ResultDTO
+                {
+                    statusCode = 500,
+                    description = "Error while deleting the product",
+                    data = null,
+                    error = null
+                };
             }
 
             existingProduct.IsActive = false;
+            existingProduct.DeletedAt = DateTime.Now;
 
             _db.Products.Update(existingProduct);
             _db.SaveChanges();
-            return true;
+            return new ResultDTO
+            {
+                statusCode = 200,
+                description = "Product deleted successfully",
+                data = null,
+                error = null
+            };
         }
     }
 }

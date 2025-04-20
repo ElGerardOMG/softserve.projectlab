@@ -6,9 +6,9 @@ namespace API.implementations.Interfaces
     public interface IProductVariantDomain
     {
         //PRODUCT VARIANTS
-        ProductVariant? GetProductVariantById(int id);
-        bool AddProductVariant(ProductVariantDTO obj);
-        bool UpdateProductVariant(int id, ProductVariantDTO obj);
-        bool DeleteProductVariant(int id);
+        ResultDTO GetProductVariantById(int id);
+        ResultDTO AddProductVariant(ProductVariantDTO obj);
+        ResultDTO UpdateProductVariant(int id, ProductVariantDTO obj);
+        ResultDTO DeleteProductVariant(int id);
     }
 }

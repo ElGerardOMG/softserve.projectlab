@@ -1,11 +1,11 @@
 ﻿using API.Models;
-
+using API.DTOs;
 namespace API.implementations.Interfaces
 {
     public interface IAttributeDomain
     {
-        bool AddAttribute(int id_product, Models.Attribute obj);
-        bool UpdateAttribute(int id_attribute, Models.Attribute obj);
-        bool DeleteAttribute(int id_attribute);
+        ResultDTO AddAttribute(AttributeDTO obj);
+        ResultDTO UpdateAttribute(int id_attribute, string field, string value);
+        ResultDTO DeleteAttribute(int id_attribute);
     }
 }

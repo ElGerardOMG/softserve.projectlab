@@ -15,7 +15,7 @@ namespace API.implementations.Domain
             _db = db ?? throw new ArgumentNullException(nameof(db));
         }
 
-        public List<AttributeCategory> GetAllCategories(bool? isActive)
+        public ResultDTO GetAllCategories(bool? isActive)
         {
             List<AttributeCategory> attributeCategories = new List<AttributeCategory>();
             if (isActive == null)
@@ -26,51 +26,99 @@ namespace API.implementations.Domain
             {
                 attributeCategories = _db.AttributeCategories.Where(x => x.IsActive == isActive).ToList();
             }
-            return attributeCategories;
+            return new ResultDTO
+            {
+                statusCode = 200,
+                description = "Attribute category list",
+                data = attributeCategories,
+                error = null
+            };
         }
 
-        public async Task<AttributeCategory>? GetAttributeCategoryById(int id)
+        public ResultDTO GetAttributeCategoryById(int id)
         {
-            return _db.AttributeCategories.FirstOrDefault(p => p.Id == id);
+            return new ResultDTO
+            {
+                statusCode = 200,
+                description = "Attribute category detail",
+                data = _db.AttributeCategories.FirstOrDefault(p => p.Id == id),
+                error = null
+            };
         }
 
 
         // ONLY DEVELOPMENT TOOLS
 
-        public bool AddAttributeCategory(AttributeCategoryDTO obj)
+        public ResultDTO AddAttributeCategory(AttributeCategoryDTO obj)
         {
             if (obj == null)
             {
-                throw new ArgumentNullException(nameof(obj));
+                return new ResultDTO
+                {
+                    statusCode = 500,
+                    description = "Invalid attribute category object",
+                    data = null,
+                    error = null
+                };
             }
             _db.AttributeCategories.Add(DtoMapper.Mapper<AttributeCategoryDTO, AttributeCategory>(obj));
             _db.SaveChanges();
-            return true;
+            return new ResultDTO
+            {
+                statusCode = 201,
+                description = "Attribute category succesfully created",
+                data = null,
+                error = null
+            };
         }
 
-        public bool UpdateAttributeCategory(int id, AttributeCategoryDTO obj)
+        public ResultDTO UpdateAttributeCategory(int id, AttributeCategoryDTO obj)
         {
             var existingAttributeCategory = _db.AttributeCategories.FirstOrDefault(p => p.Id == id);
             if (existingAttributeCategory == null)
             {
-                return false;
+                return new ResultDTO
+                {
+                    statusCode = 500,
+                    description = "Attribute category not found",
+                    data = null,
+                    error = null
+                };
             }
             existingAttributeCategory.Name = obj.Name;
             _db.AttributeCategories.Update(existingAttributeCategory);
             _db.SaveChanges();
-            return true;
+            return new ResultDTO
+            {
+                statusCode = 200,
+                description = "Attribute category succesfully updated",
+                data = null,
+                error = null
+            };
         }
-        public bool DeleteAttributeCategory(int id)
+        public ResultDTO DeleteAttributeCategory(int id)
         {
             var existingAttributeCategory = _db.AttributeCategories.FirstOrDefault(p => p.Id == id);
             if (existingAttributeCategory == null)
             {
-                return false;
+                return new ResultDTO
+                {
+                    statusCode = 500,
+                    description = "Attribute category not found",
+                    data = null,
+                    error = null
+                };
             }
             existingAttributeCategory.IsActive = false;
             _db.AttributeCategories.Update(existingAttributeCategory);
             _db.SaveChanges();
-            return true;
+            return new ResultDTO
+            {
+                statusCode = 201,
+                description = "Attribute category succesfully deleted",
+                data = null,
+                error = null
+            };
         }
     }
 }

@@ -6,10 +6,10 @@ namespace API.implementations.Interfaces
     public interface IProductCategoryDomain
     {
         // PRODUCT CATEGORIES
-        List<ProductCategory> GetAllProductCategories(bool? isActive);
-        ProductCategory? GetProductCategoryByID(int id);
-        bool AddProductCategory(ProductCategoryDTO obj);
-        bool UpdateProductCategory(int id, ProductCategoryDTO obj);
-        bool DeleteProductCategory(int id);
+        ResultDTO GetAllProductCategories(bool? isActive);
+        ResultDTO GetProductCategoryByID(int id);
+        ResultDTO AddProductCategory(ProductCategoryDTO obj);
+        ResultDTO UpdateProductCategory(int id, ProductCategoryDTO obj);
+        ResultDTO DeleteProductCategory(int id);
     }
 }
