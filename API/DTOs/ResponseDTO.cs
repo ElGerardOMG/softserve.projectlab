@@ -4,10 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace API.DTOs
 {
-
-
-
-    public class ResponseDTO : IResponseDTO
+    public class ResponseDTO
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? description { get; set; }
