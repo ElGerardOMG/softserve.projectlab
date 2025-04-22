@@ -5,6 +5,7 @@ using System.Text;
 using API.Models.Entities;
 using API.Models.Configuration;
 using Microsoft.Extensions.Options;
+using API.implementations.Domain.Interfaces;
 
 namespace API.implementations.Domain
 {
@@ -19,6 +20,7 @@ namespace API.implementations.Domain
 
         public string GenerateToken(User user)
         {
+            /*
             var claims = new List<Claim>()
                 {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -26,15 +28,16 @@ namespace API.implementations.Domain
                 new Claim(ClaimTypes.Email, user.Email),
 
                 };
+            */
+            var claims = UserClaimUtils.CreateIdentity(user);
 
-     
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(claims),
-              
+                Subject = claims, //new ClaimsIdentity(claims), 
                 Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
                 SigningCredentials = creds,
                 Issuer = _jwtSettings.Issuer,

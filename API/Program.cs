@@ -6,17 +6,26 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using API.Models.Configuration;
+using API.implementations.Domain.Interfaces;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+var conectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
+builder.Services.AddDbContext<ProjectlabContext>(
+    db => db.UseSqlServer(conectionString));
 
 builder.Services.AddIdentity<User, IdentityRole<int>>()
     .AddEntityFrameworkStores<ProjectlabContext>()
     .AddDefaultTokenProviders();
-
+/*
 builder.Services.Configure<IdentityOptions>(options =>
 {
+    // TODO: Change these values for some more secure ones.
+
     // Password settings.
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
@@ -35,10 +44,9 @@ builder.Services.Configure<IdentityOptions>(options =>
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.User.RequireUniqueEmail = false;
 });
+*/
 
-var conectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
-builder.Services.AddDbContext<ProjectlabContext>(
-    db => db.UseSqlServer(conectionString));
+
 
 
 
@@ -51,29 +59,79 @@ builder.Services.AddCors(options =>
 });
 
 
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
 builder.Services.AddTransient<IProductProcessor, ProductProcessor>();
-
 builder.Services.AddTransient<IUserProcessor, UserProcessor>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IEmailSender<User>, DummyEmailSender>();
+builder.Services.AddTransient<IUserAddressProcessor, UserAddressProcessor>();
 
 
-builder.Services.AddAuthorization();
-/*
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-        .AddCookie(options => //CookieAuthenticationOptions
-        {
-            options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
-        });
 
-*/
+
 builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
+
+// Sirve para realizar la authenticación en el swagger
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    // Parámetros para la validación del token
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true, 
+        ValidateAudience = true,
+        ValidateLifetime = true, 
+        ValidateIssuerSigningKey = true, 
+        // Obtener los settings del token
+        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+        ValidAudience = builder.Configuration["JwtSettings:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]))
+    };
+});
+builder.Services.AddAuthorization();
+
+// Agregar a la UI de Swagger la opción de authenticarte
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "API",
+        Description = "API Testing",
+    });
+
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization using Bearer Squeme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization", 
+        In = ParameterLocation.Header, 
+        Type = SecuritySchemeType.Http, 
+        Scheme = "Bearer" 
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                new string[] { }
+            }
+        });
+});
 
 var app = builder.Build();
-
-//app.MapIdentityApi<User>();
 
 app.UseCors("AllowFrontend");
 if (app.Environment.IsDevelopment())
@@ -83,15 +141,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseStaticFiles(); // Serve files from wwwroot
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(builder.Environment.ContentRootPath, "Images")),
-     RequestPath = "/images"
-});
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "Images")),
+    RequestPath = "/images"
+});
+
 app.Run();

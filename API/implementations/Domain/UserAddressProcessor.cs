@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.implementations.Domain.Interfaces;
 using API.Models.Entities;
 namespace API.implementations.Domain;
 
@@ -12,6 +13,9 @@ public class UserAddressProcessor : IUserAddressProcessor
         _db = db;
     }
 
+    /**
+     * Inserta un registro de userAddress en la tabla
+     */
     public bool AddAddressToUser(UserAddress userAddress)
     {
         try
@@ -26,31 +30,56 @@ public class UserAddressProcessor : IUserAddressProcessor
 
     }
 
+    /**
+     * Devuelve la lista de direcciones de usuario dado un id de un usuario
+     */
     public List<UserAddress> GetAddressesFromUser(int id)
     {
         return (from ua in _db.UserAddresses where ua.IdUser == id select ua).ToList();
     }
 
 
-    public List<User> GetAll()
+    public UserAddress RemoveAddress(UserAddress userAddress)
     {
-        return _db.UsersU.ToList();
+        _db.Remove(userAddress);
+        _db.SaveChanges();
+        return userAddress;
+    }
+    public UserAddress RemoveAddress(int id)
+    {
+        UserAddress? userAddress = (from ua in _db.UserAddresses where ua.Id == id select ua).FirstOrDefault();
+
+        _db.Remove(userAddress);
+        _db.SaveChanges();
+        return userAddress;
     }
 
-    public User? GetUserByID(int id)
+    public bool RemoveAllAddress(int id)
     {
-        User? foundUser = _db.Find<User>([id]);
-        return foundUser;
+        try
+        {
+            _db.RemoveRange((from ua in _db.UserAddresses where ua.IdUser == id select ua).ToList());
+            _db.SaveChanges();
+        } catch (Exception E)
+        {
+            return false;
+        }
+
+        return true;
+        
     }
 
-    public User? UpdateUser(int id, User obj)
+    public bool UpdateAddress(UserAddress userAddress)
     {
-        //
-        return new User();
+        try
+        {
+            var entity = _db.Update(userAddress);
+            _db.SaveChanges();
+            return true;
+        } catch (Exception E)
+        {
+            return false;
+        }
     }
 
-    public User? GetUserByEmail(string email)
-    {
-        return (from u in _db.UsersU where u.Email.Equals(email) select u).FirstOrDefault();
-    }
 }

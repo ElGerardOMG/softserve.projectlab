@@ -1,11 +1,13 @@
-﻿using API.implementations.Domain;
+﻿using API.implementations.Domain.Interfaces;
 using API.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("user")]
     [ApiController]
+ 
     public class UserController : ControllerBase
     {
 
@@ -19,7 +21,7 @@ namespace API.Controllers
 
         //  TODO: No devolver el user completo. Crear un DTO igual al user en donde no se
         //  incluyan contraseñas, métodos de pago etc.
-
+        
         [HttpGet("{user_id}")]
         public virtual IActionResult GetUser(int user_id)
         {

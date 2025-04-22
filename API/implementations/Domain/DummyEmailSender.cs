@@ -3,7 +3,7 @@ using API.Models.Entities;
 
 namespace API.implementations.Domain
 {
-    /* Requerido por MapIdentityUser Por ahora no hace nada */
+    /* Requerido por MapIdentityUser. Por ahora no hace nada */
     public class DummyEmailSender : IEmailSender<User>
     {
         private readonly ILogger<DummyEmailSender> _logger;
