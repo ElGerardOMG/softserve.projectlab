@@ -1,0 +1,96 @@
+﻿@page "/login"
+@using Frontend.Models
+@using Frontend.Services
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject CustomAuthenticationStateProvider AuthStateProvider
+
+<h3>Log In</h3>
+
+<div class="row">
+    <div class="col-md-4">
+        <form @onsubmit="@LogInUser" Model="@loginDTO">
+            <div class="form-group">
+                <label for="Email" class="control-label">Email: </label>
+                <input id="Email" class="form-control" @bind="loginDTO.Email"/>
+            </div>
+            <div class="form-group">
+                <label for="Password" class="control-label">Password: </label>
+                <input type="password" id="Password" class="form-control" @bind="loginDTO.Password" />
+            </div>
+            <button type="submit">Go !</button>
+            <span>
+                @message
+            </span>
+        </form>
+    </div>
+</div>
+
+@code {
+
+    private LoginDTO loginDTO = new LoginDTO();
+    private bool isLoading = false;
+    private string message = ""; 
+
+    private async Task LogInUser()
+    {
+
+        try
+        {
+            // 1. Llama al AuthService para enviar las credenciales a la API
+            var result = await Http.PostAsJsonAsync("/authenticate/login", loginDTO);
+            var messageResult = await result.Content.ReadAsStringAsync();
+            if (result.IsSuccessStatusCode)
+            {
+                // 2. Si el login fue exitoso y la API devolvió un token:
+                // Llama a MarkUserAsAuthenticated en tu AuthStateProvider
+                // Esto guardará el token Y notificará a Blazor del cambio de estado
+                await AuthStateProvider.MarkUserAsAuthenticated(messageResult);
+
+                // 3. Redirige al usuario a la página principal (o a donde necesites)
+                NavigationManager.NavigateTo("/");
+            }
+            else
+            {
+                // Maneja el caso en que AuthService.Login no lanzó excepción pero no devolvió token
+                message = "Login fallido: Token no recibido: " + messageResult; // Mensaje genérico o basado en la respuesta de la API
+            }
+
+        }
+        catch (HttpRequestException httpEx) // Manejo básico de errores HTTP
+        {
+            message = $"Error de conexión: {httpEx.Message}";
+            // Considera parsear el cuerpo de la respuesta para errores específicos de la API
+        }
+        catch (Exception ex)
+        {
+            // Manejo general de errores
+            message = $"Ocurrió un error: {ex.Message}";
+            Console.WriteLine($"Error durante el login: {ex}"); // Loguea el error
+        }
+        finally
+        {
+            isLoading = false;
+        }
+        /*
+
+        var response = await Http.PostAsJsonAsync("login", loginDTO);
+
+        /*
+        if (response.IsSuccessStatusCode)
+        {
+            NavigationManager.NavigateTo("/"); 
+        }
+        else
+        {
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            message = errorMessage;
+
+            
+            Console.WriteLine($"Error: {response.StatusCode} - {errorMessage}");
+            
+        }
+        */
+
+    }
+}

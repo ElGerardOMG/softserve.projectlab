@@ -1,12 +1,13 @@
-﻿using API.Models;
+﻿using API.Models.Entities;
 
 namespace API.implementations.Domain;
 public interface IUserProcessor
 {
-    List<User> GetAll(bool? isActive);
+    List<User> GetAll();
     User? GetUserByID(int id);
     User? CreateUser(User obj);
-    User? UpdateUser(int id, Product obj);
+    User? UpdateUser(int id, User obj);
     bool DeleteUser(int id);
+    User? GetUserByEmail(string email);
 }
 

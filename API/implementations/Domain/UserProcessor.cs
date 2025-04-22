@@ -1,5 +1,5 @@
-﻿using API.Entity;
-using API.Models;
+﻿using API.Models.Entities;
+using API.Data;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,20 +8,21 @@ namespace API.implementations.Domain;
 
 public class UserProcessor : IUserProcessor
 {
-    private readonly AppDbContext _db;
+    private readonly ProjectlabContext _db;
 
-    public UserProcessor(AppDbContext db)
+    public UserProcessor(ProjectlabContext db)
     {
         _db = db;
     }
 
-    public virtual User? CreateUser(User usr)
+    public User? CreateUser(User usr)
     {
         _db.Add<User>(usr);
+        _db.SaveChanges();
         return usr;
     }
 
-    public virtual bool DeleteUser(int id)
+    public bool DeleteUser(int id)
     {
         User? foundUser = _db.Find<User>([id]);
 
@@ -32,19 +33,25 @@ public class UserProcessor : IUserProcessor
         return false;
     }
 
-    public virtual List<User> GetAll(bool? isActive)
+    public List<User> GetAll()
     {
-        return _db.Users.ToList();    
+        return _db.UsersU.ToList();    
     }
 
-    public virtual User? GetUserByID(int id)
+    public User? GetUserByID(int id)
     {
         User? foundUser = _db.Find<User>([id]);
         return foundUser;
     }
 
-    public virtual User? UpdateUser(int id, Product obj)
+    public User? UpdateUser(int id, User obj)
     {
+        //
         return new User();
+    }
+
+    public User? GetUserByEmail(string email)
+    {
+        return (from u in _db.UsersU where u.Email.Equals(email) select u).FirstOrDefault();
     }
 }
