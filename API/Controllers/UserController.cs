@@ -89,7 +89,7 @@ public class UserController : ControllerBase
 
     }
 
-
+    /* This one must be protected... */
     [HttpDelete("{user_id}")]
     public virtual async Task<IActionResult> DeleteUser(int user_id)
     {
@@ -134,13 +134,10 @@ public class UserController : ControllerBase
         try
         {
 
-            switch (UserClaimUtils.GetIdFromIdentity(User.Identity as ClaimsIdentity, out int user_id))
-            {
-                case UserClaimUtils.UNAUTHORIZED: return Unauthorized();
-                case UserClaimUtils.INVALID_TOKEN: return StatusCode(500, "Invalid Session Token. Plase try signing in again");
-                case UserClaimUtils.INVALID_PARSING_TOKEN: return StatusCode(500, "Invalid Session Token. Plase try signing in again");
-                default: break;
-            }
+            var resultCode = this.GenerateResultFromIdentity(
+                UserClaimUtils.GetIdFromIdentity(User.Identity as ClaimsIdentity, out int user_id)
+            );
+            if (!(resultCode is OkResult)) return resultCode;
 
             User? user = await _userManager.FindByIdAsync(user_id + "");
 

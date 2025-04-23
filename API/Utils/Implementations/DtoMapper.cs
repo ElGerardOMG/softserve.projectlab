@@ -40,48 +40,62 @@ namespace API.Utils.Implementations
             return destination;
         }
 
-        /**
-         * Does the same as the mapper, but instead of creating a new instance of the destination type,
-         * it updates an already existing instance.
+        /** 
+         * This method updates properties of the target instance with the values of the source instance if their names and types match
          * 
-         * NullPolicy:
-         * 0 - Null values on source instance will be ommited
-         * 1 - Null values on source will replace the ones on the destination instance
+         * @param TSource the type of the source instance object
+         * @param TTarget the type of the target instance object
+         * 
+         * @param source the source instance object
+         * @param target the target instance object
+         * 
+         * @param ignoreProperties A list of property names to be ignored. A property on the target instance will be not affected
+         * if its name is in this list
+         * 
+         * @param NullPolicy: 
+         * * 0 - Null values on source instance will be ommited
+         * * 1 - Null values on source will replace the ones on the destination instance
+         * 
+         * Notes: Property names are case-sensitive.
          */
-        public static void Updater<T, U>(T source, U destination, bool? ignoreDateFields = false, int? NullPolicy = 0)
+        public static void Updater<TSource, TTarget>(TSource source, TTarget target, List<string> ignoreProperties = null, int NullPolicy = 0)
         {
 
-            if (source == null || destination == null)
+            if (source == null || target == null)
             {
                 throw new ArgumentNullException("Source or Destination cannot be null");
             }
 
-            Type sourceType = typeof(T);
-            Type destinationType = typeof(U);
-            PropertyInfo destinationProperty = null;
+            if(ignoreProperties == null)
+            {
+                ignoreProperties = new List<string>();
+            }
+
+            Type sourceType = typeof(TSource);
+            Type destinationType = typeof(TTarget);
+
+            PropertyInfo? destinationProperty = null;
+
             foreach (PropertyInfo sourceProperty in sourceType.GetProperties())
             {
-                if ((NullPolicy == 0) && (sourceProperty.GetValue(source) == null)) break;
+                if ( ignoreProperties.Contains( sourceProperty.Name ))
+                {
+                    continue;
+                }
+
+                if ((NullPolicy == 0) && (sourceProperty.GetValue(source) == null))
+                {
+                    continue;
+                }
 
                 destinationProperty = destinationType.GetProperty(sourceProperty.Name);
-                if (destinationProperty != null && destinationProperty.CanWrite && destinationProperty.PropertyType == sourceProperty.PropertyType)
+
+                if ((destinationProperty != null) && 
+                    (destinationProperty.CanWrite) && 
+                    (destinationProperty.PropertyType == sourceProperty.PropertyType))
                 {
-                    destinationProperty.SetValue(destination, sourceProperty.GetValue(source));
+                    destinationProperty.SetValue(target, sourceProperty.GetValue(source));
                 }
-            }
-
-            if ((sourceType.BaseType.GetProperty("Id") != null) && (destinationType.BaseType.GetProperty("Id") != null))
-            {
-                destinationProperty = destinationType.BaseType.GetProperty("Id");
-                destinationProperty.SetValue(destination, sourceType.BaseType.GetProperty("Id").GetValue(source));
-            }
-
-            if (ignoreDateFields == false)
-            {
-                destinationProperty = destinationType.GetProperty("CreatedAt");
-                destinationProperty.SetValue(destination, DateTime.Now);
-                destinationProperty = destinationType.GetProperty("IsActive");
-                destinationProperty.SetValue(destination, true);
             }
         }
 
