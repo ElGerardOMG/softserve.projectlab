@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using API.Models.Entities;
 using System.Text.Json;
-using API.implementations;
 using System.Net;
-using API.Models;
+using API.Models.UserData;
+using API.Utils.Implementations;
 
 namespace API.Controllers;
 
@@ -40,6 +40,13 @@ public class UserAddressesController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> AddNewAddress([FromBody] UserAddressDTO userAddress)
     {
+        var result = DetermineErrorCode(
+            UserClaimUtils.GetIdFromIdentity(User.Identity as ClaimsIdentity, out int userId)
+        );
+
+        if (!(result is OkResult)) return result;
+
+
         return Ok();
     }
 

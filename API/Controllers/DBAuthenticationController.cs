@@ -23,44 +23,35 @@ namespace API.Controllers
         public override async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
 
         { 
-            Console.WriteLine("AAAAAA");
             if (!ModelState.IsValid)
             {
-                Console.WriteLine(ModelState);
-                System.Diagnostics.Debug.WriteLine(ModelState);
+
                 return BadRequest(ModelState);
             }
 
             var user = await _userManager.FindByEmailAsync(loginDTO.Email);
             if (user == null)
             {
-                Console.WriteLine("Invalid Credentials");
-                System.Diagnostics.Debug.WriteLine("Invalid Credentials");
                 return Unauthorized("Invalid Credentials");
                 
             }
 
             // TODO: Maybe locking user account after 3 failed signin attempts ?
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password, lockoutOnFailure: false);
-            Console.WriteLine("eeeeee");
+
             if (result.IsLockedOut)
             { 
-                Console.WriteLine("This account has been blocked");
-                System.Diagnostics.Debug.WriteLine("This account has been blocked");
+
                 return Unauthorized("This account has been blocked");
                 
             }
 
             if (result.Succeeded)
             {
-                var token = _tokenService.GenerateToken(user); // <-- Implementa este método
-                // Puedes devolver el token y otra info básica del usuario
-                Console.WriteLine("Ok....");
-                System.Diagnostics.Debug.WriteLine("Ok....");
+                var token = _tokenService.GenerateToken(user); 
                 return Ok(token);           
             }
-            Console.WriteLine("Invalid credentials....");
-            System.Diagnostics.Debug.WriteLine("Invalid credentials....");
+
             return Unauthorized("Invalid credentials.");
             
         }

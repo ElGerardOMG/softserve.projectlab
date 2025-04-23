@@ -2,7 +2,7 @@
 using API.Models.Entities;
 
 
-namespace API.implementations;
+namespace API.Utils.Implementations;
 // TODO: Maybe implementing a custom mapper class that allows to customize property mapping 
 public class UserClaimUtils
 {

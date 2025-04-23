@@ -6,6 +6,7 @@ using API.Models.Entities;
 using API.Models.Configuration;
 using Microsoft.Extensions.Options;
 using API.implementations.Domain.Interfaces;
+using API.Utils.Implementations;
 
 namespace API.implementations.Domain
 {

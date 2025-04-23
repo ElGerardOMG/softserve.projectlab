@@ -2,39 +2,183 @@
 using API.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using API.Utils.Implementations;
+using API.Models.UserData;
+using System.Security.Claims;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("user")]
+[ApiController]
+
+public class UserController : ControllerBase
 {
-    [Route("user")]
-    [ApiController]
- 
-    public class UserController : ControllerBase
+    // Anteriormente, se inyectaba user processor, pero con la implementación de identiy, se usa userManager
+    /*
+     
+    private readonly IUserProcessor _UserProcessor;
+    
+    public UserController(IUserProcessor userProcessor)
     {
+        _UserProcessor = userProcessor;
+    }
+    */
 
-        private readonly IUserProcessor _UserProcessor;
+    private readonly UserManager<User> _userManager;
+    public UserController(UserManager<User> userManager)
+    {
+        _userManager = userManager;
+    }
 
-        public UserController(IUserProcessor userProcessor)
+    // Este requerería, dependiendo el contexto, algún tipo de autorización especial (¿Un rol específico? Ej: Admin)
+    [HttpGet]
+    // [Authorize(Roles = "Admin")]
+    public virtual IActionResult GetAll()
+    {
+        try
         {
-            _UserProcessor = userProcessor;
+            List<UserReadDTO> userDTOList = new List<UserReadDTO>();
+
+            foreach (User u in (from u in _userManager.Users select u))
+            {
+                userDTOList.Add(DtoMapper.Mapper<User, UserReadDTO>(u, true));
+            }
+
+            return new JsonResult(userDTOList);
+
         }
-
-
-        //  TODO: No devolver el user completo. Crear un DTO igual al user en donde no se
-        //  incluyan contraseñas, métodos de pago etc.
-        
-        [HttpGet("{user_id}")]
-        public virtual IActionResult GetUser(int user_id)
+        catch (Exception E)
         {
-            return Ok(_UserProcessor.GetUserByID(user_id));
-        }
-
-        [HttpGet]
-        public virtual JsonResult GetAll()
-        {
-
-            return new JsonResult(_UserProcessor.GetAll());
+            Console.WriteLine(E.Message + "\n...\n" + E.StackTrace);
+            return StatusCode(500, "Something went wrong, please try again");
         }
 
 
     }
+
+    [HttpGet("{user_id}")]
+    public async virtual Task<IActionResult> GetUser(int user_id)
+    {
+        try
+        {
+            User? user = _userManager.Users.FirstOrDefault(e => e.Id == user_id);
+
+            if (user == null)
+            {
+                return NotFound("This user doesn't exist!");
+            }
+
+            bool newBool = user.IsActive.HasValue ? user.IsActive.Value : true;
+
+            if (!newBool)
+            {
+                return NotFound("This user doesn't exist!");
+            }
+
+            UserReadDTO userDto = DtoMapper.Mapper<User, UserReadDTO>(user, true);
+
+            return Ok(userDto);
+
+        } catch (Exception E)
+        {
+            Console.WriteLine(E.Message + "\n...\n" + E.StackTrace);
+            return StatusCode(500, "Something went wrong, please try again");
+            
+        }
+
+    }
+
+
+    [HttpDelete("{user_id}")]
+    public virtual async Task<IActionResult> DeleteUser(int user_id)
+    {
+        try
+        {
+            User? user = await _userManager.FindByIdAsync(user_id+"");
+
+            if (user == null)
+            {
+                return NotFound("This user doesn't exist!");
+            }
+
+            bool newBool = user.IsActive.HasValue ? user.IsActive.Value : true;
+
+            if (!newBool)
+            {
+                return NotFound("This user doesn't exist!");
+            }
+
+            IdentityResult result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+            {
+                return Ok("User deleted successfully");
+            }
+
+            return StatusCode(500, "Failed to delete user");
+
+        }
+        catch (Exception E)
+        {
+            Console.WriteLine(E.Message + "\n...\n" + E.StackTrace);
+            return StatusCode(500, "Something went wrong, please try again");
+        }
+
+    }
+
+    [Authorize]
+    [HttpPatch]
+    public virtual async Task<IActionResult> UpdateUser([FromBody] UserWriteDTO userDTO)
+    {
+        try
+        {
+
+            switch (UserClaimUtils.GetIdFromIdentity(User.Identity as ClaimsIdentity, out int user_id))
+            {
+                case UserClaimUtils.UNAUTHORIZED: return Unauthorized();
+                case UserClaimUtils.INVALID_TOKEN: return StatusCode(500, "Invalid Session Token. Plase try signing in again");
+                case UserClaimUtils.INVALID_PARSING_TOKEN: return StatusCode(500, "Invalid Session Token. Plase try signing in again");
+                default: break;
+            }
+
+            User? user = await _userManager.FindByIdAsync(user_id + "");
+
+            if (user == null)
+            {
+                return NotFound("This user doesn't exist!");
+            }
+
+            bool newBool = user.IsActive.HasValue ? user.IsActive.Value : true;
+
+            if (!newBool)
+            {
+                return NotFound("This user doesn't exist!");
+            }
+            
+            DtoMapper.Updater(userDTO, user);
+     
+            var result = await _userManager.UpdateAsync(user);
+            
+            if (result.Succeeded)
+            {
+                return Ok("User updated successfully");
+            }
+
+            return StatusCode(500, "Failed to update user");
+
+        }
+        catch (Exception E)
+        {
+            Console.WriteLine(E.Message + "\n...\n" + E.StackTrace);
+            return StatusCode(500, "Something went wrong, please try again");
+        }
+
+    }
+
+
+
 }
+
+
+

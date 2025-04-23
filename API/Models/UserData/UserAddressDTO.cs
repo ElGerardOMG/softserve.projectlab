@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace API.Models;
+namespace API.Models.UserData;
 
 
 public class UserAddressDTO
@@ -24,5 +24,4 @@ public class UserAddressDTO
     [StringLength(255)]
     public string City { get; set; }
 
-    public bool? IsActive { get; set; }
 }

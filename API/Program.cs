@@ -18,6 +18,9 @@ var conectionString = builder.Configuration.GetConnectionString("SqlServerConnec
 builder.Services.AddDbContext<ProjectlabContext>(
     db => db.UseSqlServer(conectionString));
 
+// TODO: Some endpoints must be protected for regular user access. Maybe adding additional roles, but
+// that means we must change the DB
+
 builder.Services.AddIdentity<User, IdentityRole<int>>()
     .AddEntityFrameworkStores<ProjectlabContext>()
     .AddDefaultTokenProviders();
@@ -62,7 +65,7 @@ builder.Services.AddCors(options =>
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
 builder.Services.AddTransient<IProductProcessor, ProductProcessor>();
-builder.Services.AddTransient<IUserProcessor, UserProcessor>();
+//builder.Services.AddTransient<IUserProcessor, UserProcessor>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IEmailSender<User>, DummyEmailSender>();
 builder.Services.AddTransient<IUserAddressProcessor, UserAddressProcessor>();

@@ -6,7 +6,7 @@ using API.implementations.Domain.Interfaces;
 
 namespace API.implementations.Domain;
 
-
+//TODO: Con la implementación de Identity, es processor parece ser inútil...
 public class UserProcessor : IUserProcessor
 {
     private readonly ProjectlabContext _db;

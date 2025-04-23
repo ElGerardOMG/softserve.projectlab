@@ -37,60 +37,39 @@
 
         try
         {
-            // 1. Llama al AuthService para enviar las credenciales a la API
+
             var result = await Http.PostAsJsonAsync("/authenticate/login", loginDTO);
             var messageResult = await result.Content.ReadAsStringAsync();
             if (result.IsSuccessStatusCode)
             {
-                // 2. Si el login fue exitoso y la API devolvió un token:
-                // Llama a MarkUserAsAuthenticated en tu AuthStateProvider
-                // Esto guardará el token Y notificará a Blazor del cambio de estado
+
                 await AuthStateProvider.MarkUserAsAuthenticated(messageResult);
 
-                // 3. Redirige al usuario a la página principal (o a donde necesites)
+               
                 NavigationManager.NavigateTo("/");
             }
             else
             {
-                // Maneja el caso en que AuthService.Login no lanzó excepción pero no devolvió token
-                message = "Login fallido: Token no recibido: " + messageResult; // Mensaje genérico o basado en la respuesta de la API
+               
+                message = "Login fallido: Token no recibido: " + messageResult; 
             }
 
         }
-        catch (HttpRequestException httpEx) // Manejo básico de errores HTTP
+        catch (HttpRequestException httpEx) 
         {
             message = $"Error de conexión: {httpEx.Message}";
-            // Considera parsear el cuerpo de la respuesta para errores específicos de la API
+
         }
         catch (Exception ex)
         {
-            // Manejo general de errores
+            
             message = $"Ocurrió un error: {ex.Message}";
-            Console.WriteLine($"Error durante el login: {ex}"); // Loguea el error
+            Console.WriteLine($"Error durante el login: {ex}"); 
         }
         finally
         {
             isLoading = false;
         }
-        /*
-
-        var response = await Http.PostAsJsonAsync("login", loginDTO);
-
-        /*
-        if (response.IsSuccessStatusCode)
-        {
-            NavigationManager.NavigateTo("/"); 
-        }
-        else
-        {
-            var errorMessage = await response.Content.ReadAsStringAsync();
-            message = errorMessage;
-
-            
-            Console.WriteLine($"Error: {response.StatusCode} - {errorMessage}");
-            
-        }
-        */
 
     }
 }
