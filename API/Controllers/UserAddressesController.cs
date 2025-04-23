@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using API.Models.Entities;
 using System.Text.Json;
-using System.Net;
 using API.Models.UserData;
 using API.Utils.Implementations;
 
@@ -25,10 +24,9 @@ public class UserAddressesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetUserAddresses()
     {
-        var result = DetermineErrorCode(
+        var result = this.GenerateResultFromIdentity(
             UserClaimUtils.GetIdFromIdentity(User.Identity as ClaimsIdentity, out int userId)
         );
-
         if (!(result is OkResult)) return result;
         
         List<UserAddress> userAddresses = _IUserAddressProcessor.GetAddressesFromUser(userId);
@@ -40,41 +38,80 @@ public class UserAddressesController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> AddNewAddress([FromBody] UserAddressDTO userAddress)
     {
-        var result = DetermineErrorCode(
+        var result = this.GenerateResultFromIdentity(
             UserClaimUtils.GetIdFromIdentity(User.Identity as ClaimsIdentity, out int userId)
         );
 
         if (!(result is OkResult)) return result;
 
+        UserAddress userAddressNew = DtoMapper.Mapper<UserAddressDTO, UserAddress>(userAddress, true);
 
-        return Ok();
+        userAddressNew.IdUser = userId;
+
+        _IUserAddressProcessor.AddAddressToUser(userAddressNew);
+        return Ok("Address added succesfully");
     }
 
-    [HttpPatch]
-    public async Task<IActionResult> EditAddress([FromBody] UserAddressDTO userAddress)
+    [HttpPatch("{address_id}")]
+    public async Task<IActionResult> EditAddress([FromRoute] int address_id, [FromBody] UserAddressDTO userAddressDTO)
     {
-        return Ok();
-    }
-
-
-    [HttpDelete]
-    public async Task<IActionResult> DeleteAddress([FromBody] UserAddressDTO userAddress)
-    {
-        return Ok();
-    }
-
-    [NonAction]
-    private IActionResult DetermineErrorCode(int errorCode)
-    {
-        
-        switch (errorCode)
+        try
         {
-            case UserClaimUtils.SUCCESFUL: return Ok();
-            case UserClaimUtils.UNAUTHORIZED: return Unauthorized();
-            case UserClaimUtils.INVALID_TOKEN: return StatusCode(500, "Invalid Session Token. Plase try signing in again");
-            case UserClaimUtils.INVALID_PARSING_TOKEN: return StatusCode(500, "Invalid Session Token. Plase try signing in again");
-            default: return Ok();
+            var result = this.GenerateResultFromIdentity(
+                UserClaimUtils.GetIdFromIdentity(User.Identity as ClaimsIdentity, out int userId)
+            );
+
+            if (!(result is OkResult)) return result;
+
+            UserAddress? userAddressEdit = _IUserAddressProcessor.GetAddressesFromUser(userId).FirstOrDefault(ua => ua.Id == address_id);
+
+            if (userAddressEdit == null)
+            {
+                return BadRequest("This address doesn't exist!");
+            }
+
+            DtoMapper.Updater<UserAddressDTO, UserAddress>(userAddressDTO, userAddressEdit, ["Id"], 1);
+
+            _IUserAddressProcessor.UpdateAddress(userAddressEdit);
+
+            return Ok("User address updated succesfully");
+
+        } catch (Exception E)
+        {
+            Console.WriteLine($"{E.Message}\n...\n{E.StackTrace}");
+            return StatusCode(500, "Something went wrong. Please try again");
         }
     }
+
+
+    [HttpDelete("{address_id}")]
+    public async Task<IActionResult> DeleteAddress([FromRoute] int address_id)
+    {
+        try
+        {
+            var result = this.GenerateResultFromIdentity(
+                UserClaimUtils.GetIdFromIdentity(User.Identity as ClaimsIdentity, out int userId)
+            );
+
+            if (!(result is OkResult)) return result;
+
+            UserAddress? userAddressToRemove = _IUserAddressProcessor.GetAddressesFromUser(userId).FirstOrDefault(ua => ua.Id == address_id);
+
+            if (userAddressToRemove == null)
+            {
+                return BadRequest("This address doesn't exist!");
+            }
+
+            _IUserAddressProcessor.RemoveAddress(userAddressToRemove);
+        }
+        catch (Exception E)
+        {
+            Console.WriteLine($"{E.Message}\n...\n{E.StackTrace}");
+            return StatusCode(500, "Something went wrong. Please try again");
+        }
+
+        return Ok("User address removed succesfully");
+    }
+
 
 }

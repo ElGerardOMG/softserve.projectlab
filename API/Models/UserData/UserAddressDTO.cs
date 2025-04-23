@@ -6,6 +6,8 @@ namespace API.Models.UserData;
 
 public class UserAddressDTO
 {
+    public int Id { get; set; }
+
     [StringLength(255)]
     public string Address1 { get; set; }
 

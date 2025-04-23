@@ -1,10 +1,11 @@
 ﻿using System.Security.Claims;
 using API.Models.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace API.Utils.Implementations;
 // TODO: Maybe implementing a custom mapper class that allows to customize property mapping 
-public class UserClaimUtils
+public static class UserClaimUtils
 {
     public const int SUCCESFUL = 0;
     public const int UNAUTHORIZED = 1;
@@ -48,6 +49,23 @@ public class UserClaimUtils
         userId = id;
 
         return 0;
+    }
+
+    public static IActionResult GenerateResultFromIdentity(this ControllerBase controller, int errorCode)
+    {
+        switch (errorCode)
+        {
+            case UserClaimUtils.SUCCESFUL: 
+                return controller.Ok();
+            case UserClaimUtils.UNAUTHORIZED: 
+                return controller.Unauthorized("You must be logged in to perform this action");
+            case UserClaimUtils.INVALID_TOKEN: 
+                return controller.StatusCode(500, "Invalid Session Token. Plase try signing in again");
+            case UserClaimUtils.INVALID_PARSING_TOKEN: 
+                return controller.StatusCode(500, "Invalid Session Token. Plase try signing in again");
+            default: 
+                return controller.Ok();
+        }
     }
 
 }
