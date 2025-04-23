@@ -15,6 +15,8 @@ public partial class Order
 
     public double? Total { get; set; }
 
+    public string? Status { get; set; }
+
     public int? IdUserAddress { get; set; }
 
     public string? PaymentType { get; set; }
@@ -41,9 +43,7 @@ public partial class Order
 
     public virtual User? IdUserNavigation { get; set; }
 
-    public virtual UserCardPayment? IdUserPaymentCardNavigation { get; set; }
-
-    public virtual UserPaypalPayment? IdUserPaymentPaypalNavigation { get; set; }
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual User? ReferralUserNavigation { get; set; }
 

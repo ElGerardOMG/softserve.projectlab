@@ -30,6 +30,4 @@ public partial class UserCardPayment
     public bool? IsActive { get; set; }
 
     public virtual User? IdUserPaymentNavigation { get; set; }
-
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }
