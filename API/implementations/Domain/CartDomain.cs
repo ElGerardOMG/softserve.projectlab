@@ -65,7 +65,7 @@ namespace API.implementations.Domain
                     error = null
                 };
             }
-            var product = _db.Products.FirstOrDefault(p => p.Id == obj.IdProduct);
+            var product = _db.ProductVariants.FirstOrDefault(p => p.Id == obj.IdProductVariant);
             if (product == null)
             {
                 return new ResultDTO
@@ -76,7 +76,7 @@ namespace API.implementations.Domain
                     error = null
                 };
             }
-            CartDetail cartItem = _db.CartDetail.FirstOrDefault(ci => ci.IdCart == obj.IdCart && ci.IdProduct == obj.IdProduct);
+            CartDetail cartItem = _db.CartDetail.FirstOrDefault(ci => ci.IdCart == obj.IdCart && ci.IdProductVariant == obj.IdProductVariant);
             if (cartItem != null)
             {
                 cartItem.Quantity += obj.Quantity;
@@ -103,9 +103,9 @@ namespace API.implementations.Domain
             };
         }
 
-        public ResultDTO RemoveFromCart(int idCart, int idProduct)
+        public ResultDTO RemoveFromCart(int idCart, int idProductVariant)
         {
-            var cartItem = _db.CartDetail.FirstOrDefault(ci => ci.IdCart == idCart && ci.IdProduct == idProduct);
+            var cartItem = _db.CartDetail.FirstOrDefault(ci => ci.IdCart == idCart && ci.IdProductVariant == idProductVariant);
             if (cartItem == null)
             {
                 return new ResultDTO
@@ -127,9 +127,9 @@ namespace API.implementations.Domain
             };
         }
 
-        public ResultDTO UpdateQuantity(int idCart, int idProduct, int quantity)
+        public ResultDTO UpdateQuantity(int idCart, int idProductVariant, int quantity)
         {
-            var cartItem = _db.CartDetail.FirstOrDefault(ci => ci.IdCart == idCart && ci.IdProduct == idProduct);
+            var cartItem = _db.CartDetail.FirstOrDefault(ci => ci.IdCart == idCart && ci.IdProductVariant == idProductVariant);
             if (cartItem == null)
             {
                 return new ResultDTO
@@ -162,9 +162,9 @@ namespace API.implementations.Domain
             };
         }
 
-        public ResultDTO AddQuantity(int idCart, int idProduct, int quantity)
+        public ResultDTO AddQuantity(int idCart, int idProductVariant, int quantity)
         {
-            var cartItem = _db.CartDetail.FirstOrDefault(ci => ci.IdCart == idCart && ci.IdProduct == idProduct);
+            var cartItem = _db.CartDetail.FirstOrDefault(ci => ci.IdCart == idCart && ci.IdProductVariant == idProductVariant);
             if (cartItem == null)
             {
                 return new ResultDTO
@@ -223,7 +223,7 @@ namespace API.implementations.Domain
         public ResultDTO GetCart(int idUser)
         {
             //full cart and cart detail
-            Cart cart = _db.Cart.Include(c => c.CartDetails).FirstOrDefault(c => c.Id == idUser);
+            Cart cart = _db.Cart.FirstOrDefault(c => c.Id == idUser);
             if (cart == null)
             {
                 return new ResultDTO
@@ -234,6 +234,7 @@ namespace API.implementations.Domain
                     error = null
                 };
             }
+            List<CartDetail> cartDetail = _db.CartDetail.Where(c => c.IdCart == cart.Id).ToList();
             return new ResultDTO
             {
                 statusCode = 200,

@@ -29,6 +29,7 @@ builder.Services.AddTransient<IAttributeCategoryDomain, AttributeCategoryDomain>
 builder.Services.AddTransient<IProductCategoryDomain, ProductCategoryDomain>();
 builder.Services.AddTransient<IProductVariantDomain, ProductVariantDomain>();
 builder.Services.AddTransient<ICartDomain, CartDomain>();
+builder.Services.AddTransient<IOrderDomain, OrderDomain>();
 
 builder.Services.AddDbContext<ProjectlabContext>(
     db => db.UseSqlServer(conectionString));

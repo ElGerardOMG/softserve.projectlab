@@ -24,4 +24,6 @@ public partial class Discount
     public DateTime? DeletedAt { get; set; }
 
     public bool? IsActive { get; set; }
+
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

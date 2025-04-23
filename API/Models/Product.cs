@@ -27,13 +27,12 @@ public partial class Product : IDisposable
 
     public virtual ICollection<Attribute> Attributes { get; set; } = new List<Attribute>();
 
-    public virtual ICollection<CartDetail> CartDetails { get; set; } = new List<CartDetail>();
-
     public virtual ProductCategory? ProductCategoryNavigation { get; set; }
 
     public virtual ICollection<ProductVariant> ProductVariants { get; set; } = new List<ProductVariant>();
 
     bool disposed;
+
     protected virtual void Dispose(bool disposing)
     {
         if (!disposed)

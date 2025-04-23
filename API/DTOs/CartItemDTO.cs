@@ -6,7 +6,7 @@ namespace API.DTOs
     {
         public int? IdCart { get; set; }
 
-        public int? IdProduct { get; set; }
+        public int? IdProductVariant { get; set; }
 
         public int? Quantity { get; set; }
     }

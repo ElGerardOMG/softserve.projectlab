@@ -68,7 +68,7 @@ public partial class ProjectlabContext : DbContext
     {
         modelBuilder.Entity<Models.Attribute>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__attribut__3214EC0794CB92C7");
+            entity.HasKey(e => e.Id).HasName("PK__attribut__3214EC072526819F");
 
             entity.ToTable("attribute", "dbo");
 
@@ -103,7 +103,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<AttributeCategory>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__attribut__3214EC07CDF769EF");
+            entity.HasKey(e => e.Id).HasName("PK__attribut__3214EC07477EE3F2");
 
             entity.ToTable("attribute_category", "dbo");
 
@@ -122,7 +122,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<Cart>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__cart__3214EC07251E5CCA");
+            entity.HasKey(e => e.Id).HasName("PK__cart__3214EC072E9404CE");
 
             entity.ToTable("cart", "dbo");
 
@@ -145,25 +145,25 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<CartDetail>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__cart_det__3214EC0797681B72");
+            entity.HasKey(e => e.Id).HasName("PK__cart_det__3214EC07B5906EC6");
 
             entity.ToTable("cart_detail", "dbo");
 
             entity.Property(e => e.IdCart).HasColumnName("Id_cart");
-            entity.Property(e => e.IdProduct).HasColumnName("Id_product");
+            entity.Property(e => e.IdProductVariant).HasColumnName("Id_product_variant");
 
             entity.HasOne(d => d.IdCartNavigation).WithMany(p => p.CartDetails)
                 .HasForeignKey(d => d.IdCart)
-                .HasConstraintName("FK__cart_deta__Id_ca__0D7A0286");
+                .HasConstraintName("FK__cart_deta__Id_ca__7A672E12");
 
-            entity.HasOne(d => d.IdProductNavigation).WithMany(p => p.CartDetails)
-                .HasForeignKey(d => d.IdProduct)
-                .HasConstraintName("FK__cart_deta__Id_pr__0E6E26BF");
+            entity.HasOne(d => d.IdProductVariantNavigation).WithMany(p => p.CartDetails)
+                .HasForeignKey(d => d.IdProductVariant)
+                .HasConstraintName("FK__cart_deta__Id_pr__7B5B524B");
         });
 
         modelBuilder.Entity<Discount>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__discount__3214EC07FE6D31A0");
+            entity.HasKey(e => e.Id).HasName("PK__discount__3214EC0782B1F846");
 
             entity.ToTable("discount", "dbo");
 
@@ -185,7 +185,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<FinancePack>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__finance___3214EC071F355AD9");
+            entity.HasKey(e => e.Id).HasName("PK__finance___3214EC07DCA78667");
 
             entity.ToTable("finance_pack", "dbo");
 
@@ -209,7 +209,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<FinancePackInterval>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__finance___3214EC07727C84B4");
+            entity.HasKey(e => e.Id).HasName("PK__finance___3214EC07BDAB9CA1");
 
             entity.ToTable("finance_pack_interval", "dbo");
 
@@ -233,7 +233,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<FinancedOrder>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__financed__3214EC0742B6D9DC");
+            entity.HasKey(e => e.Id).HasName("PK__financed__3214EC07AF3038B1");
 
             entity.ToTable("financed_order", "dbo");
 
@@ -263,7 +263,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<FinancedOrderPay>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__financed__3214EC07C39B570C");
+            entity.HasKey(e => e.Id).HasName("PK__financed__3214EC07F25E758C");
 
             entity.ToTable("financed_order_pay", "dbo");
 
@@ -295,7 +295,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<IntervalType>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__interval__3214EC079E181475");
+            entity.HasKey(e => e.Id).HasName("PK__interval__3214EC0707549DB9");
 
             entity.ToTable("interval_type", "dbo");
 
@@ -315,7 +315,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__order__3214EC074DEBFA63");
+            entity.HasKey(e => e.Id).HasName("PK__order__3214EC072404EB3B");
 
             entity.ToTable("order", "dbo");
 
@@ -335,6 +335,7 @@ public partial class ProjectlabContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("Payment_type");
             entity.Property(e => e.ReferralUser).HasColumnName("Referral_user");
+            entity.Property(e => e.Status).HasMaxLength(255);
             entity.Property(e => e.UpdateAt)
                 .HasColumnType("datetime")
                 .HasColumnName("Update_at");
@@ -347,14 +348,6 @@ public partial class ProjectlabContext : DbContext
                 .HasForeignKey(d => d.IdUserAddress)
                 .HasConstraintName("FK__order__Id_user_a__6B24EA82");
 
-            entity.HasOne(d => d.IdUserPaymentCardNavigation).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.IdUserPaymentCard)
-                .HasConstraintName("FK__order__Id_user_p__6C190EBB");
-
-            entity.HasOne(d => d.IdUserPaymentPaypalNavigation).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.IdUserPaymentPaypal)
-                .HasConstraintName("FK__order__Id_user_p__6D0D32F4");
-
             entity.HasOne(d => d.ReferralUserNavigation).WithMany(p => p.OrderReferralUserNavigations)
                 .HasForeignKey(d => d.ReferralUser)
                 .HasConstraintName("FK__order__Referral___6E01572D");
@@ -362,9 +355,9 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("order_detail", "dbo");
+            entity.HasKey(e => e.Id).HasName("PK__order_de__3214EC07EB202FE8");
+
+            entity.ToTable("order_detail", "dbo");
 
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
@@ -374,28 +367,28 @@ public partial class ProjectlabContext : DbContext
                 .HasColumnName("Deleted_at");
             entity.Property(e => e.IdDiscount).HasColumnName("Id_discount");
             entity.Property(e => e.IdOrder).HasColumnName("Id_order");
-            entity.Property(e => e.IdProduct).HasColumnName("Id_product");
+            entity.Property(e => e.IdProductVariant).HasColumnName("Id_product_variant");
             entity.Property(e => e.IsActive).HasColumnName("Is_active");
             entity.Property(e => e.UpdateAt)
                 .HasColumnType("datetime")
                 .HasColumnName("Update_at");
 
-            entity.HasOne(d => d.IdDiscountNavigation).WithMany()
+            entity.HasOne(d => d.IdDiscountNavigation).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.IdDiscount)
-                .HasConstraintName("FK__order_det__Id_di__75A278F5");
+                .HasConstraintName("FK__order_det__Id_di__02FC7413");
 
-            entity.HasOne(d => d.IdOrderNavigation).WithMany()
+            entity.HasOne(d => d.IdOrderNavigation).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.IdOrder)
-                .HasConstraintName("FK__order_det__Id_or__73BA3083");
+                .HasConstraintName("FK__order_det__Id_or__03F0984C");
 
-            entity.HasOne(d => d.IdProductNavigation).WithMany()
-                .HasForeignKey(d => d.IdProduct)
-                .HasConstraintName("FK__order_det__Id_pr__74AE54BC");
+            entity.HasOne(d => d.IdProductVariantNavigation).WithMany(p => p.OrderDetails)
+                .HasForeignKey(d => d.IdProductVariant)
+                .HasConstraintName("FK__order_det__Id_pr__04E4BC85");
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__product__3214EC076B276C47");
+            entity.HasKey(e => e.Id).HasName("PK__product__3214EC074275B769");
 
             entity.ToTable("product", "dbo");
 
@@ -424,7 +417,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<ProductCategory>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__product___3214EC071A45DB2C");
+            entity.HasKey(e => e.Id).HasName("PK__product___3214EC07766D91E8");
 
             entity.ToTable("product_category", "dbo");
 
@@ -443,7 +436,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<ProductVariant>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__product___3214EC076C19EE49");
+            entity.HasKey(e => e.Id).HasName("PK__product___3214EC07AB45BDA7");
 
             entity.ToTable("product_variant", "dbo");
 
@@ -475,7 +468,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<Shipment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__shipment__3214EC0736C2DF0B");
+            entity.HasKey(e => e.Id).HasName("PK__shipment__3214EC07182986D0");
 
             entity.ToTable("shipment", "dbo");
 
@@ -516,7 +509,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__user__3214EC0769193E66");
+            entity.HasKey(e => e.Id).HasName("PK__user__3214EC0738CA40B8");
 
             entity.ToTable("user", "dbo");
 
@@ -549,7 +542,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<UserAddress>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__user_add__3214EC0709B7624A");
+            entity.HasKey(e => e.Id).HasName("PK__user_add__3214EC070206A324");
 
             entity.ToTable("user_address", "dbo");
 
@@ -584,7 +577,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<UserCardPayment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__user_car__3214EC0790C6E840");
+            entity.HasKey(e => e.Id).HasName("PK__user_car__3214EC0726D79C35");
 
             entity.ToTable("user_card_payment", "dbo");
 
@@ -619,7 +612,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<UserPaypalPayment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__user_pay__3214EC0794A36723");
+            entity.HasKey(e => e.Id).HasName("PK__user_pay__3214EC079EC8D692");
 
             entity.ToTable("user_paypal_payment", "dbo");
 
@@ -654,7 +647,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<UserSubscription>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__user_sub__3214EC0769E9EF74");
+            entity.HasKey(e => e.Id).HasName("PK__user_sub__3214EC0752509D27");
 
             entity.ToTable("user_subscription", "dbo");
 
@@ -680,7 +673,7 @@ public partial class ProjectlabContext : DbContext
 
         modelBuilder.Entity<UserWallet>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__user_wal__3214EC077176ED95");
+            entity.HasKey(e => e.Id).HasName("PK__user_wal__3214EC077EFDFDAF");
 
             entity.ToTable("user_wallet", "dbo");
 

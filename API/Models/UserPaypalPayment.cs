@@ -29,7 +29,5 @@ public partial class UserPaypalPayment
 
     public bool? IsActive { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-
     public virtual User? User { get; set; }
 }
