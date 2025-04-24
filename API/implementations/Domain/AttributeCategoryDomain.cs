@@ -85,6 +85,16 @@ namespace API.implementations.Domain
                     error = null
                 };
             }
+            if(Comparer.Compare<AttributeCategoryDTO, AttributeCategory>(obj, existingAttributeCategory))
+            {
+                return new ResultDTO
+                {
+                    statusCode = 200,
+                    description = "No changes detected",
+                    data = null,
+                    error = null
+                };
+            }
             existingAttributeCategory.Name = obj.Name;
             _db.AttributeCategories.Update(existingAttributeCategory);
             _db.SaveChanges();

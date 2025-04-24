@@ -150,6 +150,16 @@ namespace API.implementations.Domain
                     error = null
                 };
             }
+            if(cartItem.Quantity == quantity)
+            {
+                return new ResultDTO
+                {
+                    statusCode = 200,
+                    description = "No changes detected",
+                    data = null,
+                    error = null
+                };
+            }
             cartItem.Quantity = quantity;
             _db.CartDetail.Update(cartItem);
             _db.SaveChanges();
@@ -171,6 +181,16 @@ namespace API.implementations.Domain
                 {
                     statusCode = 500,
                     description = "Product not found in cart",
+                    data = null,
+                    error = null
+                };
+            }
+            if(quantity == 0)
+            {
+                return new ResultDTO
+                {
+                    statusCode = 500,
+                    description = "0 is an invalid value to add",
                     data = null,
                     error = null
                 };

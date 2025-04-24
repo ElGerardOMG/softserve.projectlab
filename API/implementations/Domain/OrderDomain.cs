@@ -48,6 +48,28 @@ namespace API.implementations.Domain
                     double? productPrice = _db.ProductVariants
                         .Where(p => p.Id == item.IdProductVariant).First().Price;
                     subtotal += productPrice * item.Quantity;
+                    // GET THE DISCOUNTS OF THE PRODUCT
+                    // LATER
+                    // GET PRODUCT AVAILABILITY
+                    ProductVariant pv = _db.ProductVariants.FirstOrDefault(c => c.Id == item.IdProductVariant);
+                    if (pv.Stock < item.Quantity)
+                    {
+                        return new ResultDTO
+                        {
+                            statusCode = 500,
+                            description = $"Only {pv.Stock} products remaining",
+                            data = new { idProductVariant = item.IdProductVariant, stock = pv.Stock }
+                        };
+                    }
+                    if (pv.Stock == 0)
+                    {
+                        return new ResultDTO
+                        {
+                            statusCode = 500,
+                            description = "Product out of stock",
+                            data = null
+                        };
+                    }
                 }
             }
             // GET THE TAXES OF THE TOTAL
@@ -151,6 +173,9 @@ namespace API.implementations.Domain
                             DeletedAt = null,
                             IsActive = true
                         };
+                    ProductVariant pv = _db.ProductVariants.FirstOrDefault(c => c.Id == item.IdProductVariant);
+                    pv.Stock -= item.Quantity;
+                    _db.ProductVariants.Update(pv);
                     _db.OrderDetails.Add(newOrderDetail);
                 }
                 if (obj.is_financed)
@@ -239,6 +264,15 @@ namespace API.implementations.Domain
                 {
                     statusCode = 500,
                     description = "Order not found",
+                };
+            }
+            if(order.Status == status)
+            {
+                return new ResultDTO
+                {
+                    statusCode = 200,
+                    description = "No changes detected",
+                    data = null
                 };
             }
             order.Status = status;

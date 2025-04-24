@@ -2,7 +2,6 @@
 {
     public class ShipmentDTO
     {
-        public int Id { get; set; }
         public DateTime EstimatedArrival { get; set; }
         public DateTime Arrival { get; set; }
     }
