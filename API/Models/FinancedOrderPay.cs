@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace API.Models;
 
-public partial class FinancedOrderPay
+public partial class FinancedOrderPay : BaseClass
 {
     public int Id { get; set; }
 
@@ -18,14 +18,6 @@ public partial class FinancedOrderPay
     public DateTime? LimitPayDate { get; set; }
 
     public DateTime? PayDate { get; set; }
-
-    public DateTime? CreatedAt { get; set; }
-
-    public DateTime? UpdateAt { get; set; }
-
-    public DateTime? DeletedAt { get; set; }
-
-    public bool? IsActive { get; set; }
 
     public virtual FinancedOrder? IdOrderNavigation { get; set; }
 }

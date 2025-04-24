@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace API.Models;
 
-public partial class UserAddress
+public partial class UserAddress : BaseClass
 {
     public int Id { get; set; }
 
@@ -20,14 +20,6 @@ public partial class UserAddress
     public string? State { get; set; }
 
     public string? City { get; set; }
-
-    public DateTime? CreatedAt { get; set; }
-
-    public DateTime? UpdateAt { get; set; }
-
-    public DateTime? DeletedAt { get; set; }
-
-    public bool? IsActive { get; set; }
 
     public virtual User? IdUserNavigation { get; set; }
 

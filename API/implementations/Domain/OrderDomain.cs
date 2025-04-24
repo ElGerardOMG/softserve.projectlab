@@ -250,7 +250,7 @@ namespace API.implementations.Domain
                 data = null
             };
         }
-        public ResultDTO GetOrdersByUser(int id_user)
+        public ResultDTO GetOrdersByUser(int id_user, FilterDTO filter)
         {
             List<Order> orders = _db.Orders
                 .Where(c => c.IdUser == id_user)

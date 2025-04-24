@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace API.Models;
 
-public partial class Discount
+public partial class Discount : BaseClass
 {
     public int Id { get; set; }
 
@@ -16,14 +16,6 @@ public partial class Discount
     public bool? IsPrimeOnly { get; set; }
 
     public double? Value { get; set; }
-
-    public DateTime? CreatedAt { get; set; }
-
-    public DateTime? UpdateAt { get; set; }
-
-    public DateTime? DeletedAt { get; set; }
-
-    public bool? IsActive { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

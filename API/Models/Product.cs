@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace API.Models;
 
-public partial class Product : IDisposable
+public partial class Product : BaseClass, IDisposable
 {
     public int Id { get; set; }
 
@@ -16,14 +16,6 @@ public partial class Product : IDisposable
     public string? Brand { get; set; }
 
     public string? Family { get; set; }
-
-    public DateTime? CreatedAt { get; set; }
-
-    public DateTime? UpdateAt { get; set; }
-
-    public DateTime? DeletedAt { get; set; }
-
-    public bool? IsActive { get; set; }
 
     public virtual ICollection<Attribute> Attributes { get; set; } = new List<Attribute>();
 

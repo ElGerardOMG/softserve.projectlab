@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    public class ProductVariantsController
+    public class ProductVariantsController : ControllerBase
     {
         // PRODUCT VARIANT CONTROLLER
 
@@ -19,13 +18,13 @@ namespace API.Controllers
         }
         // PRODUCT VARIANTS
 
-        [HttpPost("GetById/{id}")]
-        public async Task<IActionResult> GetProductVariantById(int id)
+        [HttpGet("{idProductVariant}")]
+        public async Task<IActionResult> GetProductVariantById(int idProductVariant)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _productProcessor.GetProductVariantById(id)
+                    result: _productProcessor.GetProductVariantById(idProductVariant)
                 );
             }
             catch (Exception ex)
@@ -34,7 +33,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost("Create")]
+        [HttpPost]
         public IActionResult AddProductVariant([FromBody] ProductVariantDTO obj)
         {
             try
@@ -49,13 +48,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpPut("Update/{id}")]
-        public IActionResult UpdateProductVariant(int id, [FromBody] ProductVariantDTO obj)
+        [HttpPut("{idProductVariant}")]
+        public IActionResult UpdateProductVariant(int idProductVariant, [FromBody] ProductVariantDTO obj)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _productProcessor.UpdateProductVariant(id, obj)
+                    result: _productProcessor.UpdateProductVariant(idProductVariant, obj)
                 );
             }
             catch (Exception ex)
@@ -64,13 +63,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpDelete("Delete/{id}")]
-        public IActionResult DeleteProductVariant(int id)
+        [HttpDelete("{idProductVariant}")]
+        public IActionResult DeleteProductVariant(int idProductVariant)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _productProcessor.DeleteProductVariant(id)
+                    result: _productProcessor.DeleteProductVariant(idProductVariant)
                 );
             }
             catch (Exception ex)

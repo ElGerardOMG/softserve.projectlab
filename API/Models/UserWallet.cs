@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace API.Models;
 
-public partial class UserWallet
+public partial class UserWallet : BaseClass
 {
     public int Id { get; set; }
 
@@ -14,14 +14,6 @@ public partial class UserWallet
     public double? Amount { get; set; }
 
     public DateTime? ExpirationDate { get; set; }
-
-    public DateTime? CreatedAt { get; set; }
-
-    public DateTime? UpdateAt { get; set; }
-
-    public DateTime? DeletedAt { get; set; }
-
-    public bool? IsActive { get; set; }
 
     public virtual User? IdUserNavigation { get; set; }
 }

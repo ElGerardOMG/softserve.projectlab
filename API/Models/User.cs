@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace API.Models;
 
-public partial class User
+public partial class User : BaseClass
 {
     public int Id { get; set; }
 
@@ -24,14 +24,6 @@ public partial class User
     public string? LastUsedPaymentType { get; set; }
 
     public int? LastUsedPayment { get; set; }
-
-    public DateTime? CreatedAt { get; set; }
-
-    public DateTime? UpdateAt { get; set; }
-
-    public DateTime? DeletedAt { get; set; }
-
-    public bool? IsActive { get; set; }
 
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
