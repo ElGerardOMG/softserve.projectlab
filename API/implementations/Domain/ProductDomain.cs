@@ -94,7 +94,16 @@ namespace API.implementations.Domain
                     error = "Error while updating the product"
                 };
             }
-
+            if (Comparer.Compare<ProductDTO, Product>(obj, existingProduct))
+            {
+                return new ResultDTO
+                {
+                    statusCode = 200,
+                    description = "No changes detected",
+                    data = null,
+                    error = null
+                };
+            }
             existingProduct.ProductType = obj.ProductType;
             existingProduct.ProductCategory = obj.ProductCategory;
             existingProduct.Name = obj.Name;

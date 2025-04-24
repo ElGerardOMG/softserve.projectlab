@@ -14,7 +14,7 @@ namespace API.Controllers
             _processor = delivieriesDomain;
         }
         [HttpPost]
-        public IActionResult CreateDelivery(CreateShipmentDTO obj)
+        public IActionResult CreateDelivery([FromBody] CreateShipmentDTO obj)
         {
             try
             {
@@ -55,13 +55,13 @@ namespace API.Controllers
                 return ResponseHelper.ErrorProcessor(ex.Message, 500);
             }
         }
-        [HttpPut]
-        public IActionResult UpdateDelivery(ShipmentDTO obj)
+        [HttpPut("{idShipment}")]
+        public IActionResult UpdateDelivery(int idShipment, [FromBody]ShipmentDTO obj)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _processor.UpdateDelivery(obj)
+                    result: _processor.UpdateDelivery(idShipment, obj)
                 );
             }
             catch (Exception ex)

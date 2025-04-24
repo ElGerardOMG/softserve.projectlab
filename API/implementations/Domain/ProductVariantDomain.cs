@@ -64,6 +64,16 @@ namespace API.implementations.Domain
                     error = null
                 };
             }
+            if (Comparer.Compare<ProductVariantDTO, ProductVariant>(obj, existingProductVariant))
+            {
+                return new ResultDTO
+                {
+                    statusCode = 200,
+                    description = "No changes detected",
+                    data = null,
+                    error = null
+                };
+            }
             existingProductVariant.SubName = obj.SubName;
             existingProductVariant.SubFamily = obj.SubFamily;
             existingProductVariant.Price = obj.Price;

@@ -86,6 +86,16 @@ namespace API.implementations.Domain
                     error = null
                 };
             }
+            if (existingProductCategory.Name == obj.Name)
+            {
+                return new ResultDTO
+                {
+                    statusCode = 200,
+                    description = "No changes detected",
+                    data = null,
+                    error = null
+                };
+            }
             existingProductCategory.Name = obj.Name;
             _db.ProductCategories.Update(existingProductCategory);
             _db.SaveChanges();

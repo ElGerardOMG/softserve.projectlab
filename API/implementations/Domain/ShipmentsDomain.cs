@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.DTOs;
 using API.implementations.Interfaces;
+using API.Utils.Implementations;
 using API.Models;
 
 namespace API.implementations.Domain
@@ -90,8 +91,6 @@ namespace API.implementations.Domain
 
         }
 
-
-
         public ResultDTO GetDelivery(int id_delivery)
         {
             // CHECK IF OBJECT IS VALID
@@ -148,7 +147,7 @@ namespace API.implementations.Domain
                 data = deliveries
             };
         }
-        public ResultDTO UpdateDelivery(ShipmentDTO obj)
+        public ResultDTO UpdateDelivery(int id, ShipmentDTO obj)
         {
             if (obj == null)
             {
@@ -159,7 +158,7 @@ namespace API.implementations.Domain
                 };
             }
             // GET DELIVERY
-            Shipment delivery = _db.Shipments.FirstOrDefault(d => d.Id == obj.Id);
+            Shipment delivery = _db.Shipments.FirstOrDefault(d => d.Id == id);
             if (delivery == null)
             {
                 return new ResultDTO
@@ -169,6 +168,24 @@ namespace API.implementations.Domain
                 };
             }
             // UPDATE DELIVERY
+            DateTime EstimatedArrival = DateTime.Now;
+            DateTime Arrival = DateTime.Now;
+            if (delivery.EstimatedArrival.HasValue) EstimatedArrival = delivery.EstimatedArrival.Value;
+            if(delivery.Arrival.HasValue) Arrival = delivery.Arrival.Value;
+
+            if (DateTime.Compare(EstimatedArrival, obj.EstimatedArrival) == 0 && DateTime.Compare(Arrival, obj.Arrival) == 0)
+            {
+                return new ResultDTO
+                {
+                    statusCode = 200,
+                    description = "No changes detected",
+                    data = null,
+                    error = null
+                };
+            }
+
+
+
             delivery.EstimatedArrival = obj.EstimatedArrival;
             delivery.Arrival = obj.Arrival;
             delivery.UpdateAt = DateTime.Now;
@@ -178,7 +195,7 @@ namespace API.implementations.Domain
             {
                 statusCode = 200,
                 description = "Delivery updated",
-                data = delivery
+                data = null
             };
         }
         public ResultDTO UpdateDeliveryStatus(int id_delivery, string status)
