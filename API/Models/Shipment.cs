@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace API.Models;
 
-public partial class Shipment
+public partial class Shipment : BaseClass
 {
     public int Id { get; set; }
 
@@ -20,14 +20,6 @@ public partial class Shipment
     public DateTime? EstimatedArrival { get; set; }
 
     public DateTime? Arrival { get; set; }
-
-    public DateTime? CreatedAt { get; set; }
-
-    public DateTime? UpdateAt { get; set; }
-
-    public DateTime? DeletedAt { get; set; }
-
-    public bool? IsActive { get; set; }
 
     public virtual Order? IdOrderNavigation { get; set; }
 

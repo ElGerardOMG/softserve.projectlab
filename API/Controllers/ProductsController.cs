@@ -10,7 +10,6 @@ using API.Utils.Implementations;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     public class ProductsController : ControllerBase
     {
         // PRODUCT CONTROLLER
@@ -22,7 +21,7 @@ namespace API.Controllers
         }
         // PRODUCTS
 
-        [HttpPost("GetFiltered/{type}")]
+        [HttpGet]
         public IActionResult GetProduct(
             [FromBody] FilterDTO? filters,
             string type,
@@ -43,13 +42,13 @@ namespace API.Controllers
 
         }
 
-        [HttpGet("GetById/{id}")]
-        public async Task<IActionResult> GetProduct(int id)
+        [HttpGet("{idProduct}")]
+        public async Task<IActionResult> GetProduct(int idProduct)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _productProcessor.GetProductByID(id)
+                    result: _productProcessor.GetProductByID(idProduct)
                 );
             }
             catch (Exception ex)
@@ -58,7 +57,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost("Create")]
+        [HttpPost]
         public IActionResult AddProduct([FromBody] ProductDTO obj)
         {
             try
@@ -73,13 +72,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpPut("Update/{id}")]
-        public IActionResult UpdateProduct(int id, [FromBody] ProductDTO value)
+        [HttpPut("{idProduct}")]
+        public IActionResult UpdateProduct(int idProduct, [FromBody] ProductDTO value)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _productProcessor.UpdateProduct(id, value)
+                    result: _productProcessor.UpdateProduct(idProduct, value)
                 );
             }
             catch (Exception ex)
@@ -88,13 +87,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpDelete("Delete/{id}")]
-        public IActionResult DeleteProduct(int id)
+        [HttpDelete("{idProduct}")]
+        public IActionResult DeleteProduct(int idProduct)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _productProcessor.DeleteProduct(id)
+                    result: _productProcessor.DeleteProduct(idProduct)
                 );
             }
             catch (Exception ex)

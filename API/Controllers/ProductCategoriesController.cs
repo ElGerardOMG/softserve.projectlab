@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    public class ProductCategoriesController
+    public class ProductCategoriesController : ControllerBase
     {
         // PRODUCT CATEGORY CONTROLLER
 
@@ -19,9 +18,8 @@ namespace API.Controllers
         }
 
         // PRODUCT CATEGORIES
-
-        [HttpPost("GetFiltered/{isActive}")]
-        public IActionResult GetCategories([FromBody] string? value, bool isActive)
+        [HttpGet]
+        public IActionResult GetCategories(string? value, bool isActive)
         {
             try
             {
@@ -35,13 +33,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("GetById/{id}")]
-        public async Task<IActionResult> GetCategory(int id)
+        [HttpGet("{idCategory}")]
+        public async Task<IActionResult> GetCategory(int idCategory)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _productProcessor.GetProductCategoryByID(id)
+                    result: _productProcessor.GetProductCategoryByID(idCategory)
                 );
             }
             catch (Exception ex)
@@ -50,7 +48,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost("Create")]
+        [HttpPost]
         public IActionResult AddCategory([FromBody] ProductCategoryDTO obj)
         {
             try
@@ -65,13 +63,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpPut("Update/{id}")]
-        public IActionResult UpdateCategory(int id, [FromBody] ProductCategoryDTO obj)
+        [HttpPut("{idCategory}")]
+        public IActionResult UpdateCategory(int idCategory, [FromBody] ProductCategoryDTO obj)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _productProcessor.UpdateProductCategory(id, obj)
+                    result: _productProcessor.UpdateProductCategory(idCategory, obj)
                 );
             }
             catch (Exception ex)
@@ -80,13 +78,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpDelete("Delete/{id}")]
-        public IActionResult DeleteCategory(int id)
+        [HttpDelete("{idCategory}")]
+        public IActionResult DeleteCategory(int idCategory)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _productProcessor.DeleteProductCategory(id)
+                    result: _productProcessor.DeleteProductCategory(idCategory)
                 );
             }
             catch (Exception ex)

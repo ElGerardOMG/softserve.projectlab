@@ -30,11 +30,22 @@ namespace API.implementations.Domain
 
         public ResultDTO GetProductCategoryByID(int id)
         {
+            ProductCategory productCategory = _db.ProductCategories.FirstOrDefault(p => p.Id == id);
+            if (productCategory == null)
+            {
+                return new ResultDTO
+                {
+                    statusCode = 500,
+                    description = "Product category not found",
+                    data = null,
+                    error = null
+                };
+            }
             return new ResultDTO
             {
                 statusCode = 200,
                 description = "Product category detail",
-                data = _db.ProductCategories.FirstOrDefault(p => p.Id == id),
+                data = productCategory,
                 error = null
             };
         }

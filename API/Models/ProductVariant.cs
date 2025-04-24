@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace API.Models;
 
-public partial class ProductVariant
+public partial class ProductVariant : BaseClass
 {
     public int Id { get; set; }
 
@@ -18,14 +18,6 @@ public partial class ProductVariant
     public double? Price { get; set; }
 
     public int? Stock { get; set; }
-
-    public DateTime? CreatedAt { get; set; }
-
-    public DateTime? UpdateAt { get; set; }
-
-    public DateTime? DeletedAt { get; set; }
-
-    public bool? IsActive { get; set; }
 
     public virtual ICollection<Attribute> Attributes { get; set; } = new List<Attribute>();
 

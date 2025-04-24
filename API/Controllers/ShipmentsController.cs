@@ -6,21 +6,20 @@ using API.Utils.Implementations;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
-    public class OrderController : ControllerBase
+    public class ShipmentsController : ControllerBase
     {
-        private readonly IOrderDomain _processor;
-        public OrderController(IOrderDomain orderProcessor)
+        private readonly IShipmentsDomain _processor;
+        public ShipmentsController(IShipmentsDomain delivieriesDomain)
         {
-            _processor = orderProcessor;
+            _processor = delivieriesDomain;
         }
-
         [HttpPost]
-        public IActionResult CreateOrder([FromBody] CreateOrderDTO obj)
+        public IActionResult CreateDelivery(CreateShipmentDTO obj)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _processor.CreateOrder(obj)
+                    result: _processor.CreateDelivery(obj)
                 );
             }
             catch (Exception ex)
@@ -28,13 +27,13 @@ namespace API.Controllers
                 return ResponseHelper.ErrorProcessor(ex.Message, 500);
             }
         }
-        [HttpGet("{idOrder}")]
-        public IActionResult GetOrder(int idOrder)
+        [HttpGet("{idShipment}")]
+        public IActionResult GetDelivery(int idShipment)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _processor.GetOrder(idOrder)
+                    result: _processor.GetDelivery(idShipment)
                 );
             }
             catch (Exception ex)
@@ -42,13 +41,13 @@ namespace API.Controllers
                 return ResponseHelper.ErrorProcessor(ex.Message, 500);
             }
         }
-        [HttpDelete("{idOrder}")]
-        public IActionResult CancelOrder(int idOrder)
+        [HttpGet("GetByUser/{idUser}")]
+        public IActionResult GetDeliveriesByUser(int idUser, FilterDTO? filters)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _processor.CancelOrder(idOrder)
+                    result: _processor.GetDeliveriesByUser(idUser, filters)
                 );
             }
             catch (Exception ex)
@@ -56,13 +55,13 @@ namespace API.Controllers
                 return ResponseHelper.ErrorProcessor(ex.Message, 500);
             }
         }
-        [HttpGet("GetStatus/{idOrder}")]
-        public IActionResult GetOrderStatus(int idOrder)
+        [HttpPut]
+        public IActionResult UpdateDelivery(ShipmentDTO obj)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _processor.GetOrderStatus(idOrder)
+                    result: _processor.UpdateDelivery(obj)
                 );
             }
             catch (Exception ex)
@@ -70,13 +69,13 @@ namespace API.Controllers
                 return ResponseHelper.ErrorProcessor(ex.Message, 500);
             }
         }
-        [HttpPatch("{idOrder}")]
-        public IActionResult UpdateOrderStatus(int idOrder, string status)
+        [HttpPatch("{idProductVariant}")]
+        public IActionResult UpdateDeliveryStatus(int idProductVariant, string status)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _processor.UpdateOrderStatus(idOrder, status)
+                    result: _processor.UpdateDeliveryStatus(idProductVariant, status)
                 );
             }
             catch (Exception ex)
@@ -84,13 +83,13 @@ namespace API.Controllers
                 return ResponseHelper.ErrorProcessor(ex.Message, 500);
             }
         }
-        [HttpGet("GetOrdersByUser/{idUser}")]
-        public IActionResult GetOrdersByUser(int idUser)
+        [HttpDelete("{idProductVariant}")]
+        public IActionResult DeleteDelivery(int idProductVariant)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _processor.GetOrdersByUser(idUser, new FilterDTO())
+                    result: _processor.DeleteDelivery(idProductVariant)
                 );
             }
             catch (Exception ex)
@@ -100,5 +99,4 @@ namespace API.Controllers
         }
 
     }
-
 }

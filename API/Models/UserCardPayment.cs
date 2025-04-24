@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace API.Models;
 
-public partial class UserCardPayment
+public partial class UserCardPayment : BaseClass
 {
     public int Id { get; set; }
 
@@ -20,14 +20,6 @@ public partial class UserCardPayment
     public int? CardExpirationMonth { get; set; }
 
     public bool? LastUsed { get; set; }
-
-    public DateTime? CreatedAt { get; set; }
-
-    public DateTime? UpdateAt { get; set; }
-
-    public DateTime? DeletedAt { get; set; }
-
-    public bool? IsActive { get; set; }
 
     public virtual User? IdUserPaymentNavigation { get; set; }
 }

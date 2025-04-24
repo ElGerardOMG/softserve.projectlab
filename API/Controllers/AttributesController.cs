@@ -8,7 +8,6 @@ using API.Utils.Implementations;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     public class AttributesController : ControllerBase  
     {
         // PRODUCT ATTRIBUTE CONTROLLER
@@ -19,7 +18,7 @@ namespace API.Controllers
             _attributeProcessor = attributeProcessor;
         }
 
-        [HttpPost("Create")]
+        [HttpPost]
         public IActionResult RegisterAttribute([FromBody] AttributeDTO value)
         {
             try
@@ -34,13 +33,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpPatch("Update/{id_attribute}")]
-        public IActionResult UpdateAttribute(int id_attribute, string field, string value)
+        [HttpPatch("{idAttribute}")]
+        public IActionResult UpdateAttribute(int idAttribute, string field, string value)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _attributeProcessor.UpdateAttribute(id_attribute, field, value)
+                    result: _attributeProcessor.UpdateAttribute(idAttribute, field, value)
                 );
             }
             catch (Exception ex)
@@ -49,13 +48,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpDelete("Delete/{id_attribute}")]
-        public IActionResult DeleteAttribute(int id_attribute)
+        [HttpDelete("{idAttribute}")]
+        public IActionResult DeleteAttribute(int idAttribute)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _attributeProcessor.DeleteAttribute(id_attribute)
+                    result: _attributeProcessor.DeleteAttribute(idAttribute)
                 );
             }
             catch (Exception ex)
