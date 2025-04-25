@@ -87,7 +87,7 @@ namespace API.implementations.Domain
             {
                 statusCode = 201,
                 description = "Delivery succesfully created",
-                data = null
+                data = new { idShipment = delivery.Id }
             };
 
 
