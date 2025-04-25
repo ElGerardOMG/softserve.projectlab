@@ -6,11 +6,11 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using API.Models.Configuration;
-using API.implementations.Domain.Interfaces;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using API.implementations.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

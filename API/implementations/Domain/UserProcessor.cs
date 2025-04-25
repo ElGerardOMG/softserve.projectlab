@@ -2,7 +2,7 @@
 using API.Data;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
-using API.implementations.Domain.Interfaces;
+using API.implementations.Interfaces;
 
 namespace API.implementations.Domain;
 

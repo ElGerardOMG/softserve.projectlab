@@ -5,8 +5,8 @@ using System.Text;
 using API.Models.Entities;
 using API.Models.Configuration;
 using Microsoft.Extensions.Options;
-using API.implementations.Domain.Interfaces;
 using API.Utils.Implementations;
+using API.implementations.Interfaces;
 
 namespace API.implementations.Domain
 {

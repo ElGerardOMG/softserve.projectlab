@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models.Entities.Models.Entities;
 
 [Table("discount")]
 public partial class Discount
@@ -39,4 +39,7 @@ public partial class Discount
 
     [Column("Is_active")]
     public bool? IsActive { get; set; }
+
+    [InverseProperty("IdDiscountNavigation")]
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

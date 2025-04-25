@@ -6,23 +6,27 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models.Entities.Models.Entities;
 
-[Keyless]
 [Table("cart_detail")]
 public partial class CartDetail
 {
+    [Key]
+    public int Id { get; set; }
+
     [Column("Id_cart")]
     public int? IdCart { get; set; }
 
-    [Column("Id_product")]
-    public int? IdProduct { get; set; }
+    [Column("Id_product_variant")]
+    public int? IdProductVariant { get; set; }
 
     public int? Quantity { get; set; }
 
     [ForeignKey("IdCart")]
+    [InverseProperty("CartDetails")]
     public virtual Cart IdCartNavigation { get; set; }
 
-    [ForeignKey("IdProduct")]
-    public virtual Product IdProductNavigation { get; set; }
+    [ForeignKey("IdProductVariant")]
+    [InverseProperty("CartDetails")]
+    public virtual ProductVariant IdProductVariantNavigation { get; set; }
 }

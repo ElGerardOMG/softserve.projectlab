@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models.Entities.Models.Entities;
 
 [Table("product_variant")]
 public partial class ProductVariant
@@ -48,7 +48,13 @@ public partial class ProductVariant
     [InverseProperty("IdProductVariantNavigation")]
     public virtual ICollection<Attribute> Attributes { get; set; } = new List<Attribute>();
 
+    [InverseProperty("IdProductVariantNavigation")]
+    public virtual ICollection<CartDetail> CartDetails { get; set; } = new List<CartDetail>();
+
     [ForeignKey("IdProduct")]
     [InverseProperty("ProductVariants")]
     public virtual Product IdProductNavigation { get; set; }
+
+    [InverseProperty("IdProductVariantNavigation")]
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

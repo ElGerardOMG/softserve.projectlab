@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models.Entities.Models.Entities;
 
 [Table("order")]
 public partial class Order
@@ -22,6 +22,9 @@ public partial class Order
     public double? Taxes { get; set; }
 
     public double? Total { get; set; }
+
+    [StringLength(255)]
+    public string Status { get; set; }
 
     [Column("Id_user_address")]
     public int? IdUserAddress { get; set; }
@@ -65,13 +68,8 @@ public partial class Order
     [InverseProperty("OrderIdUserNavigations")]
     public virtual User IdUserNavigation { get; set; }
 
-    [ForeignKey("IdUserPaymentCard")]
-    [InverseProperty("Orders")]
-    public virtual UserCardPayment IdUserPaymentCardNavigation { get; set; }
-
-    [ForeignKey("IdUserPaymentPaypal")]
-    [InverseProperty("Orders")]
-    public virtual UserPaypalPayment IdUserPaymentPaypalNavigation { get; set; }
+    [InverseProperty("IdOrderNavigation")]
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     [ForeignKey("ReferralUser")]
     [InverseProperty("OrderReferralUserNavigations")]

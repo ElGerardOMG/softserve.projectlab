@@ -6,17 +6,21 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models.Entities.Models.Entities;
 
-[Keyless]
 [Table("order_detail")]
 public partial class OrderDetail
 {
+    [Key]
+    public int Id { get; set; }
+
     [Column("Id_order")]
     public int? IdOrder { get; set; }
 
-    [Column("Id_product")]
-    public int? IdProduct { get; set; }
+    [Column("Id_product_variant")]
+    public int? IdProductVariant { get; set; }
+
+    public int? Quantity { get; set; }
 
     [Column("Id_discount")]
     public int? IdDiscount { get; set; }
@@ -34,11 +38,14 @@ public partial class OrderDetail
     public bool? IsActive { get; set; }
 
     [ForeignKey("IdDiscount")]
+    [InverseProperty("OrderDetails")]
     public virtual Discount IdDiscountNavigation { get; set; }
 
     [ForeignKey("IdOrder")]
+    [InverseProperty("OrderDetails")]
     public virtual Order IdOrderNavigation { get; set; }
 
-    [ForeignKey("IdProduct")]
-    public virtual Product IdProductNavigation { get; set; }
+    [ForeignKey("IdProductVariant")]
+    [InverseProperty("OrderDetails")]
+    public virtual ProductVariant IdProductVariantNavigation { get; set; }
 }

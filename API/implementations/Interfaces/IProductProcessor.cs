@@ -1,6 +1,6 @@
 ﻿using API.Models.Entities;
 
-namespace API.implementations.Domain.Interfaces
+namespace API.implementations.Interfaces
 {
     public interface IProductProcessor
     {

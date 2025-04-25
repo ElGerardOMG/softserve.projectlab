@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models.Entities.Models.Entities;
 
 [Table("cart")]
 public partial class Cart
@@ -28,6 +28,9 @@ public partial class Cart
 
     [Column("Is_active")]
     public bool? IsActive { get; set; }
+
+    [InverseProperty("IdCartNavigation")]
+    public virtual ICollection<CartDetail> CartDetails { get; set; } = new List<CartDetail>();
 
     [ForeignKey("IdUser")]
     [InverseProperty("Carts")]

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models.Entities.Models.Entities;
 
 [Table("user_paypal_payment")]
 public partial class UserPaypalPayment
@@ -17,23 +17,8 @@ public partial class UserPaypalPayment
     [Column("User_id")]
     public int? UserId { get; set; }
 
-    [Column("Card_type")]
     [StringLength(255)]
-    public string CardType { get; set; }
-
-    [Column("Card_number")]
-    [StringLength(255)]
-    public string CardNumber { get; set; }
-
-    [Column("Card_name")]
-    [StringLength(255)]
-    public string CardName { get; set; }
-
-    [Column("Card_expiration_year")]
-    public int? CardExpirationYear { get; set; }
-
-    [Column("Card_expiration_month")]
-    public int? CardExpirationMonth { get; set; }
+    public string Email { get; set; }
 
     [Column("Last_used")]
     public bool? LastUsed { get; set; }
@@ -49,9 +34,6 @@ public partial class UserPaypalPayment
 
     [Column("Is_active")]
     public bool? IsActive { get; set; }
-
-    [InverseProperty("IdUserPaymentPaypalNavigation")]
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     [ForeignKey("UserId")]
     [InverseProperty("UserPaypalPayments")]
