@@ -28,7 +28,7 @@ namespace API.implementations.Domain
                     description = "User not found",
                 };
             }
-            Cart cart = _db.Cart.FirstOrDefault(c => c.Id == id_user);
+            Cart cart = _db.Cart.Where(c => c.IsActive == true).FirstOrDefault(c => c.Id == id_user);
             string msg = "Cart already created";
             if (cart == null)
             {
@@ -37,7 +37,7 @@ namespace API.implementations.Domain
                 {
                     IdUser = id_user,
                     CreatedAt = DateTime.Now,
-                    UpdateAt = DateTime.Now,
+                    UpdateAt = null,
                     IsActive = true
                 };
                 _db.Cart.Add(cart);

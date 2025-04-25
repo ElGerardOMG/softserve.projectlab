@@ -21,7 +21,7 @@ namespace API.Controllers
         }
         // PRODUCTS
 
-        [HttpGet]
+        [HttpPost("{type}")]
         public IActionResult GetProduct(
             [FromBody] FilterDTO? filters,
             string type,

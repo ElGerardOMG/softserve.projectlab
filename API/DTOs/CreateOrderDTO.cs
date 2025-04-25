@@ -10,6 +10,7 @@
         public string payment_type { get; set; }
         public int id_user_address { get; set; }
         public int id_user_payment_card { get; set; }
+        public int cvv { get; set; }
         public int id_user_payment_paypal { get; set; }
 
     }

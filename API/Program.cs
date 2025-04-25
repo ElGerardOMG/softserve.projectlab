@@ -31,6 +31,7 @@ builder.Services.AddTransient<IProductVariantDomain, ProductVariantDomain>();
 builder.Services.AddTransient<ICartDomain, CartDomain>();
 builder.Services.AddTransient<IOrderDomain, OrderDomain>();
 builder.Services.AddTransient<IShipmentsDomain, ShipmentsDomain>();
+builder.Services.AddTransient<IAssistantDomain, AssistantDomain>();
 
 builder.Services.AddDbContext<ProjectlabContext>(
     db => db.UseSqlServer(conectionString));

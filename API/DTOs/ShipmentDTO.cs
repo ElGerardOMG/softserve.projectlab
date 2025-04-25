@@ -2,8 +2,8 @@
 {
     public class ShipmentDTO
     {
-        public DateTime EstimatedArrival { get; set; }
-        public DateTime Arrival { get; set; }
+        public DateTime? EstimatedArrival { get; set; }
+        public DateTime? Arrival { get; set; }
     }
     public class CreateShipmentDTO
     {
