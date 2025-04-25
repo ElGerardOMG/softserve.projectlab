@@ -1,4 +1,4 @@
-﻿using API.Models.Entities;
+﻿using API.Models;
 using API.Data;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using System.ComponentModel.DataAnnotations.Schema;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using API.Models.Entities;
+using API.Models;
 using System.Text.Json;
 using API.Utils.Implementations;
 using API.DTOs.UserData;

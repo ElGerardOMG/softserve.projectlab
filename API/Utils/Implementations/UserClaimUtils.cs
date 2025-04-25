@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using API.Models.Entities;
+using API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 

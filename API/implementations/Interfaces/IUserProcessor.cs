@@ -1,4 +1,4 @@
-﻿using API.Models.Entities;
+﻿using API.Models;
 
 namespace API.implementations.Interfaces;
 public interface IUserProcessor

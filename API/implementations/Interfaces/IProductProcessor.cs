@@ -1,4 +1,4 @@
-﻿using API.Models.Entities;
+﻿using API.Models;
 
 namespace API.implementations.Interfaces
 {
@@ -9,8 +9,8 @@ namespace API.implementations.Interfaces
         bool AddProduct(string type, Product obj);
         bool UpdateProduct(int id, Product obj);
         bool DeleteProduct(int id);
-        bool AddAttribute(int id_product, Models.Entities.Attribute obj);
-        bool UpdateAttribute(int id_attribute, Models.Entities.Attribute obj);
+        bool AddAttribute(int id_product, Models.Attribute obj);
+        bool UpdateAttribute(int id_attribute, Models.Attribute obj);
         bool DeleteAttribute(int id_attribute);
     }
 }

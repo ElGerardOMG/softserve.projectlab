@@ -12,9 +12,6 @@ namespace API.Models;
 [Table("user")]
 public class User : IdentityUser<int>
 {
-    
-    [StringLength(255)]
-    public string Phone { get; set; }
 
     [StringLength(255)]
     public string Name { get; set; }

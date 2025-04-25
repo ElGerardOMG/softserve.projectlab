@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using API.Models.Entities;
+using API.Models;
 using API.implementations.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -51,13 +51,13 @@ namespace API.Controllers
         // PRODUCT ATTRIBUTE CONTROLLER
 
         [HttpPost("{id_product}")]
-        public bool RegisterAttribute(int id_product, [FromBody] Models.Entities.Attribute value)
+        public bool RegisterAttribute(int id_product, [FromBody] Models.Attribute value)
         {
             return _productProcessor.AddAttribute(id_product, value);
         }
 
         [HttpPatch("{id_attribute}")]
-        public bool UpdateAttribute(int id_attribute, [FromBody] Models.Entities.Attribute value)
+        public bool UpdateAttribute(int id_attribute, [FromBody] Models.Attribute value)
         {
             return _productProcessor.UpdateAttribute(id_attribute, value);
         }

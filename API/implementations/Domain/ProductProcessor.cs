@@ -1,6 +1,6 @@
 ﻿// Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using API.Models.Entities;
+using API.Models;
 using API.Data;
 using API.implementations.Interfaces;
 
@@ -37,12 +37,12 @@ namespace API.implementations.Domain
             return true;
         }
 
-        public bool AddAttribute(int product_id, Models.Entities.Attribute attribute)
+        public bool AddAttribute(int product_id, Models.Attribute attribute)
         {
             return true;
         }
 
-        public bool UpdateAttribute(int attribute_id, Models.Entities.Attribute attribute)
+        public bool UpdateAttribute(int attribute_id, Models.Attribute attribute)
         {
             return true;
         }

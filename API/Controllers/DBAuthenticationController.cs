@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using API.Models.Entities;
+using API.Models;
 using Microsoft.AspNetCore.Identity;
 using API.implementations.Interfaces;
 using API.DTOs.Authentication;
