@@ -101,7 +101,7 @@ namespace API.Controllers
                 return ResponseHelper.ErrorProcessor(ex.Message, 500);
             }
         }
-        [HttpGet("{id_cart}")]
+        [HttpGet("{idCart}")]
         public IActionResult GetCart(int idCart)
         {
             try
