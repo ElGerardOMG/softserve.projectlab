@@ -17,7 +17,7 @@ using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
+/*
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -27,7 +27,7 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
 });
-
+*/
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
@@ -81,7 +81,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
-builder.Services.AddTransient<IProductProcessor, ProductProcessor>();
+
 builder.Services.AddTransient<IProductDomain, ProductDomain>();
 builder.Services.AddTransient<IAttributeDomain, AttributeDomain>();
 builder.Services.AddTransient<IAttributeCategoryDomain, AttributeCategoryDomain>();
@@ -122,8 +122,8 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]))
     };
 });
-builder.Services.AddAuthorization();
 
+builder.Services.AddAuthorization();
 // Agregar a la UI de Swagger la opción de authenticarte
 builder.Services.AddSwaggerGen(options =>
 {
@@ -172,14 +172,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-app.MapControllers();
-app.UseCors("AllowAll");
-
-app.UseHttpsRedirection();
-app.UseStaticFiles(new StaticFileOptions
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
+
+app.MapControllers();
+//app.UseCors("AllowAll");
+
+app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
         Path.Combine(builder.Environment.ContentRootPath, "Images")),

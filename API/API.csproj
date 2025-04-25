@@ -28,7 +28,7 @@
 
     <ItemGroup>
       <None Include="Controllers\DBAuthenticationController.cs" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
         <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="8.1.1" />
         <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="8.1.1" />

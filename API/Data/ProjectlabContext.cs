@@ -19,9 +19,9 @@ public partial class ProjectlabContext : IdentityDbContext<User, IdentityRole<in
 
     public virtual DbSet<AttributeCategory> AttributeCategories { get; set; }
 
-    public virtual DbSet<Cart> Carts { get; set; }
+    public virtual DbSet<Cart> Cart { get; set; }
 
-    public virtual DbSet<CartDetail> CartDetails { get; set; }
+    public virtual DbSet<CartDetail> CartDetail { get; set; }
 
     public virtual DbSet<Discount> Discounts { get; set; }
 

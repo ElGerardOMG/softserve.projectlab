@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Models;
 
 [Table("product")]
-public partial class Product
+public partial class Product : IDisposable
 {
     [Key]
     public int Id { get; set; }
