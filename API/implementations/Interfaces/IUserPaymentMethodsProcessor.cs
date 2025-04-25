@@ -1,4 +1,4 @@
-﻿namespace API.implementations.Interfaces;
+﻿namespace API.implementations.Domain.Interfaces;
 
 public interface IUserPaymentMethodsProcessor
 {

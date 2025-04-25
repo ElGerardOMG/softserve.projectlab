@@ -2,7 +2,7 @@
 using API.Data;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
-using API.implementations.Interfaces;
+using API.implementations.Domain.Interfaces;
 
 namespace API.implementations.Domain;
 
@@ -36,7 +36,7 @@ public class UserProcessor : IUserProcessor
 
     public List<User> GetAll()
     {
-        return _db.UsersU.ToList();    
+        return _db.Users.ToList();    
     }
 
     public User? GetUserByID(int id)
@@ -53,6 +53,6 @@ public class UserProcessor : IUserProcessor
 
     public User? GetUserByEmail(string email)
     {
-        return (from u in _db.UsersU where u.Email.Equals(email) select u).FirstOrDefault();
+        return (from u in _db.Users where u.Email.Equals(email) select u).FirstOrDefault();
     }
 }

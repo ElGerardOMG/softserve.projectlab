@@ -5,7 +5,7 @@ using API.Models.Entities;
 using System.Text.Json;
 using API.Models.UserData;
 using API.Utils.Implementations;
-using API.implementations.Interfaces;
+using API.implementations.Domain.Interfaces;
 
 namespace API.Controllers;
 

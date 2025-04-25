@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities.Models.Entities;
+namespace API.Models.Entities;
 
 [Table("user_card_payment")]
 public partial class UserCardPayment

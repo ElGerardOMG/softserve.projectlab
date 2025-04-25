@@ -1,5 +1,5 @@
 ﻿using API.Models.Entities;
-namespace API.implementations.Interfaces
+namespace API.implementations.Domain.Interfaces
 {
     public interface ITokenService
     {

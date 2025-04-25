@@ -67,7 +67,7 @@ namespace API.Data.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id")
-                        .HasName("PK__attribut__3214EC079B66B196");
+                        .HasName("PK__attribut__3214EC07319EF739");
 
                     b.HasIndex("IdAttributeCategory");
 
@@ -107,7 +107,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__attribut__3214EC079648513B");
+                        .HasName("PK__attribut__3214EC07371DF6D7");
 
                     b.ToTable("attribute_category");
                 });
@@ -141,7 +141,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__cart__3214EC07DD3EBD57");
+                        .HasName("PK__cart__3214EC07B8F95698");
 
                     b.HasIndex("IdUser");
 
@@ -150,20 +150,29 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Models.Entities.CartDetail", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int?>("IdCart")
                         .HasColumnType("int")
                         .HasColumnName("Id_cart");
 
-                    b.Property<int?>("IdProduct")
+                    b.Property<int?>("IdProductVariant")
                         .HasColumnType("int")
-                        .HasColumnName("Id_product");
+                        .HasColumnName("Id_product_variant");
 
                     b.Property<int?>("Quantity")
                         .HasColumnType("int");
 
+                    b.HasKey("Id")
+                        .HasName("PK__cart_det__3214EC079CF5115E");
+
                     b.HasIndex("IdCart");
 
-                    b.HasIndex("IdProduct");
+                    b.HasIndex("IdProductVariant");
 
                     b.ToTable("cart_detail");
                 });
@@ -212,7 +221,7 @@ namespace API.Data.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id")
-                        .HasName("PK__discount__3214EC0702ECDCCB");
+                        .HasName("PK__discount__3214EC0753364700");
 
                     b.ToTable("discount");
                 });
@@ -253,7 +262,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__finance___3214EC07229E3F8D");
+                        .HasName("PK__finance___3214EC07587F4BB8");
 
                     b.HasIndex("IntervalType");
 
@@ -293,7 +302,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__finance___3214EC07C844A178");
+                        .HasName("PK__finance___3214EC07EA6AD922");
 
                     b.HasIndex("IdFinancePack");
 
@@ -344,7 +353,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__financed__3214EC07181120B4");
+                        .HasName("PK__financed__3214EC0707665F7D");
 
                     b.HasIndex("IdFinancePack");
 
@@ -402,7 +411,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__financed__3214EC07A556F8F3");
+                        .HasName("PK__financed__3214EC07EEAE7442");
 
                     b.HasIndex("IdOrder");
 
@@ -442,7 +451,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__interval__3214EC07A6200E28");
+                        .HasName("PK__interval__3214EC07877CAC12");
 
                     b.ToTable("interval_type");
                 });
@@ -496,6 +505,10 @@ namespace API.Data.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Referral_user");
 
+                    b.Property<string>("Status")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<double?>("Subtotal")
                         .HasColumnType("float");
 
@@ -510,15 +523,11 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__order__3214EC0789601794");
+                        .HasName("PK__order__3214EC077CADC2E4");
 
                     b.HasIndex("IdUser");
 
                     b.HasIndex("IdUserAddress");
-
-                    b.HasIndex("IdUserPaymentCard");
-
-                    b.HasIndex("IdUserPaymentPaypal");
 
                     b.HasIndex("ReferralUser");
 
@@ -527,6 +536,12 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Models.Entities.OrderDetail", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime")
                         .HasColumnName("Created_at");
@@ -543,23 +558,29 @@ namespace API.Data.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Id_order");
 
-                    b.Property<int?>("IdProduct")
+                    b.Property<int?>("IdProductVariant")
                         .HasColumnType("int")
-                        .HasColumnName("Id_product");
+                        .HasColumnName("Id_product_variant");
 
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit")
                         .HasColumnName("Is_active");
 
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("UpdateAt")
                         .HasColumnType("datetime")
                         .HasColumnName("Update_at");
+
+                    b.HasKey("Id")
+                        .HasName("PK__order_de__3214EC074CA14087");
 
                     b.HasIndex("IdDiscount");
 
                     b.HasIndex("IdOrder");
 
-                    b.HasIndex("IdProduct");
+                    b.HasIndex("IdProductVariant");
 
                     b.ToTable("order_detail");
                 });
@@ -610,7 +631,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__product__3214EC075A315265");
+                        .HasName("PK__product__3214EC073F5578C1");
 
                     b.HasIndex("ProductCategory");
 
@@ -646,7 +667,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__product___3214EC07E5C9FEB2");
+                        .HasName("PK__product___3214EC0758D9F906");
 
                     b.ToTable("product_category");
                 });
@@ -701,7 +722,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__product___3214EC07B3469FC4");
+                        .HasName("PK__product___3214EC07DD694D9F");
 
                     b.HasIndex("IdProduct");
 
@@ -762,7 +783,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__shipment__3214EC076B35AE75");
+                        .HasName("PK__shipment__3214EC0791E7D2C0");
 
                     b.HasIndex("IdOrder");
 
@@ -838,10 +859,6 @@ namespace API.Data.Migrations
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
@@ -937,7 +954,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__user_add__3214EC071B191551");
+                        .HasName("PK__user_add__3214EC07685EB650");
 
                     b.HasIndex("IdUser");
 
@@ -1000,7 +1017,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__user_car__3214EC07D60886DB");
+                        .HasName("PK__user_car__3214EC07C7849F62");
 
                     b.HasIndex("IdUserPayment");
 
@@ -1015,29 +1032,6 @@ namespace API.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CardExpirationMonth")
-                        .HasColumnType("int")
-                        .HasColumnName("Card_expiration_month");
-
-                    b.Property<int?>("CardExpirationYear")
-                        .HasColumnType("int")
-                        .HasColumnName("Card_expiration_year");
-
-                    b.Property<string>("CardName")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("Card_name");
-
-                    b.Property<string>("CardNumber")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("Card_number");
-
-                    b.Property<string>("CardType")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("Card_type");
-
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime")
                         .HasColumnName("Created_at");
@@ -1045,6 +1039,10 @@ namespace API.Data.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime")
                         .HasColumnName("Deleted_at");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit")
@@ -1063,7 +1061,7 @@ namespace API.Data.Migrations
                         .HasColumnName("User_id");
 
                     b.HasKey("Id")
-                        .HasName("PK__user_pay__3214EC071638E603");
+                        .HasName("PK__user_pay__3214EC07586740B7");
 
                     b.HasIndex("UserId");
 
@@ -1103,7 +1101,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__user_sub__3214EC076CD11E24");
+                        .HasName("PK__user_sub__3214EC075C8D6D9F");
 
                     b.HasIndex("IdUser");
 
@@ -1150,7 +1148,7 @@ namespace API.Data.Migrations
                         .HasColumnName("Update_at");
 
                     b.HasKey("Id")
-                        .HasName("PK__user_wal__3214EC07308AF464");
+                        .HasName("PK__user_wal__3214EC07916EABBE");
 
                     b.HasIndex("IdUser");
 
@@ -1295,17 +1293,17 @@ namespace API.Data.Migrations
                     b.HasOne("API.Models.Entities.AttributeCategory", "IdAttributeCategoryNavigation")
                         .WithMany("Attributes")
                         .HasForeignKey("IdAttributeCategory")
-                        .HasConstraintName("FK__attribute__Id_at__693CA210");
+                        .HasConstraintName("FK__attribute__Id_at__6B24EA82");
 
                     b.HasOne("API.Models.Entities.Product", "IdProductNavigation")
                         .WithMany("Attributes")
                         .HasForeignKey("IdProduct")
-                        .HasConstraintName("FK__attribute__Id_pr__6754599E");
+                        .HasConstraintName("FK__attribute__Id_pr__693CA210");
 
                     b.HasOne("API.Models.Entities.ProductVariant", "IdProductVariantNavigation")
                         .WithMany("Attributes")
                         .HasForeignKey("IdProductVariant")
-                        .HasConstraintName("FK__attribute__Id_pr__68487DD7");
+                        .HasConstraintName("FK__attribute__Id_pr__6A30C649");
 
                     b.Navigation("IdAttributeCategoryNavigation");
 
@@ -1319,7 +1317,7 @@ namespace API.Data.Migrations
                     b.HasOne("API.Models.Entities.User", "IdUserNavigation")
                         .WithMany("Carts")
                         .HasForeignKey("IdUser")
-                        .HasConstraintName("FK__cart__Id_user__628FA481");
+                        .HasConstraintName("FK__cart__Id_user__6477ECF3");
 
                     b.Navigation("IdUserNavigation");
                 });
@@ -1327,18 +1325,18 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Models.Entities.CartDetail", b =>
                 {
                     b.HasOne("API.Models.Entities.Cart", "IdCartNavigation")
-                        .WithMany()
+                        .WithMany("CartDetails")
                         .HasForeignKey("IdCart")
-                        .HasConstraintName("FK__cart_deta__Id_ca__6383C8BA");
+                        .HasConstraintName("FK__cart_deta__Id_ca__656C112C");
 
-                    b.HasOne("API.Models.Entities.Product", "IdProductNavigation")
-                        .WithMany()
-                        .HasForeignKey("IdProduct")
-                        .HasConstraintName("FK__cart_deta__Id_pr__6477ECF3");
+                    b.HasOne("API.Models.Entities.ProductVariant", "IdProductVariantNavigation")
+                        .WithMany("CartDetails")
+                        .HasForeignKey("IdProductVariant")
+                        .HasConstraintName("FK__cart_deta__Id_pr__66603565");
 
                     b.Navigation("IdCartNavigation");
 
-                    b.Navigation("IdProductNavigation");
+                    b.Navigation("IdProductVariantNavigation");
                 });
 
             modelBuilder.Entity("API.Models.Entities.FinancePack", b =>
@@ -1393,22 +1391,12 @@ namespace API.Data.Migrations
                     b.HasOne("API.Models.Entities.User", "IdUserNavigation")
                         .WithMany("OrderIdUserNavigations")
                         .HasForeignKey("IdUser")
-                        .HasConstraintName("FK__order__Id_user__6A30C649");
+                        .HasConstraintName("FK__order__Id_user__6C190EBB");
 
                     b.HasOne("API.Models.Entities.UserAddress", "IdUserAddressNavigation")
                         .WithMany("Orders")
                         .HasForeignKey("IdUserAddress")
-                        .HasConstraintName("FK__order__Id_user_a__6B24EA82");
-
-                    b.HasOne("API.Models.Entities.UserCardPayment", "IdUserPaymentCardNavigation")
-                        .WithMany("Orders")
-                        .HasForeignKey("IdUserPaymentCard")
-                        .HasConstraintName("FK__order__Id_user_p__6C190EBB");
-
-                    b.HasOne("API.Models.Entities.UserPaypalPayment", "IdUserPaymentPaypalNavigation")
-                        .WithMany("Orders")
-                        .HasForeignKey("IdUserPaymentPaypal")
-                        .HasConstraintName("FK__order__Id_user_p__6D0D32F4");
+                        .HasConstraintName("FK__order__Id_user_a__6D0D32F4");
 
                     b.HasOne("API.Models.Entities.User", "ReferralUserNavigation")
                         .WithMany("OrderReferralUserNavigations")
@@ -1419,35 +1407,31 @@ namespace API.Data.Migrations
 
                     b.Navigation("IdUserNavigation");
 
-                    b.Navigation("IdUserPaymentCardNavigation");
-
-                    b.Navigation("IdUserPaymentPaypalNavigation");
-
                     b.Navigation("ReferralUserNavigation");
                 });
 
             modelBuilder.Entity("API.Models.Entities.OrderDetail", b =>
                 {
                     b.HasOne("API.Models.Entities.Discount", "IdDiscountNavigation")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("IdDiscount")
                         .HasConstraintName("FK__order_det__Id_di__75A278F5");
 
                     b.HasOne("API.Models.Entities.Order", "IdOrderNavigation")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("IdOrder")
                         .HasConstraintName("FK__order_det__Id_or__73BA3083");
 
-                    b.HasOne("API.Models.Entities.Product", "IdProductNavigation")
-                        .WithMany()
-                        .HasForeignKey("IdProduct")
+                    b.HasOne("API.Models.Entities.ProductVariant", "IdProductVariantNavigation")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("IdProductVariant")
                         .HasConstraintName("FK__order_det__Id_pr__74AE54BC");
 
                     b.Navigation("IdDiscountNavigation");
 
                     b.Navigation("IdOrderNavigation");
 
-                    b.Navigation("IdProductNavigation");
+                    b.Navigation("IdProductVariantNavigation");
                 });
 
             modelBuilder.Entity("API.Models.Entities.Product", b =>
@@ -1455,7 +1439,7 @@ namespace API.Data.Migrations
                     b.HasOne("API.Models.Entities.ProductCategory", "ProductCategoryNavigation")
                         .WithMany("Products")
                         .HasForeignKey("ProductCategory")
-                        .HasConstraintName("FK__product__Product__656C112C");
+                        .HasConstraintName("FK__product__Product__6754599E");
 
                     b.Navigation("ProductCategoryNavigation");
                 });
@@ -1465,7 +1449,7 @@ namespace API.Data.Migrations
                     b.HasOne("API.Models.Entities.Product", "IdProductNavigation")
                         .WithMany("ProductVariants")
                         .HasForeignKey("IdProduct")
-                        .HasConstraintName("FK__product_v__Id_pr__66603565");
+                        .HasConstraintName("FK__product_v__Id_pr__68487DD7");
 
                     b.Navigation("IdProductNavigation");
                 });
@@ -1492,7 +1476,7 @@ namespace API.Data.Migrations
                     b.HasOne("API.Models.Entities.User", "IdUserNavigation")
                         .WithMany("UserAddresses")
                         .HasForeignKey("IdUser")
-                        .HasConstraintName("FK__user_addr__Id_us__5FB337D6");
+                        .HasConstraintName("FK__user_addr__Id_us__619B8048");
 
                     b.Navigation("IdUserNavigation");
                 });
@@ -1502,7 +1486,7 @@ namespace API.Data.Migrations
                     b.HasOne("API.Models.Entities.User", "IdUserPaymentNavigation")
                         .WithMany("UserCardPayments")
                         .HasForeignKey("IdUserPayment")
-                        .HasConstraintName("FK__user_card__Id_us__60A75C0F");
+                        .HasConstraintName("FK__user_card__Id_us__628FA481");
 
                     b.Navigation("IdUserPaymentNavigation");
                 });
@@ -1512,7 +1496,7 @@ namespace API.Data.Migrations
                     b.HasOne("API.Models.Entities.User", "User")
                         .WithMany("UserPaypalPayments")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK__user_payp__User___619B8048");
+                        .HasConstraintName("FK__user_payp__User___6383C8BA");
 
                     b.Navigation("User");
                 });
@@ -1522,7 +1506,7 @@ namespace API.Data.Migrations
                     b.HasOne("API.Models.Entities.User", "IdUserNavigation")
                         .WithMany("UserSubscriptions")
                         .HasForeignKey("IdUser")
-                        .HasConstraintName("FK__user_subs__Id_us__5EBF139D");
+                        .HasConstraintName("FK__user_subs__Id_us__60A75C0F");
 
                     b.Navigation("IdUserNavigation");
                 });
@@ -1532,7 +1516,7 @@ namespace API.Data.Migrations
                     b.HasOne("API.Models.Entities.User", "IdUserNavigation")
                         .WithMany("UserWallets")
                         .HasForeignKey("IdUser")
-                        .HasConstraintName("FK__user_wall__Id_us__5DCAEF64");
+                        .HasConstraintName("FK__user_wall__Id_us__5FB337D6");
 
                     b.Navigation("IdUserNavigation");
                 });
@@ -1593,6 +1577,16 @@ namespace API.Data.Migrations
                     b.Navigation("Attributes");
                 });
 
+            modelBuilder.Entity("API.Models.Entities.Cart", b =>
+                {
+                    b.Navigation("CartDetails");
+                });
+
+            modelBuilder.Entity("API.Models.Entities.Discount", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
             modelBuilder.Entity("API.Models.Entities.FinancePack", b =>
                 {
                     b.Navigation("FinancePackIntervals");
@@ -1614,6 +1608,8 @@ namespace API.Data.Migrations
                 {
                     b.Navigation("FinancedOrders");
 
+                    b.Navigation("OrderDetails");
+
                     b.Navigation("Shipments");
                 });
 
@@ -1632,6 +1628,10 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Models.Entities.ProductVariant", b =>
                 {
                     b.Navigation("Attributes");
+
+                    b.Navigation("CartDetails");
+
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("API.Models.Entities.User", b =>
@@ -1656,16 +1656,6 @@ namespace API.Data.Migrations
                 });
 
             modelBuilder.Entity("API.Models.Entities.UserAddress", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("API.Models.Entities.UserCardPayment", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("API.Models.Entities.UserPaypalPayment", b =>
                 {
                     b.Navigation("Orders");
                 });

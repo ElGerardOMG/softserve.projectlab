@@ -4,29 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities.Models.Entities;
+namespace API.Models.Entities;
 
 [Table("user")]
-public partial class User
+public partial class User :  IdentityUser<int>
 {
-    [Key]
-    public int Id { get; set; }
-
-    [Column("User")]
-    [StringLength(255)]
-    public string User1 { get; set; }
-
-    [StringLength(255)]
-    public string Password { get; set; }
-
-    [StringLength(255)]
-    public string Email { get; set; }
-
-    [StringLength(255)]
-    public string Phone { get; set; }
-
+    
     [StringLength(255)]
     public string Name { get; set; }
 

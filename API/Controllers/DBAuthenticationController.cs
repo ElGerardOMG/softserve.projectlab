@@ -2,7 +2,7 @@
 using API.Models.Authentication;
 using API.Models.Entities;
 using Microsoft.AspNetCore.Identity;
-using API.implementations.Interfaces;
+using API.implementations.Domain.Interfaces;
 namespace API.Controllers
 {
     [Route("authenticate")]
