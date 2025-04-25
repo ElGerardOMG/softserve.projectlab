@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Models;
 
 [Table("user_paypal_payment")]
-public partial class UserPaypalPayment
+public partial class UserPaypalPayment : IPayment
 {
     [Key]
     public int Id { get; set; }

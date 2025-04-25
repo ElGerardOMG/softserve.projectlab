@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Models;
 
 [Table("user_card_payment")]
-public partial class UserCardPayment
+public partial class UserCardPayment : IPayment
 {
     [Key]
     public int Id { get; set; }
 
     [Column("Id_user_payment")]
-    public int? IdUserPayment { get; set; }
+    public int? UserId { get; set; }
 
     [Column("Card_type")]
     [StringLength(255)]

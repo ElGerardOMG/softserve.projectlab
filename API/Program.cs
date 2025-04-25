@@ -95,6 +95,8 @@ builder.Services.AddTransient<IAssistantDomain, AssistantDomain>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IEmailSender<User>, DummyEmailSender>();
 builder.Services.AddTransient<IUserAddressProcessor, UserAddressProcessor>();
+builder.Services.AddTransient<UserCardProcessor>();
+builder.Services.AddTransient<UserPaypalProcessor>();
 
 
 
