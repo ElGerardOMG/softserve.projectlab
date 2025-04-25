@@ -6,24 +6,28 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models;
 
-[Table("order_detail")]
-public partial class OrderDetail
+[Table("attribute")]
+public partial class Attribute
 {
     [Key]
     public int Id { get; set; }
 
-    [Column("Id_order")]
-    public int? IdOrder { get; set; }
+    [Column("Id_product")]
+    public int? IdProduct { get; set; }
 
     [Column("Id_product_variant")]
     public int? IdProductVariant { get; set; }
 
-    public int? Quantity { get; set; }
+    [Column("Id_attribute_category")]
+    public int? IdAttributeCategory { get; set; }
 
-    [Column("Id_discount")]
-    public int? IdDiscount { get; set; }
+    [StringLength(255)]
+    public string Field { get; set; }
+
+    [StringLength(255)]
+    public string Value { get; set; }
 
     [Column("Created_at", TypeName = "datetime")]
     public DateTime? CreatedAt { get; set; }
@@ -37,15 +41,15 @@ public partial class OrderDetail
     [Column("Is_active")]
     public bool? IsActive { get; set; }
 
-    [ForeignKey("IdDiscount")]
-    [InverseProperty("OrderDetails")]
-    public virtual Discount IdDiscountNavigation { get; set; }
+    [ForeignKey("IdAttributeCategory")]
+    [InverseProperty("Attributes")]
+    public virtual AttributeCategory IdAttributeCategoryNavigation { get; set; }
 
-    [ForeignKey("IdOrder")]
-    [InverseProperty("OrderDetails")]
-    public virtual Order IdOrderNavigation { get; set; }
+    [ForeignKey("IdProduct")]
+    [InverseProperty("Attributes")]
+    public virtual Product IdProductNavigation { get; set; }
 
     [ForeignKey("IdProductVariant")]
-    [InverseProperty("OrderDetails")]
+    [InverseProperty("Attributes")]
     public virtual ProductVariant IdProductVariantNavigation { get; set; }
 }

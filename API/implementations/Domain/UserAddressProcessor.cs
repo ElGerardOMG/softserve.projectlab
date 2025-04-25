@@ -1,6 +1,6 @@
 ﻿using API.Data;
 using API.implementations.Domain.Interfaces;
-using API.Models.Entities;
+using API.Models;
 namespace API.implementations.Domain;
 
 

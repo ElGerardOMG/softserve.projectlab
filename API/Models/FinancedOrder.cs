@@ -6,10 +6,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models;
 
-[Table("shipment")]
-public partial class Shipment
+[Table("financed_order")]
+public partial class FinancedOrder
 {
     [Key]
     public int Id { get; set; }
@@ -17,25 +17,16 @@ public partial class Shipment
     [Column("Id_order")]
     public int? IdOrder { get; set; }
 
-    [Column("Id_user")]
-    public int? IdUser { get; set; }
+    [Column("Id_finance_pack")]
+    public int? IdFinancePack { get; set; }
 
-    [Column("Shipment_company")]
-    [StringLength(255)]
-    public string ShipmentCompany { get; set; }
+    public double? Amount { get; set; }
 
-    [Column("Guide_number")]
-    [StringLength(255)]
-    public string GuideNumber { get; set; }
+    [Column("Total_Interest")]
+    public double? TotalInterest { get; set; }
 
-    [Column("Shipment_date", TypeName = "datetime")]
-    public DateTime? ShipmentDate { get; set; }
-
-    [Column("Estimated_arrival", TypeName = "datetime")]
-    public DateTime? EstimatedArrival { get; set; }
-
-    [Column(TypeName = "datetime")]
-    public DateTime? Arrival { get; set; }
+    [Column("Is_payed")]
+    public bool? IsPayed { get; set; }
 
     [Column("Created_at", TypeName = "datetime")]
     public DateTime? CreatedAt { get; set; }
@@ -49,11 +40,14 @@ public partial class Shipment
     [Column("Is_active")]
     public bool? IsActive { get; set; }
 
-    [ForeignKey("IdOrder")]
-    [InverseProperty("Shipments")]
-    public virtual Order IdOrderNavigation { get; set; }
+    [InverseProperty("IdOrderNavigation")]
+    public virtual ICollection<FinancedOrderPay> FinancedOrderPays { get; set; } = new List<FinancedOrderPay>();
 
-    [ForeignKey("IdUser")]
-    [InverseProperty("Shipments")]
-    public virtual User IdUserNavigation { get; set; }
+    [ForeignKey("IdFinancePack")]
+    [InverseProperty("FinancedOrders")]
+    public virtual FinancePack IdFinancePackNavigation { get; set; }
+
+    [ForeignKey("IdOrder")]
+    [InverseProperty("FinancedOrders")]
+    public virtual Order IdOrderNavigation { get; set; }
 }

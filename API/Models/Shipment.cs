@@ -6,16 +6,36 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models;
 
-[Table("cart")]
-public partial class Cart
+[Table("shipment")]
+public partial class Shipment
 {
     [Key]
     public int Id { get; set; }
 
+    [Column("Id_order")]
+    public int? IdOrder { get; set; }
+
     [Column("Id_user")]
     public int? IdUser { get; set; }
+
+    [Column("Shipment_company")]
+    [StringLength(255)]
+    public string ShipmentCompany { get; set; }
+
+    [Column("Guide_number")]
+    [StringLength(255)]
+    public string GuideNumber { get; set; }
+
+    [Column("Shipment_date", TypeName = "datetime")]
+    public DateTime? ShipmentDate { get; set; }
+
+    [Column("Estimated_arrival", TypeName = "datetime")]
+    public DateTime? EstimatedArrival { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? Arrival { get; set; }
 
     [Column("Created_at", TypeName = "datetime")]
     public DateTime? CreatedAt { get; set; }
@@ -29,10 +49,11 @@ public partial class Cart
     [Column("Is_active")]
     public bool? IsActive { get; set; }
 
-    [InverseProperty("IdCartNavigation")]
-    public virtual ICollection<CartDetail> CartDetails { get; set; } = new List<CartDetail>();
+    [ForeignKey("IdOrder")]
+    [InverseProperty("Shipments")]
+    public virtual Order IdOrderNavigation { get; set; }
 
     [ForeignKey("IdUser")]
-    [InverseProperty("Carts")]
+    [InverseProperty("Shipments")]
     public virtual User IdUserNavigation { get; set; }
 }

@@ -6,22 +6,27 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models;
 
-[Table("user_paypal_payment")]
-public partial class UserPaypalPayment
+[Table("discount")]
+public partial class Discount
 {
     [Key]
     public int Id { get; set; }
 
-    [Column("User_id")]
-    public int? UserId { get; set; }
+    [Column("Is_percentual")]
+    public bool? IsPercentual { get; set; }
 
-    [StringLength(255)]
-    public string Email { get; set; }
+    [Column("Is_constant")]
+    public bool? IsConstant { get; set; }
 
-    [Column("Last_used")]
-    public bool? LastUsed { get; set; }
+    [Column("Is_cashback")]
+    public bool? IsCashback { get; set; }
+
+    [Column("Is_prime_only")]
+    public bool? IsPrimeOnly { get; set; }
+
+    public double? Value { get; set; }
 
     [Column("Created_at", TypeName = "datetime")]
     public DateTime? CreatedAt { get; set; }
@@ -35,7 +40,6 @@ public partial class UserPaypalPayment
     [Column("Is_active")]
     public bool? IsActive { get; set; }
 
-    [ForeignKey("UserId")]
-    [InverseProperty("UserPaypalPayments")]
-    public virtual User User { get; set; }
+    [InverseProperty("IdDiscountNavigation")]
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

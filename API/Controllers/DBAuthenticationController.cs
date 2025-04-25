@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using API.Models.Authentication;
-using API.Models.Entities;
+using API.Models;
 using Microsoft.AspNetCore.Identity;
 using API.implementations.Domain.Interfaces;
+using API.DTOs.Authentication;
 namespace API.Controllers
 {
     [Route("authenticate")]

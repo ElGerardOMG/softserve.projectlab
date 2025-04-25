@@ -1,11 +1,11 @@
 ﻿using API.implementations.Domain.Interfaces;
-using API.Models.Entities;
+using API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using API.Utils.Implementations;
-using API.Models.UserData;
 using System.Security.Claims;
+using API.DTOs.UserData;
 
 namespace API.Controllers;
 

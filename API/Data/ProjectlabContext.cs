@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using API.Models.Entities;
+using API.Models;
 namespace API.Data;
 
 public partial class ProjectlabContext : IdentityDbContext<User, IdentityRole<int>, int>
@@ -15,7 +15,7 @@ public partial class ProjectlabContext : IdentityDbContext<User, IdentityRole<in
     {
     }
 
-    public virtual DbSet<API.Models.Entities.Attribute> Attributes { get; set; }
+    public virtual DbSet<API.Models.Attribute> Attributes { get; set; }
 
     public virtual DbSet<AttributeCategory> AttributeCategories { get; set; }
 
@@ -63,7 +63,7 @@ public partial class ProjectlabContext : IdentityDbContext<User, IdentityRole<in
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<API.Models.Entities.Attribute>(entity =>
+        modelBuilder.Entity<API.Models.Attribute>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__attribut__3214EC07319EF739");
 

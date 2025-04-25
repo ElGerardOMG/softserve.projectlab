@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace API.Models.UserData;
+namespace API.DTOs.UserData;
 
 
 public class UserAddressDTO

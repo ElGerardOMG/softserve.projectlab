@@ -6,24 +6,21 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models;
 
-[Table("user_wallet")]
-public partial class UserWallet
+[Table("finance_pack")]
+public partial class FinancePack
 {
     [Key]
     public int Id { get; set; }
 
-    [Column("Id_user")]
-    public int? IdUser { get; set; }
-
     [StringLength(255)]
-    public string Currency { get; set; }
+    public string Name { get; set; }
 
-    public double? Amount { get; set; }
+    [Column("Interval_type")]
+    public int? IntervalType { get; set; }
 
-    [Column("Expiration_date", TypeName = "datetime")]
-    public DateTime? ExpirationDate { get; set; }
+    public double? Interest { get; set; }
 
     [Column("Created_at", TypeName = "datetime")]
     public DateTime? CreatedAt { get; set; }
@@ -37,7 +34,13 @@ public partial class UserWallet
     [Column("Is_active")]
     public bool? IsActive { get; set; }
 
-    [ForeignKey("IdUser")]
-    [InverseProperty("UserWallets")]
-    public virtual User IdUserNavigation { get; set; }
+    [InverseProperty("IdFinancePackNavigation")]
+    public virtual ICollection<FinancePackInterval> FinancePackIntervals { get; set; } = new List<FinancePackInterval>();
+
+    [InverseProperty("IdFinancePackNavigation")]
+    public virtual ICollection<FinancedOrder> FinancedOrders { get; set; } = new List<FinancedOrder>();
+
+    [ForeignKey("IntervalType")]
+    [InverseProperty("FinancePacks")]
+    public virtual IntervalType IntervalTypeNavigation { get; set; }
 }

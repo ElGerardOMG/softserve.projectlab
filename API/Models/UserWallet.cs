@@ -6,27 +6,24 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models;
 
-[Table("discount")]
-public partial class Discount
+[Table("user_wallet")]
+public partial class UserWallet
 {
     [Key]
     public int Id { get; set; }
 
-    [Column("Is_percentual")]
-    public bool? IsPercentual { get; set; }
+    [Column("Id_user")]
+    public int? IdUser { get; set; }
 
-    [Column("Is_constant")]
-    public bool? IsConstant { get; set; }
+    [StringLength(255)]
+    public string Currency { get; set; }
 
-    [Column("Is_cashback")]
-    public bool? IsCashback { get; set; }
+    public double? Amount { get; set; }
 
-    [Column("Is_prime_only")]
-    public bool? IsPrimeOnly { get; set; }
-
-    public double? Value { get; set; }
+    [Column("Expiration_date", TypeName = "datetime")]
+    public DateTime? ExpirationDate { get; set; }
 
     [Column("Created_at", TypeName = "datetime")]
     public DateTime? CreatedAt { get; set; }
@@ -40,6 +37,7 @@ public partial class Discount
     [Column("Is_active")]
     public bool? IsActive { get; set; }
 
-    [InverseProperty("IdDiscountNavigation")]
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    [ForeignKey("IdUser")]
+    [InverseProperty("UserWallets")]
+    public virtual User IdUserNavigation { get; set; }
 }

@@ -6,19 +6,16 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models;
 
-[Table("finance_pack_interval")]
-public partial class FinancePackInterval
+[Table("product_category")]
+public partial class ProductCategory
 {
     [Key]
     public int Id { get; set; }
 
-    [Column("Id_finance_pack")]
-    public int? IdFinancePack { get; set; }
-
-    [Column("Interval_count")]
-    public int? IntervalCount { get; set; }
+    [StringLength(255)]
+    public string Name { get; set; }
 
     [Column("Created_at", TypeName = "datetime")]
     public DateTime? CreatedAt { get; set; }
@@ -32,7 +29,6 @@ public partial class FinancePackInterval
     [Column("Is_active")]
     public bool? IsActive { get; set; }
 
-    [ForeignKey("IdFinancePack")]
-    [InverseProperty("FinancePackIntervals")]
-    public virtual FinancePack IdFinancePackNavigation { get; set; }
+    [InverseProperty("ProductCategoryNavigation")]
+    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Models.UserData
+namespace API.DTOs.UserData
 {
     // UserDTO used for User only for read interaction
     public class UserReadDTO

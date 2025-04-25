@@ -6,10 +6,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models;
 
-[Table("financed_order")]
-public partial class FinancedOrder
+[Table("order_detail")]
+public partial class OrderDetail
 {
     [Key]
     public int Id { get; set; }
@@ -17,16 +17,13 @@ public partial class FinancedOrder
     [Column("Id_order")]
     public int? IdOrder { get; set; }
 
-    [Column("Id_finance_pack")]
-    public int? IdFinancePack { get; set; }
+    [Column("Id_product_variant")]
+    public int? IdProductVariant { get; set; }
 
-    public double? Amount { get; set; }
+    public int? Quantity { get; set; }
 
-    [Column("Total_Interest")]
-    public double? TotalInterest { get; set; }
-
-    [Column("Is_payed")]
-    public bool? IsPayed { get; set; }
+    [Column("Id_discount")]
+    public int? IdDiscount { get; set; }
 
     [Column("Created_at", TypeName = "datetime")]
     public DateTime? CreatedAt { get; set; }
@@ -40,14 +37,15 @@ public partial class FinancedOrder
     [Column("Is_active")]
     public bool? IsActive { get; set; }
 
-    [InverseProperty("IdOrderNavigation")]
-    public virtual ICollection<FinancedOrderPay> FinancedOrderPays { get; set; } = new List<FinancedOrderPay>();
-
-    [ForeignKey("IdFinancePack")]
-    [InverseProperty("FinancedOrders")]
-    public virtual FinancePack IdFinancePackNavigation { get; set; }
+    [ForeignKey("IdDiscount")]
+    [InverseProperty("OrderDetails")]
+    public virtual Discount IdDiscountNavigation { get; set; }
 
     [ForeignKey("IdOrder")]
-    [InverseProperty("FinancedOrders")]
+    [InverseProperty("OrderDetails")]
     public virtual Order IdOrderNavigation { get; set; }
+
+    [ForeignKey("IdProductVariant")]
+    [InverseProperty("OrderDetails")]
+    public virtual ProductVariant IdProductVariantNavigation { get; set; }
 }

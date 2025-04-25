@@ -8,7 +8,7 @@
    "OutputContextPath": null,
    "OutputPath": "Models\/Entities",
    "PreserveCasingWithRegex": true,
-   "ProjectRootNamespace": "API.Models.Entities",
+   "ProjectRootNamespace": "API.Models",
    "Schemas": null,
    "SelectedHandlebarsLanguage": 2,
    "SelectedToBeGenerated": 0,

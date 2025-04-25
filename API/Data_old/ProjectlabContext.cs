@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using API.Models.Entities;
+using API.Models;
 using Microsoft.EntityFrameworkCore;
 /*
 namespace API.Data;

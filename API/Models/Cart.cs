@@ -6,16 +6,16 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models;
 
-[Table("product_category")]
-public partial class ProductCategory
+[Table("cart")]
+public partial class Cart
 {
     [Key]
     public int Id { get; set; }
 
-    [StringLength(255)]
-    public string Name { get; set; }
+    [Column("Id_user")]
+    public int? IdUser { get; set; }
 
     [Column("Created_at", TypeName = "datetime")]
     public DateTime? CreatedAt { get; set; }
@@ -29,6 +29,10 @@ public partial class ProductCategory
     [Column("Is_active")]
     public bool? IsActive { get; set; }
 
-    [InverseProperty("ProductCategoryNavigation")]
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+    [InverseProperty("IdCartNavigation")]
+    public virtual ICollection<CartDetail> CartDetails { get; set; } = new List<CartDetail>();
+
+    [ForeignKey("IdUser")]
+    [InverseProperty("Carts")]
+    public virtual User IdUserNavigation { get; set; }
 }

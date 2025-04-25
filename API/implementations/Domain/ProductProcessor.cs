@@ -1,6 +1,6 @@
 ﻿// Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using API.Models.Entities;
+using API.Models;
 using API.Data;
 using API.implementations.Domain.Interfaces;
 

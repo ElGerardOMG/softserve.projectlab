@@ -6,34 +6,19 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models;
 
-[Table("user_card_payment")]
-public partial class UserCardPayment
+[Table("user_paypal_payment")]
+public partial class UserPaypalPayment
 {
     [Key]
     public int Id { get; set; }
 
-    [Column("Id_user_payment")]
-    public int? IdUserPayment { get; set; }
+    [Column("User_id")]
+    public int? UserId { get; set; }
 
-    [Column("Card_type")]
     [StringLength(255)]
-    public string CardType { get; set; }
-
-    [Column("Card_number")]
-    [StringLength(255)]
-    public string CardNumber { get; set; }
-
-    [Column("Card_name")]
-    [StringLength(255)]
-    public string CardName { get; set; }
-
-    [Column("Card_expiration_year")]
-    public int? CardExpirationYear { get; set; }
-
-    [Column("Card_expiration_month")]
-    public int? CardExpirationMonth { get; set; }
+    public string Email { get; set; }
 
     [Column("Last_used")]
     public bool? LastUsed { get; set; }
@@ -50,7 +35,7 @@ public partial class UserCardPayment
     [Column("Is_active")]
     public bool? IsActive { get; set; }
 
-    [ForeignKey("IdUserPayment")]
-    [InverseProperty("UserCardPayments")]
-    public virtual User IdUserPaymentNavigation { get; set; }
+    [ForeignKey("UserId")]
+    [InverseProperty("UserPaypalPayments")]
+    public virtual User User { get; set; }
 }

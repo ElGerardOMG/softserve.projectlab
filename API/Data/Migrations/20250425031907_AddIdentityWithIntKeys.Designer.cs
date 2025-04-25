@@ -25,7 +25,7 @@ namespace API.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("API.Models.Entities.Attribute", b =>
+            modelBuilder.Entity("API.Models.Attribute", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,7 +81,7 @@ namespace API.Data.Migrations
                     b.ToTable("attribute");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.AttributeCategory", b =>
+            modelBuilder.Entity("API.Models.AttributeCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,7 +115,7 @@ namespace API.Data.Migrations
                     b.ToTable("attribute_category");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.Cart", b =>
+            modelBuilder.Entity("API.Models.Cart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -151,7 +151,7 @@ namespace API.Data.Migrations
                     b.ToTable("cart");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.CartDetail", b =>
+            modelBuilder.Entity("API.Models.CartDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -180,7 +180,7 @@ namespace API.Data.Migrations
                     b.ToTable("cart_detail");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.Discount", b =>
+            modelBuilder.Entity("API.Models.Discount", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -229,7 +229,7 @@ namespace API.Data.Migrations
                     b.ToTable("discount");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.FinancePack", b =>
+            modelBuilder.Entity("API.Models.FinancePack", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -272,7 +272,7 @@ namespace API.Data.Migrations
                     b.ToTable("finance_pack");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.FinancePackInterval", b =>
+            modelBuilder.Entity("API.Models.FinancePackInterval", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -312,7 +312,7 @@ namespace API.Data.Migrations
                     b.ToTable("finance_pack_interval");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.FinancedOrder", b =>
+            modelBuilder.Entity("API.Models.FinancedOrder", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -365,7 +365,7 @@ namespace API.Data.Migrations
                     b.ToTable("financed_order");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.FinancedOrderPay", b =>
+            modelBuilder.Entity("API.Models.FinancedOrderPay", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -421,7 +421,7 @@ namespace API.Data.Migrations
                     b.ToTable("financed_order_pay");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.IntervalType", b =>
+            modelBuilder.Entity("API.Models.IntervalType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -459,7 +459,7 @@ namespace API.Data.Migrations
                     b.ToTable("interval_type");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.Order", b =>
+            modelBuilder.Entity("API.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -537,7 +537,7 @@ namespace API.Data.Migrations
                     b.ToTable("order");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.OrderDetail", b =>
+            modelBuilder.Entity("API.Models.OrderDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -588,7 +588,7 @@ namespace API.Data.Migrations
                     b.ToTable("order_detail");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.Product", b =>
+            modelBuilder.Entity("API.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -641,7 +641,7 @@ namespace API.Data.Migrations
                     b.ToTable("product");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.ProductCategory", b =>
+            modelBuilder.Entity("API.Models.ProductCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -675,7 +675,7 @@ namespace API.Data.Migrations
                     b.ToTable("product_category");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.ProductVariant", b =>
+            modelBuilder.Entity("API.Models.ProductVariant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -732,7 +732,7 @@ namespace API.Data.Migrations
                     b.ToTable("product_variant");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.Shipment", b =>
+            modelBuilder.Entity("API.Models.Shipment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -795,7 +795,7 @@ namespace API.Data.Migrations
                     b.ToTable("shipment");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.User", b =>
+            modelBuilder.Entity("API.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -901,7 +901,7 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("API.Models.Entities.UserAddress", b =>
+            modelBuilder.Entity("API.Models.UserAddress", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -964,7 +964,7 @@ namespace API.Data.Migrations
                     b.ToTable("user_address");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.UserCardPayment", b =>
+            modelBuilder.Entity("API.Models.UserCardPayment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1027,7 +1027,7 @@ namespace API.Data.Migrations
                     b.ToTable("user_card_payment");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.UserPaypalPayment", b =>
+            modelBuilder.Entity("API.Models.UserPaypalPayment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1071,7 +1071,7 @@ namespace API.Data.Migrations
                     b.ToTable("user_paypal_payment");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.UserSubscription", b =>
+            modelBuilder.Entity("API.Models.UserSubscription", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1111,7 +1111,7 @@ namespace API.Data.Migrations
                     b.ToTable("user_subscription");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.UserWallet", b =>
+            modelBuilder.Entity("API.Models.UserWallet", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1291,19 +1291,19 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("API.Models.Entities.Attribute", b =>
+            modelBuilder.Entity("API.Models.Attribute", b =>
                 {
-                    b.HasOne("API.Models.Entities.AttributeCategory", "IdAttributeCategoryNavigation")
+                    b.HasOne("API.Models.AttributeCategory", "IdAttributeCategoryNavigation")
                         .WithMany("Attributes")
                         .HasForeignKey("IdAttributeCategory")
                         .HasConstraintName("FK__attribute__Id_at__6B24EA82");
 
-                    b.HasOne("API.Models.Entities.Product", "IdProductNavigation")
+                    b.HasOne("API.Models.Product", "IdProductNavigation")
                         .WithMany("Attributes")
                         .HasForeignKey("IdProduct")
                         .HasConstraintName("FK__attribute__Id_pr__693CA210");
 
-                    b.HasOne("API.Models.Entities.ProductVariant", "IdProductVariantNavigation")
+                    b.HasOne("API.Models.ProductVariant", "IdProductVariantNavigation")
                         .WithMany("Attributes")
                         .HasForeignKey("IdProductVariant")
                         .HasConstraintName("FK__attribute__Id_pr__6A30C649");
@@ -1315,9 +1315,9 @@ namespace API.Data.Migrations
                     b.Navigation("IdProductVariantNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.Cart", b =>
+            modelBuilder.Entity("API.Models.Cart", b =>
                 {
-                    b.HasOne("API.Models.Entities.User", "IdUserNavigation")
+                    b.HasOne("API.Models.User", "IdUserNavigation")
                         .WithMany("Carts")
                         .HasForeignKey("IdUser")
                         .HasConstraintName("FK__cart__Id_user__6477ECF3");
@@ -1325,14 +1325,14 @@ namespace API.Data.Migrations
                     b.Navigation("IdUserNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.CartDetail", b =>
+            modelBuilder.Entity("API.Models.CartDetail", b =>
                 {
-                    b.HasOne("API.Models.Entities.Cart", "IdCartNavigation")
+                    b.HasOne("API.Models.Cart", "IdCartNavigation")
                         .WithMany("CartDetails")
                         .HasForeignKey("IdCart")
                         .HasConstraintName("FK__cart_deta__Id_ca__656C112C");
 
-                    b.HasOne("API.Models.Entities.ProductVariant", "IdProductVariantNavigation")
+                    b.HasOne("API.Models.ProductVariant", "IdProductVariantNavigation")
                         .WithMany("CartDetails")
                         .HasForeignKey("IdProductVariant")
                         .HasConstraintName("FK__cart_deta__Id_pr__66603565");
@@ -1342,9 +1342,9 @@ namespace API.Data.Migrations
                     b.Navigation("IdProductVariantNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.FinancePack", b =>
+            modelBuilder.Entity("API.Models.FinancePack", b =>
                 {
-                    b.HasOne("API.Models.Entities.IntervalType", "IntervalTypeNavigation")
+                    b.HasOne("API.Models.IntervalType", "IntervalTypeNavigation")
                         .WithMany("FinancePacks")
                         .HasForeignKey("IntervalType")
                         .HasConstraintName("FK__finance_p__Inter__6EF57B66");
@@ -1352,9 +1352,9 @@ namespace API.Data.Migrations
                     b.Navigation("IntervalTypeNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.FinancePackInterval", b =>
+            modelBuilder.Entity("API.Models.FinancePackInterval", b =>
                 {
-                    b.HasOne("API.Models.Entities.FinancePack", "IdFinancePackNavigation")
+                    b.HasOne("API.Models.FinancePack", "IdFinancePackNavigation")
                         .WithMany("FinancePackIntervals")
                         .HasForeignKey("IdFinancePack")
                         .HasConstraintName("FK__finance_p__Id_fi__6FE99F9F");
@@ -1362,14 +1362,14 @@ namespace API.Data.Migrations
                     b.Navigation("IdFinancePackNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.FinancedOrder", b =>
+            modelBuilder.Entity("API.Models.FinancedOrder", b =>
                 {
-                    b.HasOne("API.Models.Entities.FinancePack", "IdFinancePackNavigation")
+                    b.HasOne("API.Models.FinancePack", "IdFinancePackNavigation")
                         .WithMany("FinancedOrders")
                         .HasForeignKey("IdFinancePack")
                         .HasConstraintName("FK__financed___Id_fi__71D1E811");
 
-                    b.HasOne("API.Models.Entities.Order", "IdOrderNavigation")
+                    b.HasOne("API.Models.Order", "IdOrderNavigation")
                         .WithMany("FinancedOrders")
                         .HasForeignKey("IdOrder")
                         .HasConstraintName("FK__financed___Id_or__70DDC3D8");
@@ -1379,9 +1379,9 @@ namespace API.Data.Migrations
                     b.Navigation("IdOrderNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.FinancedOrderPay", b =>
+            modelBuilder.Entity("API.Models.FinancedOrderPay", b =>
                 {
-                    b.HasOne("API.Models.Entities.FinancedOrder", "IdOrderNavigation")
+                    b.HasOne("API.Models.FinancedOrder", "IdOrderNavigation")
                         .WithMany("FinancedOrderPays")
                         .HasForeignKey("IdOrder")
                         .HasConstraintName("FK__financed___Id_or__72C60C4A");
@@ -1389,19 +1389,19 @@ namespace API.Data.Migrations
                     b.Navigation("IdOrderNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.Order", b =>
+            modelBuilder.Entity("API.Models.Order", b =>
                 {
-                    b.HasOne("API.Models.Entities.User", "IdUserNavigation")
+                    b.HasOne("API.Models.User", "IdUserNavigation")
                         .WithMany("OrderIdUserNavigations")
                         .HasForeignKey("IdUser")
                         .HasConstraintName("FK__order__Id_user__6C190EBB");
 
-                    b.HasOne("API.Models.Entities.UserAddress", "IdUserAddressNavigation")
+                    b.HasOne("API.Models.UserAddress", "IdUserAddressNavigation")
                         .WithMany("Orders")
                         .HasForeignKey("IdUserAddress")
                         .HasConstraintName("FK__order__Id_user_a__6D0D32F4");
 
-                    b.HasOne("API.Models.Entities.User", "ReferralUserNavigation")
+                    b.HasOne("API.Models.User", "ReferralUserNavigation")
                         .WithMany("OrderReferralUserNavigations")
                         .HasForeignKey("ReferralUser")
                         .HasConstraintName("FK__order__Referral___6E01572D");
@@ -1413,19 +1413,19 @@ namespace API.Data.Migrations
                     b.Navigation("ReferralUserNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.OrderDetail", b =>
+            modelBuilder.Entity("API.Models.OrderDetail", b =>
                 {
-                    b.HasOne("API.Models.Entities.Discount", "IdDiscountNavigation")
+                    b.HasOne("API.Models.Discount", "IdDiscountNavigation")
                         .WithMany("OrderDetails")
                         .HasForeignKey("IdDiscount")
                         .HasConstraintName("FK__order_det__Id_di__75A278F5");
 
-                    b.HasOne("API.Models.Entities.Order", "IdOrderNavigation")
+                    b.HasOne("API.Models.Order", "IdOrderNavigation")
                         .WithMany("OrderDetails")
                         .HasForeignKey("IdOrder")
                         .HasConstraintName("FK__order_det__Id_or__73BA3083");
 
-                    b.HasOne("API.Models.Entities.ProductVariant", "IdProductVariantNavigation")
+                    b.HasOne("API.Models.ProductVariant", "IdProductVariantNavigation")
                         .WithMany("OrderDetails")
                         .HasForeignKey("IdProductVariant")
                         .HasConstraintName("FK__order_det__Id_pr__74AE54BC");
@@ -1437,9 +1437,9 @@ namespace API.Data.Migrations
                     b.Navigation("IdProductVariantNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.Product", b =>
+            modelBuilder.Entity("API.Models.Product", b =>
                 {
-                    b.HasOne("API.Models.Entities.ProductCategory", "ProductCategoryNavigation")
+                    b.HasOne("API.Models.ProductCategory", "ProductCategoryNavigation")
                         .WithMany("Products")
                         .HasForeignKey("ProductCategory")
                         .HasConstraintName("FK__product__Product__6754599E");
@@ -1447,9 +1447,9 @@ namespace API.Data.Migrations
                     b.Navigation("ProductCategoryNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.ProductVariant", b =>
+            modelBuilder.Entity("API.Models.ProductVariant", b =>
                 {
-                    b.HasOne("API.Models.Entities.Product", "IdProductNavigation")
+                    b.HasOne("API.Models.Product", "IdProductNavigation")
                         .WithMany("ProductVariants")
                         .HasForeignKey("IdProduct")
                         .HasConstraintName("FK__product_v__Id_pr__68487DD7");
@@ -1457,14 +1457,14 @@ namespace API.Data.Migrations
                     b.Navigation("IdProductNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.Shipment", b =>
+            modelBuilder.Entity("API.Models.Shipment", b =>
                 {
-                    b.HasOne("API.Models.Entities.Order", "IdOrderNavigation")
+                    b.HasOne("API.Models.Order", "IdOrderNavigation")
                         .WithMany("Shipments")
                         .HasForeignKey("IdOrder")
                         .HasConstraintName("FK__shipment__Id_ord__76969D2E");
 
-                    b.HasOne("API.Models.Entities.User", "IdUserNavigation")
+                    b.HasOne("API.Models.User", "IdUserNavigation")
                         .WithMany("Shipments")
                         .HasForeignKey("IdUser")
                         .HasConstraintName("FK__shipment__Id_use__778AC167");
@@ -1474,9 +1474,9 @@ namespace API.Data.Migrations
                     b.Navigation("IdUserNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.UserAddress", b =>
+            modelBuilder.Entity("API.Models.UserAddress", b =>
                 {
-                    b.HasOne("API.Models.Entities.User", "IdUserNavigation")
+                    b.HasOne("API.Models.User", "IdUserNavigation")
                         .WithMany("UserAddresses")
                         .HasForeignKey("IdUser")
                         .HasConstraintName("FK__user_addr__Id_us__619B8048");
@@ -1484,9 +1484,9 @@ namespace API.Data.Migrations
                     b.Navigation("IdUserNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.UserCardPayment", b =>
+            modelBuilder.Entity("API.Models.UserCardPayment", b =>
                 {
-                    b.HasOne("API.Models.Entities.User", "IdUserPaymentNavigation")
+                    b.HasOne("API.Models.User", "IdUserPaymentNavigation")
                         .WithMany("UserCardPayments")
                         .HasForeignKey("IdUserPayment")
                         .HasConstraintName("FK__user_card__Id_us__628FA481");
@@ -1494,9 +1494,9 @@ namespace API.Data.Migrations
                     b.Navigation("IdUserPaymentNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.UserPaypalPayment", b =>
+            modelBuilder.Entity("API.Models.UserPaypalPayment", b =>
                 {
-                    b.HasOne("API.Models.Entities.User", "User")
+                    b.HasOne("API.Models.User", "User")
                         .WithMany("UserPaypalPayments")
                         .HasForeignKey("UserId")
                         .HasConstraintName("FK__user_payp__User___6383C8BA");
@@ -1504,9 +1504,9 @@ namespace API.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.UserSubscription", b =>
+            modelBuilder.Entity("API.Models.UserSubscription", b =>
                 {
-                    b.HasOne("API.Models.Entities.User", "IdUserNavigation")
+                    b.HasOne("API.Models.User", "IdUserNavigation")
                         .WithMany("UserSubscriptions")
                         .HasForeignKey("IdUser")
                         .HasConstraintName("FK__user_subs__Id_us__60A75C0F");
@@ -1514,9 +1514,9 @@ namespace API.Data.Migrations
                     b.Navigation("IdUserNavigation");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.UserWallet", b =>
+            modelBuilder.Entity("API.Models.UserWallet", b =>
                 {
-                    b.HasOne("API.Models.Entities.User", "IdUserNavigation")
+                    b.HasOne("API.Models.User", "IdUserNavigation")
                         .WithMany("UserWallets")
                         .HasForeignKey("IdUser")
                         .HasConstraintName("FK__user_wall__Id_us__5FB337D6");
@@ -1535,7 +1535,7 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("API.Models.Entities.User", null)
+                    b.HasOne("API.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1544,7 +1544,7 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("API.Models.Entities.User", null)
+                    b.HasOne("API.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1559,7 +1559,7 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Models.Entities.User", null)
+                    b.HasOne("API.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1568,46 +1568,46 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("API.Models.Entities.User", null)
+                    b.HasOne("API.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("API.Models.Entities.AttributeCategory", b =>
+            modelBuilder.Entity("API.Models.AttributeCategory", b =>
                 {
                     b.Navigation("Attributes");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.Cart", b =>
+            modelBuilder.Entity("API.Models.Cart", b =>
                 {
                     b.Navigation("CartDetails");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.Discount", b =>
+            modelBuilder.Entity("API.Models.Discount", b =>
                 {
                     b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.FinancePack", b =>
+            modelBuilder.Entity("API.Models.FinancePack", b =>
                 {
                     b.Navigation("FinancePackIntervals");
 
                     b.Navigation("FinancedOrders");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.FinancedOrder", b =>
+            modelBuilder.Entity("API.Models.FinancedOrder", b =>
                 {
                     b.Navigation("FinancedOrderPays");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.IntervalType", b =>
+            modelBuilder.Entity("API.Models.IntervalType", b =>
                 {
                     b.Navigation("FinancePacks");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.Order", b =>
+            modelBuilder.Entity("API.Models.Order", b =>
                 {
                     b.Navigation("FinancedOrders");
 
@@ -1616,19 +1616,19 @@ namespace API.Data.Migrations
                     b.Navigation("Shipments");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.Product", b =>
+            modelBuilder.Entity("API.Models.Product", b =>
                 {
                     b.Navigation("Attributes");
 
                     b.Navigation("ProductVariants");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.ProductCategory", b =>
+            modelBuilder.Entity("API.Models.ProductCategory", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.ProductVariant", b =>
+            modelBuilder.Entity("API.Models.ProductVariant", b =>
                 {
                     b.Navigation("Attributes");
 
@@ -1637,7 +1637,7 @@ namespace API.Data.Migrations
                     b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.User", b =>
+            modelBuilder.Entity("API.Models.User", b =>
                 {
                     b.Navigation("Carts");
 
@@ -1658,7 +1658,7 @@ namespace API.Data.Migrations
                     b.Navigation("UserWallets");
                 });
 
-            modelBuilder.Entity("API.Models.Entities.UserAddress", b =>
+            modelBuilder.Entity("API.Models.UserAddress", b =>
                 {
                     b.Navigation("Orders");
                 });

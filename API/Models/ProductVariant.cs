@@ -6,10 +6,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Models.Entities;
+namespace API.Models;
 
-[Table("attribute")]
-public partial class Attribute
+[Table("product_variant")]
+public partial class ProductVariant
 {
     [Key]
     public int Id { get; set; }
@@ -17,17 +17,21 @@ public partial class Attribute
     [Column("Id_product")]
     public int? IdProduct { get; set; }
 
-    [Column("Id_product_variant")]
-    public int? IdProductVariant { get; set; }
-
-    [Column("Id_attribute_category")]
-    public int? IdAttributeCategory { get; set; }
-
+    [Column("Sub_name")]
     [StringLength(255)]
-    public string Field { get; set; }
+    public string SubName { get; set; }
 
+    [Column("SKU")]
     [StringLength(255)]
-    public string Value { get; set; }
+    public string Sku { get; set; }
+
+    [Column("Sub_family")]
+    [StringLength(255)]
+    public string SubFamily { get; set; }
+
+    public double? Price { get; set; }
+
+    public int? Stock { get; set; }
 
     [Column("Created_at", TypeName = "datetime")]
     public DateTime? CreatedAt { get; set; }
@@ -41,15 +45,16 @@ public partial class Attribute
     [Column("Is_active")]
     public bool? IsActive { get; set; }
 
-    [ForeignKey("IdAttributeCategory")]
-    [InverseProperty("Attributes")]
-    public virtual AttributeCategory IdAttributeCategoryNavigation { get; set; }
+    [InverseProperty("IdProductVariantNavigation")]
+    public virtual ICollection<Attribute> Attributes { get; set; } = new List<Attribute>();
+
+    [InverseProperty("IdProductVariantNavigation")]
+    public virtual ICollection<CartDetail> CartDetails { get; set; } = new List<CartDetail>();
 
     [ForeignKey("IdProduct")]
-    [InverseProperty("Attributes")]
+    [InverseProperty("ProductVariants")]
     public virtual Product IdProductNavigation { get; set; }
 
-    [ForeignKey("IdProductVariant")]
-    [InverseProperty("Attributes")]
-    public virtual ProductVariant IdProductVariantNavigation { get; set; }
+    [InverseProperty("IdProductVariantNavigation")]
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }
