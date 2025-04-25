@@ -87,7 +87,7 @@ namespace API.implementations.Domain
             {
                 statusCode = 201,
                 description = "Delivery succesfully created",
-                data = null
+                data = new { idShipment = delivery.Id }
             };
 
 
@@ -169,8 +169,17 @@ namespace API.implementations.Domain
                     description = "Delivery not found"
                 };
             }
+            DateTime ObjEstimatedArrival = DateTime.Now;
+            DateTime ObjArrival = DateTime.Now;
+            if (obj.EstimatedArrival != null) ObjEstimatedArrival = obj.EstimatedArrival.Value;
+            if (obj.Arrival != null) ObjArrival = obj.Arrival.Value;
+
+            DateTime DbEstimatedArrival = DateTime.Now;
+            DateTime DbArrival = DateTime.Now;
+            if (delivery.EstimatedArrival != null) DbEstimatedArrival = delivery.EstimatedArrival.Value;
+            if (delivery.Arrival != null) DbArrival = delivery.Arrival.Value;
             // UPDATE DELIVERY
-            if (DateTime.Compare(delivery.EstimatedArrival.Value, obj.EstimatedArrival.Value) == 0 && DateTime.Compare(delivery.Arrival.Value, obj.Arrival.Value) == 0)
+            if (DateTime.Compare(DbEstimatedArrival, ObjEstimatedArrival) == 0 && DateTime.Compare(DbArrival, ObjArrival) == 0)
             {
                 return new ResultDTO
                 {
