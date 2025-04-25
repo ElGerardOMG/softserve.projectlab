@@ -5,10 +5,10 @@ using API.Models;
 
 namespace API.implementations.Domain
 {
-    public class UserPaypalProcessor : IUserPaymentMethodsProcessor
+    public class UserCardProcessor : IUserPaymentMethodsProcessor
     {
         private readonly ProjectlabContext _db;
-        public UserPaypalProcessor(ProjectlabContext db)
+        public UserCardProcessor(ProjectlabContext db)
         {
             _db = db;
         }
@@ -17,7 +17,7 @@ namespace API.implementations.Domain
         {
             try
             {
-                _db.Add<UserPaypalProcessor>( (UserPaypalProcessor) payment);
+                _db.Add<UserCardPayment>( (UserCardPayment) payment);
                 _db.SaveChanges();
                 return true;
             }
@@ -30,39 +30,50 @@ namespace API.implementations.Domain
 
         public List<IPayment> GetMethodsFromUser(int id)
         {
-            return (from ua in _db.UserPaypalPayments where ua.UserId == id select ((IPayment) ua)).ToList();
+
+            return (from ua in _db.UserCardPayments where ua.UserId == id select ( (IPayment) ua )).ToList();
+
         }
 
         public IPayment GetMethodById(int id)
         {
-            return (from ua in _db.UserPaypalPayments where ua.Id == id select (IPayment) ua).FirstOrDefault();
+            return (from ua in _db.UserCardPayments where ua.Id == id select (IPayment)ua).FirstOrDefault();
         }
 
 
         public IPayment RemoveMethod(IPayment payment)
         {
-            _db.Remove((UserPaypalPayment) payment);
+            _db.Remove((UserCardPayment) payment);
             _db.SaveChanges();
-            return (UserPaypalPayment) payment;
+            return (UserCardPayment) payment;
         }
         public IPayment RemoveMethod(int id)
         {
-            UserPaypalPayment? payment = (from ua in _db.UserPaypalPayments where ua.Id == id select ua).FirstOrDefault();
+            try
+            {
+                UserCardPayment? payment = (from ua in _db.UserCardPayments where ua.Id == id select ua).FirstOrDefault();
+                _db.Remove(payment);
+                _db.SaveChanges();
+                return payment;
+            }
+            catch (Exception E)
+            {
+                Console.WriteLine($"{E.Message}\n...\n{E.StackTrace}");
+                return null;
+            }
 
-            _db.Remove(payment);
-            _db.SaveChanges();
-            return payment;
         }
 
         public bool RemoveAllMethodsFromUser(int id) 
         {
             try
             {
-                _db.RemoveRange((from ua in _db.UserPaypalPayments where ua.UserId == id select ua).ToList());
+                _db.RemoveRange((from ua in _db.UserCardPayments where ua.UserId == id select ua).ToList());
                 _db.SaveChanges();
             }
             catch (Exception E)
             {
+                Console.WriteLine($"{E.Message}\n...\n{E.StackTrace}");
                 return false;
             }
 
@@ -74,12 +85,13 @@ namespace API.implementations.Domain
         {
             try
             {
-                var entity = _db.Update<UserPaypalPayment>((UserPaypalPayment) payment);
+                var entity = _db.Update<UserCardPayment>((UserCardPayment) payment);
                 _db.SaveChanges();
                 return true;
             }
             catch (Exception E)
             {
+                Console.WriteLine($"{E.Message}\n...\n{E.StackTrace}");
                 return false;
             }
         }

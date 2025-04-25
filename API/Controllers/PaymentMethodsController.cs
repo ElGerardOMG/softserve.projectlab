@@ -11,7 +11,7 @@ using API.Models;
 
 namespace API.Controllers;
 
-[Route("payments")]
+[Route("api/[controller]")]
 [ApiController]
 [Authorize]
 public class PaymentMethodsController : ControllerBase
@@ -68,9 +68,12 @@ public class PaymentMethodsController : ControllerBase
 
         card.UserId = userId;
 
-        _UserCardProcessor.AddMethodToUser(card);
+        if (_UserCardProcessor.AddMethodToUser(card))
+        {
+            return Ok("Card method added succesfully");
+        }
 
-        return Ok("Card method added succesfully");
+        return StatusCode(500, "Couldn't add new card");
     }
 
     [HttpPatch("card/{cardId}")]
@@ -85,6 +88,10 @@ public class PaymentMethodsController : ControllerBase
             if (!(result is OkResult)) return result;
 
             UserCardPayment card = (UserCardPayment)_UserCardProcessor.GetMethodById(userId);
+            if (card == null)
+            {
+                return NotFound("This payment method doesn't exist");
+            }
             if (card.UserId != userId)
             {
                 return Unauthorized("You have no permission to perform this action!");
@@ -92,9 +99,13 @@ public class PaymentMethodsController : ControllerBase
 
             DtoMapper.Updater(cardDTO, card, null, 0);
 
-            _UserCardProcessor.UpdateMethod(card);
+            if (_UserCardProcessor.UpdateMethod(card))
+            {
+                return Ok("User's card updated succesfully");
+            }
 
-            return Ok("User's card updated succesfully");
+            return StatusCode(500, "Couldn't update method");
+            
 
         }
         catch (Exception E)
@@ -116,16 +127,24 @@ public class PaymentMethodsController : ControllerBase
 
             if (!(result is OkResult)) return result;
 
-            UserCardPayment card = (UserCardPayment) _UserCardProcessor.GetMethodById(userId);
-            
+            UserCardPayment card = (UserCardPayment) _UserCardProcessor.GetMethodById(cardId);
+            if (card == null)
+            {
+                return NotFound("This payment method doesn't exist");
+            }
+
             if (card.UserId != userId)
             {
                 return Unauthorized("You have no permission to perform this action!");
             }
 
-            _UserCardProcessor.RemoveMethod(cardId);
-
-            return Ok("User's card updated succesfully");
+            if(_UserCardProcessor.RemoveMethod(cardId) != null)
+            {
+                return Ok("User's card removed succesfully");
+            }
+            
+            return StatusCode(500, "Couldn't delete method");
+            
         }
         catch (Exception E)
         {
@@ -148,9 +167,13 @@ public class PaymentMethodsController : ControllerBase
 
         paypal.UserId = userId;
 
-        _UserPaypalProcessor.AddMethodToUser(paypal);
+        if (_UserPaypalProcessor.AddMethodToUser(paypal))
+        {
+            return Ok("Paypal method added succesfully");
+        }
 
-        return Ok("Paypal method added succesfully");
+        return StatusCode(500,"Couldn't add new paypal method");
+
     }
 
     [HttpPatch("paypal/{paypalId}")]
@@ -165,6 +188,10 @@ public class PaymentMethodsController : ControllerBase
             if (!(result is OkResult)) return result;
 
             UserPaypalPayment paypal = (UserPaypalPayment) _UserPaypalProcessor.GetMethodById(paypalId);
+            if(paypal == null)
+            {
+                return NotFound("This payment method doesn't exist");
+            }
             if (paypal.UserId != userId)
             {
                 return Unauthorized("You have no permission to perform this action!");
@@ -172,9 +199,12 @@ public class PaymentMethodsController : ControllerBase
 
             DtoMapper.Updater(paypalDTO, paypal, null, 0);
 
-            _UserPaypalProcessor.UpdateMethod(paypal);
+            if (_UserPaypalProcessor.UpdateMethod(paypal))
+            {
+                return Ok("Paypal method updated succesfully");
+            }
 
-            return Ok("User's paypal updated succesfully");
+            return StatusCode(500, "Couldn't edit paypal method");
 
         }
         catch (Exception E)
@@ -186,7 +216,7 @@ public class PaymentMethodsController : ControllerBase
 
 
     [HttpDelete("paypal/{paypalId}")]
-    public async Task<IActionResult> DeleteAddress([FromRoute] int paypalId)
+    public async Task<IActionResult> DeletePaypalMethod([FromRoute] int paypalId)
     {
         try
         {
@@ -197,14 +227,22 @@ public class PaymentMethodsController : ControllerBase
             if (!(result is OkResult)) return result;
 
             UserPaypalPayment paypal = (UserPaypalPayment) _UserPaypalProcessor.GetMethodById(paypalId);
+            if (paypal == null)
+            {
+                return NotFound("This payment method doesn't exist");
+            }
             if (paypal.UserId != userId)
             {
                 return Unauthorized("You have no permission to perform this action!");
             }
 
-            _UserPaypalProcessor.RemoveMethod(paypal);
+            if (_UserPaypalProcessor.RemoveMethod(paypal) != null)
+            {
+                return Ok("Paypal deleted succesfully");
+            }
+            
 
-            return Ok("User's paypal updated succesfully");
+            return StatusCode(500,"Couldn't delete paypal");
         }
         catch (Exception E)
         {

@@ -9,7 +9,7 @@ using API.DTOs.UserData;
 
 namespace API.Controllers;
 
-[Route("address")]
+[Route("api/[controller]")]
 [ApiController]
 [Authorize]
 public class UserAddressesController : ControllerBase

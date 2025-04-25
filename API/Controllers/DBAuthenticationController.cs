@@ -5,7 +5,7 @@ using API.implementations.Domain.Interfaces;
 using API.DTOs.Authentication;
 namespace API.Controllers
 {
-    [Route("authenticate")]
+    [Route("api/[controller]")]
     public class DBAuthenticationController : AuthenticationController
     {
         private readonly UserManager<User> _userManager;
