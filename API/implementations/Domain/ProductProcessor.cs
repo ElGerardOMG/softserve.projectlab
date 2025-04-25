@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using API.Models.Entities;
 using API.Data;
-using API.implementations.Domain.Interfaces;
+using API.implementations.Interfaces;
 
 namespace API.implementations.Domain
 {

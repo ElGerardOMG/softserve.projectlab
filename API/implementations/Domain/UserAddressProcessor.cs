@@ -1,5 +1,5 @@
 ﻿using API.Data;
-using API.implementations.Domain.Interfaces;
+using API.implementations.Interfaces;
 using API.Models.Entities;
 namespace API.implementations.Domain;
 

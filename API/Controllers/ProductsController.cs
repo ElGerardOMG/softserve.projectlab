@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using API.Models.Entities;
-using API.implementations.Domain.Interfaces;
+using API.implementations.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
