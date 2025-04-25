@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace API.Models;
 
-public partial class OrderDetail : BaseClass
+public partial class OrderDetail
 {
     public int Id { get; set; }
 
@@ -12,6 +12,14 @@ public partial class OrderDetail : BaseClass
     public int? IdProductVariant { get; set; }
 
     public int? IdDiscount { get; set; }
+
+    public DateTime? CreatedAt { get; set; }
+
+    public DateTime? UpdateAt { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
+
+    public bool? IsActive { get; set; }
 
     public int? Quantity { get; set; }
 

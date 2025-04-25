@@ -5,6 +5,7 @@ using API.Models;
 using API.Utils.Implementations;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace API.implementations.Domain
@@ -38,6 +39,14 @@ namespace API.implementations.Domain
             }
             // GET CART
             Cart cart = _db.Cart.FirstOrDefault(c => c.Id == obj.id_cart);
+            if (cart.IsActive == false)
+            {
+                return new ResultDTO
+                {
+                    statusCode = 500,
+                    description = "Cart already purchased",
+                };
+            }
             // GET CART LIST OF PRODUCTS
             List<CartDetail> cartDetails = _db.CartDetail.Where(c => c.IdCart == obj.id_cart).ToList();
             // GET THE SUBTOTAL SUM OF THE PRODUCTS AND ITS DISCOUNTS
@@ -138,6 +147,58 @@ namespace API.implementations.Domain
             }
             else
             {
+                // PROCESS PAYMENT
+                const string url = "http://159.54.158.214:8000/pay"; // FAKE BANK API
+                PaymentDTO payData = new PaymentDTO()
+                {
+                    amount = (decimal)total,
+                    currency = "USD",
+                    method = obj.payment_type,
+                    credit_card = new CreditCardDTO
+                    {
+                        card_number = "1111222233334444", //PASSTHROUG TO VALIDATE THE API 16 CHARACTERES REQUIREMENT
+                        expiry_month = DateTime.Now.Month + 1,
+                        expiry_year = DateTime.Now.Year + 1,
+                        cvv = "111"
+                    },
+                    paypal = new PaypalDTO
+                    {
+                        email = "example@example.example" //PASSTHROGH TO VALIDATE THE API @ REQUIREMENT
+                    }
+                };
+                if (obj.payment_type == "credit_card")
+                {
+                    UserCardPayment userCardPayment = _db.UserCardPayments.FirstOrDefault(c => c.Id == obj.id_user_payment_card);
+
+                    payData.credit_card = new CreditCardDTO 
+                    {
+                        card_number = userCardPayment.CardNumber,
+                        expiry_month = userCardPayment.CardExpirationMonth.Value,
+                        expiry_year = userCardPayment.CardExpirationYear.Value,
+                        cvv = obj.cvv.ToString(),
+                    };
+                }
+                if(obj.payment_type == "paypal")
+                {
+                    UserPaypalPayment userPaypalPayment = _db.UserPaypalPayments.FirstOrDefault(c => c.Id == obj.id_user_payment_paypal);
+                    payData.paypal = new PaypalDTO
+                    {
+                        email = userPaypalPayment.Email,
+                    };
+                }
+                //HERE WE CAN IMPLEMENT ANY KIND OF PAYMENT TYPES
+
+                TransactionDTO response = APIHelper.PostApiData(url, payData);
+                if(response.status != "success")
+                {
+                    return new ResultDTO
+                    {
+                        statusCode = 500,
+                        description = "Payment error",
+                        data = new { detail = response.message }
+                    };
+                }
+
                 Order newOrder =
                     new Order
                     {
@@ -157,6 +218,19 @@ namespace API.implementations.Domain
                         IsActive = true,
                         Status = "Pending"
                     };
+                cart.IsActive = false;
+                //Close the actual cart for the order and let it stored hidden
+                _db.Cart.Update(cart);
+                Cart newCart = new Cart
+                {
+                    IdUser = cart.IdUser,
+                    CreatedAt = DateTime.Now,
+                    UpdateAt = null,
+                    IsActive = true
+                };
+                //Create a new cart for the user
+                _db.Cart.Add(newCart);
+                //Register the roder
                 _db.Orders.Add(newOrder);
                 _db.SaveChanges();
                 foreach (var item in cartDetails)
@@ -188,7 +262,7 @@ namespace API.implementations.Domain
                 {
                     statusCode = 201,
                     description = "Order created",
-                    data = new { orderId = newOrder.Id }
+                    data = new { orderId = newOrder.Id, transactionDetail = response }
                 };
             }
         }

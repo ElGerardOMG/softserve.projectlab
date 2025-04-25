@@ -77,7 +77,9 @@ namespace API.implementations.Domain
                 DeletedAt = null,
                 IsActive = true
             };
-
+            order.Status = "Sent";
+            order.UpdateAt = DateTime.Now;
+            _db.Update(order);
             _db.Add(delivery);
             _db.SaveChanges();
 
@@ -168,12 +170,7 @@ namespace API.implementations.Domain
                 };
             }
             // UPDATE DELIVERY
-            DateTime EstimatedArrival = DateTime.Now;
-            DateTime Arrival = DateTime.Now;
-            if (delivery.EstimatedArrival.HasValue) EstimatedArrival = delivery.EstimatedArrival.Value;
-            if(delivery.Arrival.HasValue) Arrival = delivery.Arrival.Value;
-
-            if (DateTime.Compare(EstimatedArrival, obj.EstimatedArrival) == 0 && DateTime.Compare(Arrival, obj.Arrival) == 0)
+            if (DateTime.Compare(delivery.EstimatedArrival.Value, obj.EstimatedArrival.Value) == 0 && DateTime.Compare(delivery.Arrival.Value, obj.Arrival.Value) == 0)
             {
                 return new ResultDTO
                 {
@@ -183,11 +180,8 @@ namespace API.implementations.Domain
                     error = null
                 };
             }
-
-
-
-            delivery.EstimatedArrival = obj.EstimatedArrival;
-            delivery.Arrival = obj.Arrival;
+            if(obj.EstimatedArrival != null) delivery.EstimatedArrival = obj.EstimatedArrival;
+            if(obj.Arrival != null)delivery.Arrival = obj.Arrival;
             delivery.UpdateAt = DateTime.Now;
             _db.Shipments.Update(delivery);
             _db.SaveChanges();

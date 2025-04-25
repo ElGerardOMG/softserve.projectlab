@@ -616,23 +616,15 @@ public partial class ProjectlabContext : DbContext
 
             entity.ToTable("user_paypal_payment", "dbo");
 
-            entity.Property(e => e.CardExpirationMonth).HasColumnName("Card_expiration_month");
-            entity.Property(e => e.CardExpirationYear).HasColumnName("Card_expiration_year");
-            entity.Property(e => e.CardName)
-                .HasMaxLength(255)
-                .HasColumnName("Card_name");
-            entity.Property(e => e.CardNumber)
-                .HasMaxLength(255)
-                .HasColumnName("Card_number");
-            entity.Property(e => e.CardType)
-                .HasMaxLength(255)
-                .HasColumnName("Card_type");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("Created_at");
             entity.Property(e => e.DeletedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("Deleted_at");
+            entity.Property(e => e.Email)
+                .HasMaxLength(255)
+                .IsUnicode(false);
             entity.Property(e => e.IsActive).HasColumnName("Is_active");
             entity.Property(e => e.LastUsed).HasColumnName("Last_used");
             entity.Property(e => e.UpdateAt)
