@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     public class AttributeCategoriesController : ControllerBase
     {
         private readonly IAttributeCategoryDomain _attributeCategoryProcessor;
@@ -16,7 +15,7 @@ namespace API.Controllers
             _attributeCategoryProcessor = productProcessor;
         }
 
-        [HttpPost("GetFiltered/{isActive}")]
+        [HttpGet]
         public IActionResult GetAllCategories(bool? isActive)
         {
             try
@@ -31,13 +30,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("GetById/{id}")]
-        public async Task<IActionResult> GetAttributeCategoryById(int id)
+        [HttpGet("{idAttributeCategory}")]
+        public async Task<IActionResult> GetAttributeCategoryById(int idAttributeCategory)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _attributeCategoryProcessor.GetAttributeCategoryById(id)
+                    result: _attributeCategoryProcessor.GetAttributeCategoryById(idAttributeCategory)
                 );
             }
             catch (Exception ex)
@@ -46,7 +45,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost("Create")]
+        [HttpPost]
         public IActionResult AddAttributeCategory([FromBody] AttributeCategoryDTO obj)
         {
             try
@@ -61,13 +60,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpPut("Update/{id}")]
-        public IActionResult UpdateAttributeCategory(int id, [FromBody] AttributeCategoryDTO value)
+        [HttpPut("{idAttributeCategory}")]
+        public IActionResult UpdateAttributeCategory(int idAttributeCategory, [FromBody] AttributeCategoryDTO value)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _attributeCategoryProcessor.UpdateAttributeCategory(id, value)
+                    result: _attributeCategoryProcessor.UpdateAttributeCategory(idAttributeCategory, value)
                 );
             }
             catch (Exception ex)
@@ -76,13 +75,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpDelete("Delete/{id}")]
-        public IActionResult DeleteAttributeCategory(int id)
+        [HttpDelete("{idAttributeCategory}")]
+        public IActionResult DeleteAttributeCategory(int idAttributeCategory)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _attributeCategoryProcessor.DeleteAttributeCategory(id)
+                    result: _attributeCategoryProcessor.DeleteAttributeCategory(idAttributeCategory)
                 );
             }
             catch (Exception ex)

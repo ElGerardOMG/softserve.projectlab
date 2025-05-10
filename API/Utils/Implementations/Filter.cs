@@ -10,6 +10,23 @@ namespace API.Utils.Implementations
 {
     public class Filter
     {
+        public static PaginatedResponseDTO<Order> GenericQueryProcessor(
+            IQueryable<Order> list,
+            ProjectlabContext db,
+            FilterDTO filters,
+            bool isActive,
+            int page = 1,
+            int pageSize = 10)
+        {
+            // LATE IMPLEMENTATION
+            return new PaginatedResponseDTO<Order>
+            {
+                Data = null,
+                PaginationData = null
+            };
+        }
+
+
         public static PaginatedResponseDTO<Product> ProductQueryProcessor(
             IQueryable<Product> list,
             ProjectlabContext db, 

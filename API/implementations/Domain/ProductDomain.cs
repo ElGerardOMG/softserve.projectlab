@@ -52,39 +52,24 @@ namespace API.implementations.Domain
                     error = null
                 };
             }
-            // EXTRACT LIST OF PRODUCT VARIANTS
             ICollection<ProductVariantDTO> productVariants = DtoMapper.ExtractCollection<ProductDTO, ProductVariantDTO>(obj);
-            // CAST THE DTO TO A PRODUCT OBJECT
             using (Product newProduct = DtoMapper.Mapper<ProductDTO, Product>(obj))
             {
-                // REGISTER THE PRODUCT
                 _db.Products.Add(newProduct);
-                // SAVE TO GET ITS ID
                 _db.SaveChanges();
-                // ITERATE THROUGH THE PRODUCT VARIANTS
                 foreach (var variant in productVariants)
                 {
-                    // CAST THE DTO TO A PRODUCT VARIANT OBJECT
                     ProductVariant newProductVariant = DtoMapper.Mapper<ProductVariantDTO, ProductVariant>(variant);
-                    // EXTRACT LIST OF ATTRIBUTES FROM THE VARIANT
                     ICollection<AttributeDTO> productAttributes = DtoMapper.ExtractCollection<ProductVariantDTO, AttributeDTO>(variant);
-                    // ASSIGN THE BASE PRODUCT ID TO THE VARIANT
                     newProductVariant.IdProduct = newProduct.Id;
-                    // REGISTER THE VARIANT
                     newProduct.ProductVariants.Add(newProductVariant);
-                    // SAVE TO GET ITS ID
                     _db.SaveChanges();
-                    // ITERATE THROUGH THE VARIANT'S ATTRIBUTES
                     foreach (var attribute in productAttributes)
                     {
-                        // CAST THE DTO TO AN ATTRIBUTE OBJECT
                         Models.Attribute newProductAttribute = DtoMapper.Mapper<AttributeDTO, Models.Attribute>(attribute);
-                        // ASSIGN THE BASE PRODUCT ID AND VARIANT ID TO THE ATTRIBUTE
                         newProductAttribute.IdProduct = newProduct.Id;
                         newProductAttribute.IdProductVariant = newProductVariant.Id;
-                        // REGISTER THE ATTRIBUTE
                         _db.Attributes.Add(newProductAttribute);
-                        // SAVE THE ATTRIBUTE
                         _db.SaveChanges();
                     }
                 }
@@ -109,7 +94,16 @@ namespace API.implementations.Domain
                     error = "Error while updating the product"
                 };
             }
-
+            if (Comparer.Compare<ProductDTO, Product>(obj, existingProduct))
+            {
+                return new ResultDTO
+                {
+                    statusCode = 200,
+                    description = "No changes detected",
+                    data = null,
+                    error = null
+                };
+            }
             existingProduct.ProductType = obj.ProductType;
             existingProduct.ProductCategory = obj.ProductCategory;
             existingProduct.Name = obj.Name;

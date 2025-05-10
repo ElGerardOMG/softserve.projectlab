@@ -6,8 +6,7 @@ using API.Utils.Implementations;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    public class CartController
+    public class CartController : ControllerBase
     {
         private readonly ICartDomain _processor;
         public CartController(ICartDomain attributeProcessor)
@@ -15,13 +14,13 @@ namespace API.Controllers
             _processor = attributeProcessor;
         }
 
-        [HttpPost("Create")]
-        public IActionResult CreateCart(int id_user)
+        [HttpPost]
+        public IActionResult CreateCart(int idUser)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _processor.CreateCart(id_user)
+                    result: _processor.CreateCart(idUser)
                 );
             }
             catch (Exception ex)
@@ -30,7 +29,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost("AddItem")]
+        [HttpPost("AddToCart")]
         public IActionResult AddToCart(CartItemDTO obj)
         {
             try
@@ -45,13 +44,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpDelete("RemoveItem/{id_cart}")]
-        public IActionResult RemoveFromCart(int id_cart, int id_product)
+        [HttpDelete("{idCart}/RemoveItem/{idProduct}")]
+        public IActionResult RemoveFromCart(int idCart, int idProduct)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _processor.RemoveFromCart(id_cart, id_product)
+                    result: _processor.RemoveFromCart(idCart, idProduct)
                 );
             }
             catch (Exception ex)
@@ -59,13 +58,13 @@ namespace API.Controllers
                 return ResponseHelper.ErrorProcessor(ex.Message, 500);
             }
         }
-        [HttpPatch("AddQuantity/{id_cart}")]
-        public IActionResult AddQuantity(int id_cart, int id_product, int quantity)
+        [HttpPatch("{idCart}/AddQuantity/{idProduct}")]
+        public IActionResult AddQuantity(int idCart, int idProduct, int quantity)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _processor.AddQuantity(id_cart, id_product, quantity)
+                    result: _processor.AddQuantity(idCart, idProduct, quantity)
                 );
             }
             catch (Exception ex)
@@ -74,13 +73,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpPatch("UpdateQuantity/{id_cart}")]
-        public IActionResult UpdateQuantity(int id_cart, int id_product, int quantity)
+        [HttpPatch("{idCart}/UpdateQuantity/{idProduct}")]
+        public IActionResult UpdateQuantity(int idCart, int idProduct, int quantity)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _processor.UpdateQuantity(id_cart, id_product, quantity)
+                    result: _processor.UpdateQuantity(idCart, idProduct, quantity)
                 );
             }
             catch (Exception ex)
@@ -89,12 +88,12 @@ namespace API.Controllers
             }
         }
         [HttpDelete("Clear/{id_cart}")]
-        public IActionResult ClearCart(int id_cart)
+        public IActionResult ClearCart(int idCart)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _processor.ClearCart(id_cart)
+                    result: _processor.ClearCart(idCart)
                 );
             }
             catch (Exception ex)
@@ -102,13 +101,13 @@ namespace API.Controllers
                 return ResponseHelper.ErrorProcessor(ex.Message, 500);
             }
         }
-        [HttpGet("Get/{id_cart}")]
-        public IActionResult GetCart(int id_cart)
+        [HttpGet("{idCart}")]
+        public IActionResult GetCart(int idCart)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _processor.GetCart(id_cart)
+                    result: _processor.GetCart(idCart)
                 );
             }
             catch (Exception ex)
@@ -117,13 +116,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("GetId/{id_user}")]
-        public IActionResult GetCartId(int id_user)
+        [HttpGet("GetCartId/{idUser}")]
+        public IActionResult GetCartId(int idUser)
         {
             try
             {
                 return ResponseHelper.ResponseProcessor(
-                    result: _processor.GetCartId(id_user)
+                    result: _processor.GetCartId(idUser)
                 );
             }
             catch (Exception ex)

@@ -40,8 +40,8 @@ namespace API.implementations.Domain
 
         public ResultDTO UpdateAttribute(int id, string field, string value)
         {
-            var existingProductCategory = _db.Attributes.FirstOrDefault(p => p.Id == id);
-            if (existingProductCategory == null)
+            var existingAtribute = _db.Attributes.FirstOrDefault(p => p.Id == id);
+            if (existingAtribute == null)
             {
                 return new ResultDTO
                 {
@@ -51,10 +51,20 @@ namespace API.implementations.Domain
                     error = null
                 };
             }
-            existingProductCategory.Field = field;
-            existingProductCategory.Value = value;
-            existingProductCategory.UpdateAt = DateTime.Now;
-            _db.Attributes.Update(existingProductCategory);
+            if (existingAtribute.Field == field && existingAtribute.Value == value)
+            {
+                return new ResultDTO
+                {
+                    statusCode = 200,
+                    description = "No changes detected",
+                    data = null,
+                    error = null
+                };
+            }
+            existingAtribute.Field = field;
+            existingAtribute.Value = value;
+            existingAtribute.UpdateAt = DateTime.Now;
+            _db.Attributes.Update(existingAtribute);
             _db.SaveChanges();
             return new ResultDTO
             {

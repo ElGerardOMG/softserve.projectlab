@@ -8,6 +8,11 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+@{
+    int i = 5;
+    <int>@i</int>
+}
+
 @code {
     private int currentCount = 0;
 
